@@ -11,11 +11,8 @@ public class Interface_UI {
     public Interface_UI(Stage stage) {
         this.stage = stage;
 
-        GridPane root = new GridPane();
 
-        Menu_UI menu_ui = new Menu_UI(root);
-
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        Scene scene = new Scene(new Menu_UI(), WIDTH, HEIGHT);
         stage.setTitle("Mini Tram");
         stage.setScene(scene);
         stage.show();
