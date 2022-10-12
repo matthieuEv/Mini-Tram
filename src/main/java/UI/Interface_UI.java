@@ -15,6 +15,7 @@ public class Interface_UI {
         Scene scene = new Scene(new Menu_UI(), WIDTH, HEIGHT);
         stage.setTitle("Mini Tram");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
 
     }
