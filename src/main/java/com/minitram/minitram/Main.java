@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        new Interface_UI(stage);
+        Interface_UI interface_ui = Interface_UI.getInstance(stage);
 
     }
 
