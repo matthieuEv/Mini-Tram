@@ -6,17 +6,26 @@ import javafx.stage.Stage;
 
 public class Interface_UI {
     protected Stage stage;
-    protected int WIDTH = 800;
-    protected int HEIGHT = 600;
+    protected double WIDTH = 800;
+    protected double HEIGHT = 600;
     public Interface_UI(Stage stage) {
         this.stage = stage;
 
 
-        Scene scene = new Scene(new Menu_UI(), WIDTH, HEIGHT);
+        Scene scene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
         stage.setTitle("Mini Tram");
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
+    }
 
+    public double getWIDTH() {
+        WIDTH = stage.getWidth();
+        return WIDTH;
+    }
+
+    public double getHEIGHT() {
+        HEIGHT = stage.getHeight();
+        return HEIGHT;
     }
 }
