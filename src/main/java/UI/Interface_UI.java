@@ -24,9 +24,7 @@ public class Interface_UI {
         stage.setScene(scene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
-        Image image = new Image(new File("textures/ui/icon.png").toURI().toString());
-
-
+        Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
         stage.show();
     }
