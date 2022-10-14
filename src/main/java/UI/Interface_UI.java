@@ -11,12 +11,11 @@ public class Interface_UI {
     public Interface_UI(Stage stage) {
         this.stage = stage;
 
-
-        Scene scene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
         stage.setTitle("Mini Tram");
-        stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
+        Scene scene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
+        stage.setScene(scene);
     }
 
     public double getWIDTH() {
