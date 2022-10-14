@@ -1,8 +1,12 @@
 package UI;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.util.Objects;
 
 public class Interface_UI {
     private static volatile Interface_UI instance = null;
@@ -14,13 +18,16 @@ public class Interface_UI {
     private Menu_UI menu_ui;
 
     private Interface_UI(Stage stage) {
-        super();
         this.stage = stage;
 
-        Scene scene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
+        Scene scene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
         stage.setScene(scene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
+        Image image = new Image(new File("textures/ui/icon.png").toURI().toString());
+
+
+        stage.getIcons().add(image);
         stage.show();
     }
 

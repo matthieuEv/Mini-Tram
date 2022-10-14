@@ -37,6 +37,9 @@ public class Menu_UI extends GridPane {
         gc.setFill(background);
         gc.fillRect(0,0,width,height);
 
+        gc.setStroke(Color.WHITE);
+        gc.strokeText("Mini Tram V0.0.1", width-100, height-10);
+
         VBox middle = new VBox();
         middle.setAlignment(Pos.CENTER);
         middle.setSpacing(50);
