@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -15,6 +16,8 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.net.URL;
 
 public class Menu_UI extends GridPane {
 
@@ -32,10 +35,10 @@ public class Menu_UI extends GridPane {
         final Canvas canvas = new Canvas(width,height);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Stop[] stops = new Stop[] { new Stop(0, Color.web("#005eff")), new Stop(1, Color.web("#44006e"))};
-        LinearGradient background = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
-        gc.setFill(background);
-        gc.fillRect(0,0,width,height);
+        gc.drawImage(new Image("file:src/textures/ui/backround_menu.png"),0,0,width,height);
+
+        gc.setStroke(Color.WHITE);
+        gc.strokeText("Mini Tram V0.0.1", width-100, height-10);
 
         VBox middle = new VBox();
         middle.setAlignment(Pos.CENTER);
