@@ -8,15 +8,19 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.lang.reflect.Type;
 import java.net.URL;
 
 public class Menu_UI extends GridPane {
@@ -74,9 +78,67 @@ public class Menu_UI extends GridPane {
     }
 
     private void start() {
+        System.out.println(">>> Start");
     }
 
     private void settings() {
+        System.out.println(">>> Settings");
+
+        HBox settings = new HBox();
+        settings.setMaxHeight(interface_ui.getHEIGHT()/2);
+        settings.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);");
+        settings.setAlignment(Pos.CENTER);
+
+        VBox holder = new VBox();
+        holder.setAlignment(Pos.CENTER);
+        holder.setSpacing(20);
+        holder.setPadding(new Insets(0,50,0,50));
+        holder.setMaxWidth(150);
+        holder.setStyle("-fx-background-color: rgba(255,0,0,1);");
+
+        Button quitSettings = new Button("Quit");
+        quitSettings.setPadding(new Insets(5,30,5,30));
+        quitSettings.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-font-size: 15px;");
+        quitSettings.setOnAction(e -> {
+            this.getChildren().remove(settings);
+        });
+
+        /*=== Music ===*/
+        HBox musicContainer = new HBox();
+        musicContainer.setAlignment(Pos.CENTER);
+        musicContainer.setSpacing(20);
+        FlowPane titleMusicPane = new FlowPane();
+        Label titleMusic = new Label("Settings");
+        titleMusic.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+        titleMusicPane.getChildren().add(titleMusic);
+        titleMusicPane.setAlignment(Pos.CENTER_LEFT);
+
+        FlowPane musicPane = new FlowPane();
+        Slider music = new Slider(0,100,75);
+        musicPane.getChildren().add(music);
+        musicPane.setAlignment(Pos.CENTER_RIGHT);
+        musicContainer.getChildren().addAll(titleMusicPane,musicPane);
+
+        /*=== SFX ===*/
+        HBox sfxContainer = new HBox();
+        sfxContainer.setAlignment(Pos.CENTER);
+        sfxContainer.setSpacing(20);
+        FlowPane titleSFXPane = new FlowPane();
+        Label titleSfx = new Label("SFX");
+        titleSfx.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+        titleSFXPane.getChildren().add(titleSfx);
+        titleSFXPane.setAlignment(Pos.CENTER_LEFT);
+
+        FlowPane sfxPane = new FlowPane();
+        Slider sfx = new Slider(0,100,75);
+        sfxPane.getChildren().add(sfx);
+        sfxPane.setAlignment(Pos.CENTER_RIGHT);
+        sfxContainer.getChildren().addAll(titleSFXPane,sfxPane);
+
+        holder.getChildren().addAll(musicContainer,sfxContainer,quitSettings);
+        settings.getChildren().addAll(holder);
+
+        this.add(settings,0,0);
     }
 
     private void exit() {
@@ -94,7 +156,7 @@ public class Menu_UI extends GridPane {
         btn.hoverProperty( ).addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 btn.setStyle("-fx-background-color: #003a9e; -fx-text-fill: white; -fx-font-size: 20px;");
-                btn.setEffect(new javafx.scene.effect.DropShadow(10, Color.web("#44006e")));
+                btn.setEffect(new javafx.scene.effect.DropShadow(10, Color.web("#000000")));
                 super.setCursor(javafx.scene.Cursor.HAND);
             } else {
                 btn.setStyle("-fx-background-color: #005eff; -fx-text-fill: white; -fx-font-size: 20px;");
