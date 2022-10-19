@@ -1,9 +1,9 @@
-package model.tram;
+package model_old.tram;
 
-import model.line.Line;
-import model.people.Voyager;
+import model_old.line.Line;
+import model_old.people.Voyager;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class Tram {
     //Ids for identification
@@ -16,7 +16,7 @@ public abstract class Tram {
 
     //Container for interactions
     protected Line line;
-    private List<Voyager> list_passages;
+    private Map<Integer,Voyager> list_passages;
 
     //Constructor
     /**
@@ -56,9 +56,13 @@ public abstract class Tram {
     public int getId() {
         return this.id;
     }
-    public boolean isActivated() {
+    public boolean is_activated() {
         return this.is_used;
     }
+    public Map<Integer, Voyager> get_list_people(){
+        return this.list_passages;
+    }
+
 
 
 }
