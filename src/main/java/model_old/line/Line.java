@@ -1,8 +1,8 @@
-package model.line;
+package model_old.line;
 
-import model.Station;
-import model.people.Transit;
-import model.tram.*;
+import model_old.Station;
+import model_old.tram.*;
+import utils.Shape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +12,14 @@ import java.util.Map;
 public abstract class Line {
     //Ids for identification
     private static int count_id;
-    private final int id;
+    protected final int id;
 
     //Attributes
-    private boolean is_used;
+    protected boolean is_used;
 
     //Container for interactions
-    private List<Station> list_station = new ArrayList<>();
-    private Map<Integer, Tram> list_tram = new HashMap<>();
+    protected List<Station> list_station = new ArrayList<>();
+    protected Map<Integer, Tram> list_tram = new HashMap<>();
 
 
     //Constructor
@@ -57,7 +57,9 @@ public abstract class Line {
             }
         } else if (station1.equals(station2)) {
             throw new Exception("The two stations are the same");
-        }else {
+        } else if (tram.is_activated()) {
+            throw new Exception("The tram is already used");
+        } else {
             //Add the stations to the line
             this.list_station.add(station1);
             this.list_station.add(station2);
@@ -74,13 +76,13 @@ public abstract class Line {
         this.list_station.clear();
         //Remove the trams from the line
         this.list_tram.clear();
-
+        //Desactivate the line
+        this.is_used = false;
     }
 
 
 
     /* === Public Methods === */
-
 
     abstract public Station next_station(Tram tram);
 
@@ -111,7 +113,7 @@ public abstract class Line {
         }
         throw new Exception("Station does not exist");
     }
-    public boolean isActivated() {
+    public boolean is_activated() {
         return this.is_used;
     }
     public int getId() {
@@ -126,6 +128,16 @@ public abstract class Line {
         return this.list_station.contains(station);
     }
 
+    public boolean as_shape(Shape shape){
+        for (Station station : this.list_station) {
+            if (station.get_shape().equals(shape)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* === Getter === */
 
 
     /* === Setters === */

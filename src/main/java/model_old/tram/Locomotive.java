@@ -1,7 +1,7 @@
-package model.tram;
+package model_old.tram;
 
-import model.line.Line;
-import model.Station;
+import model_old.line.Line;
+import model_old.Station;
 
 import java.util.List;
 

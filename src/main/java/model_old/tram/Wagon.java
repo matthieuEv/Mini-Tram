@@ -1,4 +1,4 @@
-package model.tram;
+package model_old.tram;
 
 public class Wagon extends Tram {
     //Container for interactions
