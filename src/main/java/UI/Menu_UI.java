@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -100,6 +101,7 @@ public class Menu_UI extends GridPane {
         holder.setStyle("-fx-background-color: rgba(255,0,0,1);");
 
         Button quitSettings = new Button("Quit");
+        settingsHover(quitSettings);
         quitSettings.setPadding(new Insets(5,30,5,30));
         quitSettings.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-font-size: 15px;");
         quitSettings.setOnAction(e -> {
@@ -118,6 +120,7 @@ public class Menu_UI extends GridPane {
 
         FlowPane musicPane = new FlowPane();
         Slider music = new Slider(0,100,json.readJson("music"));
+        settingsHover(music);
         music.setOnMouseReleased(e -> {
             registerValue("music",music.getValue());
         });
@@ -137,6 +140,7 @@ public class Menu_UI extends GridPane {
 
         FlowPane sfxPane = new FlowPane();
         Slider sfx = new Slider(0,100,json.readJson("sfx"));
+        settingsHover(sfx);
         sfx.setOnMouseReleased(e -> {
             registerValue("sfx",sfx.getValue());
         });
@@ -144,7 +148,15 @@ public class Menu_UI extends GridPane {
         sfxPane.setAlignment(Pos.CENTER_RIGHT);
         sfxContainer.getChildren().addAll(titleSFXPane,sfxPane);
 
-        holder.getChildren().addAll(musicContainer,sfxContainer,quitSettings);
+        Button resetSettings = new Button("Reset");
+        settingsHover(resetSettings);
+        resetSettings.setPadding(new Insets(5,30,5,30));
+        resetSettings.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-font-size: 15px;");
+        resetSettings.setOnAction(e -> {
+            reset(music, sfx);
+        });
+
+        holder.getChildren().addAll(musicContainer,sfxContainer,quitSettings,resetSettings);
         settings.getChildren().addAll(holder);
 
         this.add(settings,0,0);
@@ -174,8 +186,22 @@ public class Menu_UI extends GridPane {
             }});
     }
 
+    private void settingsHover(Control btn){
+        btn.hoverProperty( ).addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                super.setCursor(javafx.scene.Cursor.HAND);
+            } else {
+                super.setCursor(javafx.scene.Cursor.DEFAULT);}});
+    }
+
     private void registerValue(String type,Number value) {
         System.out.println(">>> Slider "+type+": " + value.intValue());
         json.writeJson(type,value.intValue());
+    }
+
+    private void reset(Slider slider1, Slider slider2) {
+        json.reset();
+        slider1.setValue(75);
+        slider2.setValue(75);
     }
 }

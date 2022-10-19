@@ -57,4 +57,28 @@ public class useJson {
             ex.printStackTrace();
         }
     };
+
+    public void reset(){
+        try {
+            // create a map
+            Gson gson = new Gson();
+            Reader reader = Files.newBufferedReader(Paths.get("src/file/settings.json"));
+            Map<String, Integer> map = gson.fromJson(reader, Map.class);
+            for(Map.Entry<String, Integer> entry : map.entrySet()){
+                map.put(entry.getKey(), 75);
+            }
+
+            // create a writer
+            Writer writer = new FileWriter("src/file/settings.json");
+
+            // convert map to JSON File
+            new Gson().toJson(map, writer);
+
+            // close the writer
+            writer.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    };
 }
