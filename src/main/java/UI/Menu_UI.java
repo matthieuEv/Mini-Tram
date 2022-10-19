@@ -1,5 +1,6 @@
 package UI;
 
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
@@ -29,6 +30,8 @@ public class Menu_UI extends GridPane {
 
     private int widthBtn = 200;
     private int heightBtn = 50;
+
+    private useJson json = new useJson();
     public Menu_UI(Interface_UI interface_ui) {
         super();
         this.interface_ui = interface_ui;
@@ -108,13 +111,16 @@ public class Menu_UI extends GridPane {
         musicContainer.setAlignment(Pos.CENTER);
         musicContainer.setSpacing(20);
         FlowPane titleMusicPane = new FlowPane();
-        Label titleMusic = new Label("Settings");
+        Label titleMusic = new Label("Music");
         titleMusic.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
         titleMusicPane.getChildren().add(titleMusic);
         titleMusicPane.setAlignment(Pos.CENTER_LEFT);
 
         FlowPane musicPane = new FlowPane();
-        Slider music = new Slider(0,100,75);
+        Slider music = new Slider(0,100,json.readJson("music"));
+        music.setOnMouseReleased(e -> {
+            registerValue("music",music.getValue());
+        });
         musicPane.getChildren().add(music);
         musicPane.setAlignment(Pos.CENTER_RIGHT);
         musicContainer.getChildren().addAll(titleMusicPane,musicPane);
@@ -130,7 +136,10 @@ public class Menu_UI extends GridPane {
         titleSFXPane.setAlignment(Pos.CENTER_LEFT);
 
         FlowPane sfxPane = new FlowPane();
-        Slider sfx = new Slider(0,100,75);
+        Slider sfx = new Slider(0,100,json.readJson("sfx"));
+        sfx.setOnMouseReleased(e -> {
+            registerValue("sfx",sfx.getValue());
+        });
         sfxPane.getChildren().add(sfx);
         sfxPane.setAlignment(Pos.CENTER_RIGHT);
         sfxContainer.getChildren().addAll(titleSFXPane,sfxPane);
@@ -163,5 +172,10 @@ public class Menu_UI extends GridPane {
                 btn.setEffect(null);
                 super.setCursor(javafx.scene.Cursor.DEFAULT);
             }});
+    }
+
+    private void registerValue(String type,Number value) {
+        System.out.println(">>> Slider "+type+": " + value.intValue());
+        json.writeJson(type,value.intValue());
     }
 }
