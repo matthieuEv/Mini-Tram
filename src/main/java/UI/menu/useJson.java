@@ -1,4 +1,4 @@
-package UI;
+package UI.menu;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -18,7 +18,7 @@ public class useJson {
         int value = 0;
         try {
             Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("src/file/settings.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/file/json/settings.json"));
             Map<?, ?> map = gson.fromJson(reader, Map.class);
             for(Map.Entry<?, ?> entry : map.entrySet()){
                 if(entry.getKey().equals(type)){
@@ -36,7 +36,7 @@ public class useJson {
         try {
             // create a map
             Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("src/file/settings.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/file/json/settings.json"));
             Map<String, Integer> map = gson.fromJson(reader, Map.class);
             for(Map.Entry<String, Integer> entry : map.entrySet()){
                 if(entry.getKey().equals(type)){
@@ -45,7 +45,7 @@ public class useJson {
             }
 
             // create a writer
-            Writer writer = new FileWriter("src/file/settings.json");
+            Writer writer = new FileWriter("src/file/json/settings.json");
 
             // convert map to JSON File
             new Gson().toJson(map, writer);
@@ -62,14 +62,14 @@ public class useJson {
         try {
             // create a map
             Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("src/file/settings.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/file/json/settings.json"));
             Map<String, Integer> map = gson.fromJson(reader, Map.class);
             for(Map.Entry<String, Integer> entry : map.entrySet()){
                 map.put(entry.getKey(), 75);
             }
 
             // create a writer
-            Writer writer = new FileWriter("src/file/settings.json");
+            Writer writer = new FileWriter("src/file/json/settings.json");
 
             // convert map to JSON File
             new Gson().toJson(map, writer);

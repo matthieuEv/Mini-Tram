@@ -3,6 +3,7 @@ module com.example.projdontwork {
     requires javafx.fxml;
     requires com.google.gson;
     requires org.jetbrains.annotations;
+    requires javafx.media;
 
 
     opens com.minitram.minitram to javafx.fxml;

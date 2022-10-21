@@ -1,29 +1,19 @@
-package UI;
+package UI.menu;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.Transition;
+import UI.Interface_UI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.lang.reflect.Type;
-import java.net.URL;
 
 public class Menu_UI extends GridPane {
 
@@ -43,10 +33,10 @@ public class Menu_UI extends GridPane {
         final Canvas canvas = new Canvas(width,height);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.drawImage(new Image("file:src/textures/ui/backround_menu.png"),0,0,width,height);
+        gc.drawImage(new Image("file:src/file/textures/ui/backround_menu_newUI.png"),0,0,width,height);
 
-        gc.setStroke(Color.WHITE);
-        gc.strokeText("Mini Tram V0.0.1", width-100, height-10);
+        gc.setStroke(Color.web("#7C99AC"));
+        gc.strokeText("Mini Tram V0.1.0", width-100, height-10);
 
         VBox middle = new VBox();
         middle.setAlignment(Pos.CENTER);
@@ -89,7 +79,8 @@ public class Menu_UI extends GridPane {
 
         HBox settings = new HBox();
         settings.setMaxHeight(interface_ui.getHEIGHT()/2);
-        settings.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);");
+        settings.setStyle("-fx-background-color: rgba(146,169,189,0.8);");
+
         settings.setAlignment(Pos.CENTER);
 
         VBox holder = new VBox();
@@ -97,12 +88,12 @@ public class Menu_UI extends GridPane {
         holder.setSpacing(20);
         holder.setPadding(new Insets(0,50,0,50));
         holder.setMaxWidth(150);
-        holder.setStyle("-fx-background-color: rgba(255,0,0,1);");
+        holder.setStyle("-fx-background-color: rgba(146,169,189,1);");
 
         Button quitSettings = new Button("Quit");
         settingsHover(quitSettings);
         quitSettings.setPadding(new Insets(5,30,5,30));
-        quitSettings.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-font-size: 15px;");
+        quitSettings.setStyle("-fx-background-color: #d3dedc; -fx-text-fill: #7c99ac; -fx-font-size: 15px;");
         quitSettings.setOnAction(e -> {
             this.getChildren().remove(settings);
         });
@@ -113,17 +104,18 @@ public class Menu_UI extends GridPane {
         musicContainer.setSpacing(20);
         FlowPane titleMusicPane = new FlowPane();
         Label titleMusic = new Label("Music");
-        titleMusic.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+        titleMusic.setStyle("-fx-font-size: 20px; -fx-text-fill: #d3dedc;");
         titleMusicPane.getChildren().add(titleMusic);
         titleMusicPane.setAlignment(Pos.CENTER_LEFT);
 
         FlowPane musicPane = new FlowPane();
-        Slider music = new Slider(0,100,json.readJson("music"));
-        settingsHover(music);
-        music.setOnMouseReleased(e -> {
-            registerValue("music",music.getValue());
+        Slider musicSlider = new Slider(0,100,json.readJson("music"));
+        settingsHover(musicSlider);
+        musicSlider.setOnMouseReleased(e -> {
+            registerValue("music",musicSlider.getValue());
+            interface_ui.getMusic().changeVolume(musicSlider.getValue());
         });
-        musicPane.getChildren().add(music);
+        musicPane.getChildren().add(musicSlider);
         musicPane.setAlignment(Pos.CENTER_RIGHT);
         musicContainer.getChildren().addAll(titleMusicPane,musicPane);
 
@@ -133,7 +125,7 @@ public class Menu_UI extends GridPane {
         sfxContainer.setSpacing(20);
         FlowPane titleSFXPane = new FlowPane();
         Label titleSfx = new Label("SFX");
-        titleSfx.setStyle("-fx-font-size: 20px; -fx-text-fill: white;");
+        titleSfx.setStyle("-fx-font-size: 20px; -fx-text-fill: #d3dedc;");
         titleSFXPane.getChildren().add(titleSfx);
         titleSFXPane.setAlignment(Pos.CENTER_LEFT);
 
@@ -150,9 +142,10 @@ public class Menu_UI extends GridPane {
         Button resetSettings = new Button("Reset");
         settingsHover(resetSettings);
         resetSettings.setPadding(new Insets(5,30,5,30));
-        resetSettings.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-font-size: 15px;");
+        resetSettings.setStyle("-fx-background-color: #d3dedc; -fx-text-fill: #7c99ac; -fx-font-size: 15px;");
         resetSettings.setOnAction(e -> {
-            reset(music, sfx);
+            reset(musicSlider, sfx);
+            interface_ui.getMusic().changeVolume(musicSlider.getValue());
         });
 
         holder.getChildren().addAll(musicContainer,sfxContainer,quitSettings,resetSettings);
@@ -168,19 +161,17 @@ public class Menu_UI extends GridPane {
 
 
     private void initBtn(Button btn){
-        btn.setStyle("-fx-background-color: #005eff; -fx-text-fill: white; -fx-font-size: 20px;");
+        btn.setStyle("-fx-background-color: #92a9bd; -fx-text-fill: #ffefef; -fx-font-size: 20px;");
         btn.setPrefSize(widthBtn, heightBtn);
     }
 
     private void btnHover(Button btn) {
         btn.hoverProperty( ).addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                btn.setStyle("-fx-background-color: #003a9e; -fx-text-fill: white; -fx-font-size: 20px;");
-                btn.setEffect(new javafx.scene.effect.DropShadow(10, Color.web("#000000")));
+                btn.setStyle("-fx-background-color: #7c99ac; -fx-text-fill: #ffefef; -fx-font-size: 20px;");
                 super.setCursor(javafx.scene.Cursor.HAND);
             } else {
-                btn.setStyle("-fx-background-color: #005eff; -fx-text-fill: white; -fx-font-size: 20px;");
-                btn.setEffect(null);
+                btn.setStyle("-fx-background-color: #92a9bd; -fx-text-fill: #ffefef; -fx-font-size: 20px;");
                 super.setCursor(javafx.scene.Cursor.DEFAULT);
             }});
     }
@@ -194,7 +185,6 @@ public class Menu_UI extends GridPane {
     }
 
     private void registerValue(String type,Number value) {
-        System.out.println(">>> Slider "+type+": " + value.intValue());
         json.writeJson(type,value.intValue());
     }
 
