@@ -82,11 +82,10 @@ public class Menu_UI extends GridPane {
     }
 
     private void start() {
-        System.out.println(">>> Start");
+        interface_ui.startGame();
     }
 
     private void settings() {
-        System.out.println(">>> Settings");
 
         HBox settings = new HBox();
         settings.setMaxHeight(interface_ui.getHEIGHT()/2);

@@ -17,15 +17,29 @@ public class Interface_UI {
     private End_UI end_ui;
     private Menu_UI menu_ui;
 
-    private Interface_UI(Stage stage) {
+    private Interface_UI(@org.jetbrains.annotations.NotNull Stage stage) {
         this.stage = stage;
 
-        Scene scene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
-        stage.setScene(scene);
+        Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
+        stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
         Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
+        stage.show();
+
+
+    }
+
+    public void startGame(){
+        Scene gameScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
+        stage.setScene(gameScene);
+        stage.show();
+    }
+
+    public void startMenu(){
+        Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
+        stage.setScene(menuScene);
         stage.show();
     }
 
