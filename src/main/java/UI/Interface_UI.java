@@ -27,8 +27,6 @@ public class Interface_UI {
         Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
         stage.show();
-
-
     }
 
     public void startGame(){
