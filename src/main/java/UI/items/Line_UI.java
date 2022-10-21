@@ -9,8 +9,6 @@ public class Line_UI {
         this.game_ui = game_ui;
     }
 
-    }
-
     public void draw(){
 
     }
