@@ -8,7 +8,9 @@ import java.util.Random;
 public enum Shape {
     ROUND,
     SQUARE,
-    TRIANGLE;
+    TRIANGLE,
+    DIAMOND;
+
 
     private static final List<Shape> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
     private static final int SIZE = VALUES.size();
