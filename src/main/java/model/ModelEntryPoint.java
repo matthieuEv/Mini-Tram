@@ -43,6 +43,9 @@ public class ModelEntryPoint {
         }
         return list;
     }
+    public List<Integer> SEND_all_line_id(){
+        return Data.get_lines().keySet().stream().toList();
+    }
 
 
 
