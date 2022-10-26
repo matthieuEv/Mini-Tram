@@ -1,6 +1,7 @@
 package presenter;
 
 import UI.Interface_UI;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
 import utils.Pos;
@@ -13,6 +14,7 @@ public class Main_Presenter {
     ModelEntryPoint model;
     Interface_UI ui;
     private static Main_Presenter instance = null;
+    private Map<Integer, Color> listLines;
 
     private Main_Presenter(ModelEntryPoint model , Interface_UI ui) {
         this.model = model;
@@ -40,4 +42,13 @@ public class Main_Presenter {
         }
         return output;
     }
+
+    public void syncLine(Color color){
+        for (Integer ids : model.SEND_all_line_id()){
+            if(!listLines.containsKey(ids)){
+                listLines.put(ids, color);
+            }
+        }
+    }
+    
 }

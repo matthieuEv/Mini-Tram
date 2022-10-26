@@ -3,6 +3,7 @@ package UI;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import presenter.Main_Presenter;
 import utils.Pos;
@@ -73,5 +74,8 @@ public class Interface_UI {
         return presenter.getListStations();
     }
 
+    public void syncLine(Color color){
+        presenter.syncLine(color);
+    }
 
 }

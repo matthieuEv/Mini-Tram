@@ -9,6 +9,7 @@ public class Line_UI {
     private Game_UI game_ui;
     private ArrayList<SegmentLine_UI> segments;
     private Color color;
+    private int id;
 
     public Line_UI(Game_UI game_ui, Color color) {
         this.game_ui = game_ui;
