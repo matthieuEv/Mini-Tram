@@ -30,10 +30,10 @@ public class Data {
         }
         //Init with 4 stations
         stations = new HashMap<>();
-        Station s1 = new Station(Shape.ROUND, new Pos(0,0));
-        Station s2 = new Station(Shape.TRIANGLE,new Pos(0,1));
-        Station s3 = new Station(Shape.SQUARE,new Pos(1,0));
-        Station s4 = new Station(Shape.DIAMOND,new Pos(1,1));
+        Station s1 = new Station(Shape.ROUND, new Pos(2,5));
+        Station s2 = new Station(Shape.TRIANGLE,new Pos(8,2));
+        Station s3 = new Station(Shape.SQUARE,new Pos(12,8));
+        Station s4 = new Station(Shape.DIAMOND,new Pos(9,11));
         stations.put(s1.get_id(), s1);
         stations.put(s2.get_id(), s2);
         stations.put(s3.get_id(), s3);
