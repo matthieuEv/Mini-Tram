@@ -25,5 +25,8 @@ class IrigoTest {
     @Test
     void trigger_tram_all_good() {
 
+
+
+
     }
 }
