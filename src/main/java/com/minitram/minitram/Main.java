@@ -17,7 +17,6 @@ public class Main extends Application {
         ModelEntryPoint model = ModelEntryPoint.getInstance();
         Interface_UI ui = Interface_UI.getInstance(stage);
         Main_Presenter presenter = Main_Presenter.getInstance(model, ui);
-
         presenter.init();
 
 

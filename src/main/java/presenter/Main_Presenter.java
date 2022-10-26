@@ -6,6 +6,7 @@ import model.ModelEntryPoint;
 import utils.Pos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Main_Presenter {
@@ -28,9 +29,15 @@ public class Main_Presenter {
     public void init() {
         ui.appendPresenter(this);
         model.append_presenter(this);
+
+        ui.showInterface();
     }
 
     public Map<Integer, Pos> getListStations(){
-        return model.SEND_get_all_station();
+        Map<Integer, Pos> output = new HashMap<>();
+        for(Map.Entry<Integer, Pos> entry : model.SEND_get_all_station().entrySet()){
+            output.put(entry.getKey(), new Pos(entry.getValue().x*20, entry.getValue().y*20));
+        }
+        return output;
     }
 }

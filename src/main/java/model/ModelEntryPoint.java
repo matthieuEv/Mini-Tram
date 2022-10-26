@@ -3,6 +3,7 @@ package model;
 import model.compute.Irigo;
 import model.data.Data;
 import model.data.format.Station;
+import presenter.Main_Presenter;
 import utils.Pos;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Map;
 public class ModelEntryPoint {
     private static ModelEntryPoint instance = null;
     private Irigo irigo;
-    Main_Presenter presenter;
+    private Main_Presenter presenter;
 
     private ModelEntryPoint() {
         this.irigo = Irigo.getInstance();

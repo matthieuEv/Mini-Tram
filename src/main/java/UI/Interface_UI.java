@@ -24,14 +24,6 @@ public class Interface_UI {
 
     private Interface_UI(Stage stage) {
         this.stage = stage;
-
-        Scene menuScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
-        stage.setScene(menuScene);
-        stage.setTitle("Mini Tram");
-        //stage.setMaximized(true);
-        Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
-        stage.getIcons().add(image);
-        stage.show();
     }
 
     public static Interface_UI getInstance(Stage stage) {
@@ -44,6 +36,16 @@ public class Interface_UI {
     public void startGame(){
         Scene gameScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
         stage.setScene(gameScene);
+        stage.show();
+    }
+
+    public void showInterface(){
+        Scene menuScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
+        stage.setScene(menuScene);
+        stage.setTitle("Mini Tram");
+        //stage.setMaximized(true);
+        Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
+        stage.getIcons().add(image);
         stage.show();
     }
 

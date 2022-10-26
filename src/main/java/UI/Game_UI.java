@@ -105,14 +105,8 @@ public class Game_UI extends AnchorPane {
         for(Map.Entry<Integer, Pos> entry : listStation.entrySet()) {
             int id = setSingleId(entry.getValue());
             stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey()));
+            stations.get(id).draw();
         }
-        /*
-        Pos posStation = new Pos(arroundValue(new Random().nextInt((int) interface_ui.getWIDTH()-cellSize)), arroundValue(new Random().nextInt((int) interface_ui.getHEIGHT()-cellSize)));
-        int id = setSingleId(posStation);
-        stations.put(id, new Station_UI(this, posStation));
-        stations.get(id).draw();
-
-         */
     }
 
     public double getWIDTH() {
@@ -159,13 +153,7 @@ public class Game_UI extends AnchorPane {
 
 
     private void drawDebugMenu(){
-        Button addStationBtn = new Button("Add Station");
-        addStationBtn.setOnAction(e -> {
-            addStation();
-        });
-
         VBox btnStation = new VBox();
-        btnStation.getChildren().add(addStationBtn);
 
         Button btnRedLine = new Button("Red Line");
         btnRedLine.setOnAction(e -> {
@@ -186,9 +174,7 @@ public class Game_UI extends AnchorPane {
 
         btnStation.getChildren().addAll(btnRedLine, btnBlueLine, btnGreenLine, btnVioletLine);
 
-        this.getChildren().addAll(addStationBtn, btnStation);
-        setRightAnchor(addStationBtn, 20d);
-        setTopAnchor(addStationBtn, 20d);
+        this.getChildren().addAll(btnStation);
         setRightAnchor(btnStation, 20d);
         setTopAnchor(btnStation, 50d);
     }
