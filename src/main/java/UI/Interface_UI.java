@@ -4,8 +4,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import utils.Pos;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Interface_UI {
@@ -20,13 +22,20 @@ public class Interface_UI {
     private Interface_UI(Stage stage) {
         this.stage = stage;
 
-        Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
+        Scene menuScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
         Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
         stage.show();
+    }
+
+    public static Interface_UI getInstance(Stage stage) {
+        if (instance == null) {
+            instance = new Interface_UI(stage);
+        }
+        return instance;
     }
 
     public void startGame(){
@@ -41,13 +50,6 @@ public class Interface_UI {
         stage.show();
     }
 
-    public static Interface_UI getInstance(Stage stage) {
-        if (instance == null) {
-            instance = new Interface_UI(stage);
-        }
-        return instance;
-    }
-
     public double getWIDTH() {
         //WIDTH = stage.getWidth();
         return WIDTH;
@@ -57,4 +59,6 @@ public class Interface_UI {
         //HEIGHT = stage.getHeight();
         return HEIGHT;
     }
+
+
 }
