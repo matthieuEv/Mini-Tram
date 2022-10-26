@@ -4,10 +4,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import presenter.Main_Presenter;
 import utils.Pos;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class Interface_UI {
@@ -18,6 +20,7 @@ public class Interface_UI {
     private Game_UI game_ui;
     private End_UI end_ui;
     private Menu_UI menu_ui;
+    private Main_Presenter presenter;
 
     private Interface_UI(Stage stage) {
         this.stage = stage;
@@ -58,6 +61,14 @@ public class Interface_UI {
     public double getHEIGHT() {
         //HEIGHT = stage.getHeight();
         return HEIGHT;
+    }
+    
+    public void appendPresenter(Main_Presenter presenter){
+        this.presenter = presenter;
+    }
+
+    public Map<Integer, Pos> getListStations(){
+        return presenter.getListStations();
     }
 
 

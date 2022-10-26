@@ -96,17 +96,23 @@ public class Game_UI extends AnchorPane {
 
         drawDebugMenu();
 
-
-        for (int i = 0; i < 5; i++) {
-            addStation();
-        }
+        addStation();
     }
 
     private void addStation() {
+        Map<Integer, Pos> listStation = interface_ui.getListStations();
+
+        for(Map.Entry<Integer, Pos> entry : listStation.entrySet()) {
+            int id = setSingleId(entry.getValue());
+            stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey()));
+        }
+        /*
         Pos posStation = new Pos(arroundValue(new Random().nextInt((int) interface_ui.getWIDTH()-cellSize)), arroundValue(new Random().nextInt((int) interface_ui.getHEIGHT()-cellSize)));
         int id = setSingleId(posStation);
         stations.put(id, new Station_UI(this, posStation));
         stations.get(id).draw();
+
+         */
     }
 
     public double getWIDTH() {

@@ -14,12 +14,14 @@ import java.util.Random;
 public class Station_UI {
     private Game_UI game_ui;
     private Pos pos;
+    private int id;
     private boolean selected;
     private Map<Color, Boolean> endLines;
-    public Station_UI(Game_UI game_ui, Pos pos) {
+    public Station_UI(Game_UI game_ui, Pos pos, int id) {
         super();
         this.game_ui = game_ui;
         this.pos = pos;
+        this.id = id;
 
         endLines = new HashMap<Color, Boolean>();
 
@@ -57,4 +59,5 @@ public class Station_UI {
     public void setEndLine(Color color, boolean endLine) {
         endLines.put(color, endLine);
     }
+
 }
