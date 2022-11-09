@@ -76,6 +76,7 @@ public class Game_UI extends AnchorPane {
                             }
                         } else {
                             lines.put(selectedLine, new Line_UI(this, selectedLine));
+                            interface_ui.syncLine(selectedLine);
                             lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
                             lastSelectedStation.setEndLine(selectedLine, true);
                             selectedStation.setEndLine(selectedLine, true);
