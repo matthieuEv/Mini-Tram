@@ -29,6 +29,15 @@ public class Irigo {
 
     /* === Compute modules === */
 
+    public void activate_line(int line_id, int station1_id, int station2_id) {
+        LineStation.getInstance().line_append_station(line_id, station1_id);
+        LineStation.getInstance().line_append_station(line_id, station2_id);
+        int tram_id = LineTram.getInstance().get_available_tram();
+        LineTram.getInstance().set_tram_on_line(tram_id, line_id);
+        TramStation.getInstance().put_tram_at_station(tram_id, station1_id);
+        Data.get_tram(tram_id).start();
+    }
+
     /**
      * Activated each time a tram arrive at a station
      * lock the data them do all the actions and unlock the data
@@ -38,31 +47,32 @@ public class Irigo {
     public static void trigger_tram(Tram tram) {
         synchronized (Data.getInstance()) {
             //ask the line of the tram :
-            Line line = LineTram.getInstance().tram_get_line(tram);
+            Line line = Data.get_line(LineTram.getInstance().tram_get_line(tram));
             //ask the station where the tram is :
-            Station station = TramStation.getInstance().tram_is_at_station(tram.get_id());
+            int station = TramStation.getInstance().tram_is_at_station(tram.get_id());
             //Ask the list of people at the station
-            List<People> people_at_station = StationPeople.getInstance().people_at_station(station.get_id());
+            List<People> people_at_station = StationPeople.getInstance().people_at_station(station);
             //ask the list of people in the tram
             List<People> people_in_tram = TramPeople.getInstance().people_in_tram(tram.get_id());
 
             //Compute the list of person to get out the tram and change the state of the people
-            List<People> people_out_of_tram = need_to_get_out(people_in_tram, station, line,tram.get_id());
+            List<People> people_out_of_tram = need_to_get_out(people_in_tram, Data.get_stations(station), line,tram.get_id());
             TramPeople.getInstance().people_out_of_tram(people_out_of_tram, tram.get_id());
-            StationPeople.getInstance().people_get_in_station(people_out_of_tram, station.get_id());
+            StationPeople.getInstance().people_get_in_station(people_out_of_tram, station);
 
             //Compute the list of person to get in the tram and change the state of the people
-            List<People> people_get_in_tram = need_to_get_in(people_at_station, station, line, tram.get_id());
-            StationPeople.getInstance().people_out_of_station(people_get_in_tram, station.get_id());
+            List<People> people_get_in_tram = need_to_get_in(people_at_station, Data.get_stations(station), line, tram.get_id());
+            StationPeople.getInstance().people_out_of_station(people_get_in_tram, station);
             TramPeople.getInstance().people_get_in_tram(people_get_in_tram, tram.get_id());
 
             //ask the next station
-            Station next_station = LineStation.getInstance().get_next_station(line.get_id(), station);
+            int next_station = LineStation.getInstance().get_next_station(line.get_id(), station);
             //Put the tram at the next station
-            TramStation.getInstance().put_tram_at_station(tram, next_station);
+            TramStation.getInstance().put_tram_at_station(tram.get_id(), next_station);
             //Get back to sleep until the next trigger
         }
     }
+
 
     /**
      * Compute the list of people that need to get out of the tram
@@ -130,7 +140,9 @@ public class Irigo {
         Data.people_disappear(person);
     }
 
-        private void launch_tram(Tram tram){
+
+
+    private void launch_tram(Tram tram){
         tram.start();
     }
 

@@ -78,23 +78,32 @@ public class Data {
     }
 
     /* === Getter === */
+    static public Map<Integer, Line> get_line() {
+        return lines;
+    }
+    static public Line get_line(int line_id) {
+        return lines.get(line_id);
+    }
     static public Map<Integer, Tram> get_tram() {
-        return getInstance().trams;
+        return trams;
     }
     static public Tram get_tram(int tram_id) {
-        return getInstance().trams.get(tram_id);
+        return trams.get(tram_id);
     }
     static public Map<Integer, Station> get_stations() {
-        return getInstance().stations;
+        return stations;
+    }
+    static public Station get_stations(int station_id) {
+        return stations.get(station_id);
     }
     static public List<Station> get_stations_list() {
-        return getInstance().stations.values().stream().toList();
+        return stations.values().stream().toList();
     }
     static public Map<Integer, People> get_peoples() {
-        return getInstance().peoples;
+        return peoples;
     }
     static public Map<Integer, Line> get_lines() {
-        return getInstance().lines;
+        return lines;
     }
 
 }

@@ -5,14 +5,11 @@ import model.data.format.Line;
 import model.data.format.Station;
 import utils.Shape;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LineStation {
     private static LineStation instance = null;
-    private Map<Integer, List<Station>> line_has_station;
+    private Map<Integer, List<Integer>> line_has_station;
 
     private LineStation() {
         this.line_has_station = new HashMap<>();
@@ -34,12 +31,12 @@ public class LineStation {
     /**
      * Get the list of station of a line
      * @param line_id the id of the line
-     * @param station the station to add
+     * @param station_id the station to add
      * @return the list of station of the line
      */
-    public Station get_next_station(int line_id, Station station) {
-        List<Station> stations = line_has_station.get(line_id);
-        int index = stations.indexOf(station);
+    public int get_next_station(int line_id, int station_id) {
+        List<Integer> stations = line_has_station.get(line_id);
+        int index = stations.indexOf(Data.get_stations(station_id));
         if(index == stations.size() - 1) {
             return stations.get(0);
         }
@@ -53,9 +50,9 @@ public class LineStation {
      */
     public List<Shape> get_shape_on_line(int line_id) {
         List<Shape> output = new LinkedList<>();
-        for (Station station : line_has_station.get(line_id)) {
-            if(!output.contains(station.getShape())) {
-                output.add(station.getShape());
+        for (int station_id : line_has_station.get(line_id)) {
+            if(!output.contains(Data.get_stations(station_id).getShape())) {
+                output.add(Data.get_stations(station_id).getShape());
             }
         }
         return output;
@@ -78,13 +75,20 @@ public class LineStation {
      */
     public List<Line> line_passing_at_station (int station_id){
         List<Line> output = new LinkedList<>();
-        for (Map.Entry<Integer, List<Station>> entry : line_has_station.entrySet()) {
-            for (Station station : entry.getValue()) {
-                if(station.get_id() == station_id) {
+        for (Map.Entry<Integer, List<Integer>> entry : line_has_station.entrySet()) {
+            for (int station_id_l : entry.getValue()) {
+                if(Data.get_stations(station_id_l).get_id() == station_id) {
                     output.add(Data.get_lines().get(entry.getKey()));
                 }
             }
         }
         return output;
+    }
+
+    public void line_append_station(int line_id, int station) {
+        if(!line_has_station.containsKey(line_id)) {
+            line_has_station.put(line_id, new ArrayList<Integer>());
+        }
+        line_has_station.get(line_id).add(station);
     }
 }
