@@ -43,11 +43,9 @@ public class LineTram {
     public int get_available_tram() {
         int output = -1;
         for(int id : Data.get_tram().keySet()){
-            for(Map.Entry<Integer, Integer> entry : tram_on_line.entrySet()){
-                if(entry.getValue() == id){
-                    output = id;
-                    return output;
-                }
+            if(!tram_on_line.containsKey(id)){
+                output = id;
+                break;
             }
         }
         return output;
