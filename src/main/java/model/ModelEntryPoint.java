@@ -46,6 +46,10 @@ public class ModelEntryPoint {
     public List<Integer> SEND_all_line_id(){
         return Data.get_lines().keySet().stream().toList();
     }
+    /* === DEMAND === */
+    public void DEMAND_update_tram(int tram_id, int station_id, int line_id) {
+        presenter.SEND_tram_next_step(tram_id, station_id, line_id);
+    }
 
     /* === GET === */
     public void GET_activate_line(int line_id, int station1_id, int station2_id) {

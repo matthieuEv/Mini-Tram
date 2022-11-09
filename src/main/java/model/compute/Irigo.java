@@ -1,5 +1,6 @@
 package model.compute;
 
+import model.ModelEntryPoint;
 import model.data.Data;
 import model.data.format.*;
 import model.mediator.*;
@@ -69,6 +70,9 @@ public class Irigo {
             int next_station = LineStation.getInstance().get_next_station(line.get_id(), station);
             //Put the tram at the next station
             TramStation.getInstance().put_tram_at_station(tram.get_id(), next_station);
+
+            //Ask the view to update the UI
+            ModelEntryPoint.getInstance().DEMAND_update_tram(tram.get_id(), next_station, line.get_id());
             //Get back to sleep until the next trigger
         }
     }
