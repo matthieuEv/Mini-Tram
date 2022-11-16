@@ -47,5 +47,4 @@ bin/
 gradlew
 gradlew.bat
 *.iml
-
-
+/src/main/java/model_old/

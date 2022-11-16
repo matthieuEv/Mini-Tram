@@ -5,16 +5,26 @@ import UI.menu.Menu_UI;
 import UI.music.Music;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import UI.intro.Intro;
+import UI.menu.Menu_UI;
+import UI.music.Music;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import presenter.Main_Presenter;
+import utils.Pos;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 public class Interface_UI {
     private static volatile Interface_UI instance = null;
@@ -24,6 +34,7 @@ public class Interface_UI {
     private Game_UI game_ui;
     private End_UI end_ui;
     private Menu_UI menu_ui;
+    private Main_Presenter presenter;
     private Intro intro;
     private Music music;
 
@@ -32,8 +43,25 @@ public class Interface_UI {
         music = new Music();
         music.setMusic("src/file/audio/music/intro.mp3");
         music.play();
+        game_ui = new Game_UI(this);
+    }
 
-        Scene menuScene = new Scene(new Intro(this), WIDTH, HEIGHT);
+    public static Interface_UI getInstance(Stage stage) {
+        if (instance == null) {
+            instance = new Interface_UI(stage);
+        }
+        return instance;
+    }
+
+    public void startGame(){
+        Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
+        stage.setScene(gameScene);
+        stage.show();
+    }
+
+    public void showInterface(){
+        game_ui.setInterface_ui(this);
+        Scene menuScene = new Scene(intro, WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
@@ -46,12 +74,6 @@ public class Interface_UI {
         return music;
     }
 
-    public void startGame(){
-        Scene gameScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
-        stage.setScene(gameScene);
-        stage.show();
-    }
-
     public void startMenu(){
         music.stop();
         music.setMusic("src/file/audio/music/Mini-Tram.mp3");
@@ -59,13 +81,6 @@ public class Interface_UI {
         Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.show();
-    }
-
-    public static Interface_UI getInstance(Stage stage) {
-        if (instance == null) {
-            instance = new Interface_UI(stage);
-        }
-        return instance;
     }
 
     public double getWIDTH() {
@@ -76,5 +91,29 @@ public class Interface_UI {
     public double getHEIGHT() {
         //HEIGHT = stage.getHeight();
         return HEIGHT;
+    }
+
+    public void appendPresenter(Main_Presenter presenter){
+        this.presenter = presenter;
+    }
+
+    public Map<Integer, Pos> getListStations(){
+        return presenter.getListStations();
+    }
+
+    public void syncLine(Color color){
+        presenter.syncLine(color);
+    }
+
+    public void modelAddLine(int idLine, int idStation1, int idStation2){
+        presenter.modelAddLine(idLine, idStation1, idStation2);
+    }
+
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine){
+        game_ui.SEND_tram_next_step(idTram, idStation, idLine);
+    }
+
+    public void SEND_add_tram(int idStation, int idLine) {
+        game_ui.SEND_add_tram(idStation, idLine);
     }
 }

@@ -1,6 +1,8 @@
 package UI;
 
+import UI.items.Line_UI;
 import UI.items.Station_UI;
+import UI.items.Tram_UI;
 import UI.music.Music;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,18 +25,27 @@ public class Game_UI extends AnchorPane {
     private Interface_UI interface_ui;
     private Canvas canvas;
     private GraphicsContext gc;
-    private HashMap<Integer, Station_UI> stations;
+    private Map<Integer, Station_UI> stations;
     private final int cellSize = 20;
     private Station_UI lastSelectedStation;
+    private Map<Color, Line_UI> lines;
+    private Map<Integer, Color> listIdLines;
+    private Color selectedLine;
+    private Map<Integer, Tram_UI> trams;
+
 
     private Music music = new Music();
     //private ArrayList<Station_UI> stations;
     public Game_UI(Interface_UI interface_ui) {
         super();
 
-        this.interface_ui = interface_ui;
+        //this.interface_ui = interface_ui;
 
         stations = new HashMap<Integer, Station_UI>();
+        lines = new HashMap<Color, Line_UI>();
+        selectedLine = null;
+        listIdLines = new HashMap<Integer, Color>();
+        trams = new HashMap<Integer, Tram_UI>();
 
         canvas = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
         gc = canvas.getGraphicsContext2D();
@@ -43,50 +54,18 @@ public class Game_UI extends AnchorPane {
 
         this.getChildren().add(canvas);
 
-        canvas.setOnMouseClicked(event -> {
-            Pos mousePos = new Pos(arroundValue((int)event.getX()), arroundValue((int)event.getY()));
-            if(stations.containsKey(setSingleId(mousePos))) {
-                music.playSound("test");
-                Station_UI thisStation = stations.get(setSingleId(mousePos));
-                if(lastSelectedStation == null) {
-                    thisStation.setSelected(true);
-                    lastSelectedStation = thisStation;
-                }else{
-                    gc.setStroke(Color.BLUE);
-                    gc.strokeLine(lastSelectedStation.getPos().x+(cellSize/2), lastSelectedStation.getPos().y+(cellSize/2), thisStation.getPos().x+(cellSize/2), thisStation.getPos().y+(cellSize/2));
-                    lastSelectedStation.setSelected(false);
-                    lastSelectedStation.draw();
-                    lastSelectedStation = null;
-                }
-                stations.get(setSingleId(mousePos)).clicked();
-            }
-        });
-
-        Button addStationBtn = new Button("Add Station");
-        addStationBtn.setOnAction(e -> {
-            addStation();
-        });
-
-        VBox btnStation = new VBox();
 
 
-
-        this.getChildren().addAll(addStationBtn, btnStation);
-        this.setRightAnchor(addStationBtn, 20d);
-        this.setTopAnchor(addStationBtn, 20d);
-        this.setRightAnchor(btnStation, 20d);
-        this.setTopAnchor(btnStation, 40d);
-
-
-        for (int i = 0; i < 5; i++) {
-            addStation();
-        }
     }
 
     private void addStation() {
-        Pos posStation = new Pos(arroundValue(new Random().nextInt((int) interface_ui.getWIDTH()-cellSize)), arroundValue(new Random().nextInt((int) interface_ui.getHEIGHT()-cellSize)));
-        stations.put(setSingleId(posStation), new Station_UI(this, posStation));
-        stations.get(setSingleId(posStation)).draw();
+        Map<Integer, Pos> listStation = interface_ui.getListStations();
+
+        for(Map.Entry<Integer, Pos> entry : listStation.entrySet()) {
+            int id = setSingleId(entry.getValue());
+            stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey()));
+            stations.get(id).draw();
+        }
     }
 
     public double getWIDTH() {
@@ -95,6 +74,65 @@ public class Game_UI extends AnchorPane {
 
     public double getHEIGHT() {
         return interface_ui.getHEIGHT();
+    }
+
+    public void setInterface_ui(Interface_UI interface_ui) {
+        this.interface_ui = interface_ui;
+        canvas.setOnMouseClicked(event -> {
+            if(selectedLine != null) {
+                Pos mousePos = new Pos(arroundValue((int) event.getX()), arroundValue((int) event.getY()));
+                if (stations.containsKey(setSingleId(mousePos))) {
+                    Station_UI selectedStation = stations.get(setSingleId(mousePos));
+
+                    if (lastSelectedStation != null) {
+                        if (lines.containsKey(selectedLine)) {
+                            if (lastSelectedStation.isEndLine(selectedLine)) {
+
+                                if(!selectedStation.isEndLine(selectedLine)){
+                                    lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
+                                    lastSelectedStation.setEndLine(selectedLine, false);
+                                    System.out.println("expend line");
+                                }
+
+                                /*
+                                // If we boucle the line
+                                if(selectedStation.isEndLine(selectedLine)) {
+                                    selectedStation.setEndLine(selectedLine, false);
+                                }   else {
+                                    selectedStation.setEndLine(selectedLine, true);
+                                }
+                                 */
+
+                                //selectedStation.setEndLine(selectedLine, true);
+                            } else {
+                                System.out.println("Station is not an end of the line");
+                            }
+                        } else {
+                            lines.put(selectedLine, new Line_UI(this, selectedLine));
+                            listIdLines.put(lines.get(selectedLine).getId(), selectedLine);
+                            interface_ui.syncLine(selectedLine);
+                            interface_ui.modelAddLine(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
+                            lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
+                            lastSelectedStation.setEndLine(selectedLine, true);
+                            selectedStation.setEndLine(selectedLine, true);
+                            System.out.println("new line");
+                        }
+                        lastSelectedStation.setSelected(false);
+                        lastSelectedStation = null;
+                        selectedLine = null;
+                    } else {
+                        lastSelectedStation = selectedStation;
+                        selectedStation.setSelected(true);
+                        System.out.println("first station");
+                    }
+                    drawGame();
+                }
+            }
+        });
+
+        drawDebugMenu();
+
+        addStation();
     }
 
     public GraphicsContext getGc() {
@@ -117,5 +155,89 @@ public class Game_UI extends AnchorPane {
 
     public Pos getStationPos(int id){
         return stations.get(id).getPos();
+    }
+
+    public void drawGame(){
+        //gc.clearRect(0, 0, interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+        for (Line_UI line : lines.values()) {
+            line.draw();
+        }
+        for (Station_UI station : stations.values()) {
+            station.draw();
+        }
+    }
+
+
+
+
+    private void drawDebugMenu(){
+        VBox btnStation = new VBox();
+
+        Button btnRedLine = new Button("Red Line");
+        btnRedLine.setOnAction(e -> {
+            selectedLine = Color.RED;
+        });
+        Button btnBlueLine = new Button("Blue Line");
+        btnBlueLine.setOnAction(e -> {
+            selectedLine = Color.BLUE;
+        });
+        Button btnGreenLine = new Button("Green Line");
+        btnGreenLine.setOnAction(e -> {
+            selectedLine = Color.GREEN;
+        });
+        Button btnVioletLine = new Button("Violet Line");
+        btnVioletLine.setOnAction(e -> {
+            selectedLine = Color.VIOLET;
+        });
+
+        Button btnAddTram = new Button("Add Tram");
+        btnAddTram.setOnAction(e -> {
+            lines.get(Color.RED).addTram();
+            drawGame();
+        });
+
+
+        Button btnNextStep= new Button("Next step");
+        btnNextStep.setOnAction(e -> {
+            for (Line_UI line : lines.values()) {
+                line.nextStep();
+            }
+            drawGame();
+        });
+
+        btnStation.getChildren().addAll(btnRedLine, btnBlueLine, btnGreenLine, btnVioletLine, btnAddTram, btnNextStep);
+
+        this.getChildren().addAll(btnStation);
+        setRightAnchor(btnStation, 20d);
+        setTopAnchor(btnStation, 50d);
+    }
+
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine) {
+        /*
+        for(Station_UI station : stations.values()) {
+            if(station.getId() == idStation) {
+                lines.get(listIdLines.containsKey(idLine)).SEND_tram_next_step(idTram, station);
+            }
+        }*/
+        idStation = convertId(idStation);
+        trams.get(idTram).nextStep(stations.get(idStation));
+
+    }
+
+    private int convertId(int idStation){
+        for (Map.Entry<Integer, Station_UI> entry : stations.entrySet()) {
+            if (entry.getValue().getId() == idStation) {
+                idStation = entry.getKey();
+            }
+        }
+        return idStation;
+    }
+
+    public void SEND_add_tram(int idStation, int idLine) {
+        int idTram = trams.size();
+        trams.put(idTram, new Tram_UI());
+        idStation = convertId(idStation);
+        trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
+        trams.get(idTram).draw();
     }
 }
