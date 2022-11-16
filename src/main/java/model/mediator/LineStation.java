@@ -36,7 +36,12 @@ public class LineStation {
      */
     public int get_next_station(int line_id, int station_id) {
         List<Integer> stations = line_has_station.get(line_id);
-        int index = stations.indexOf(Data.get_stations(station_id));
+        int index = -1;
+        for (Integer sta : stations){
+            if (sta == station_id){
+                 index = stations.indexOf(sta);
+            }
+        }
         if(index == stations.size() - 1) {
             return stations.get(0);
         }

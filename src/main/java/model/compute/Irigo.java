@@ -58,15 +58,19 @@ public class Irigo {
             //ask the list of people in the tram
             List<People> people_in_tram = TramPeople.getInstance().people_in_tram(tram.get_id());
 
-            //Compute the list of person to get out the tram and change the state of the people
-            List<People> people_out_of_tram = need_to_get_out(people_in_tram, Data.get_stations(station), line,tram.get_id());
-            TramPeople.getInstance().people_out_of_tram(people_out_of_tram, tram.get_id());
-            StationPeople.getInstance().people_get_in_station(people_out_of_tram, station);
+            if (people_in_tram.size() != 0){
+                //Compute the list of person to get out the tram and change the state of the people
+                List<People> people_out_of_tram = need_to_get_out(people_in_tram, Data.get_stations(station), line,tram.get_id());
+                TramPeople.getInstance().people_out_of_tram(people_out_of_tram, tram.get_id());
+                StationPeople.getInstance().people_get_in_station(people_out_of_tram, station);
+            }
 
-            //Compute the list of person to get in the tram and change the state of the people
-            List<People> people_get_in_tram = need_to_get_in(people_at_station, Data.get_stations(station), line, tram.get_id());
-            StationPeople.getInstance().people_out_of_station(people_get_in_tram, station);
-            TramPeople.getInstance().people_get_in_tram(people_get_in_tram, tram.get_id());
+            if (people_at_station.size() != 0){
+                //Compute the list of person to get in the tram and change the state of the people
+                List<People> people_get_in_tram = need_to_get_in(people_at_station, Data.get_stations(station), line, tram.get_id());
+                StationPeople.getInstance().people_out_of_station(people_get_in_tram, station);
+                TramPeople.getInstance().people_get_in_tram(people_get_in_tram, tram.get_id());
+            }
 
             //ask the next station
             int next_station = LineStation.getInstance().get_next_station(line.get_id(), station);

@@ -3,6 +3,7 @@ package model.mediator;
 import model.data.Data;
 import model.data.format.People;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,9 @@ public class TramPeople {
 
     private TramPeople() {
         this.tram_carry_people = new HashMap<>();
+        for (int i = 0; i < Data.get_tram().size(); i++) {
+            this.tram_carry_people.put(i, new ArrayList<>());
+        }
     }
 
     /**

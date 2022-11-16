@@ -42,7 +42,7 @@ public class Tram extends Thread{
     public void run(){
         while(this.active){
             try {
-                Thread.sleep(10000);
+                Thread.sleep(1000);
                 Irigo.trigger_tram(this);
             } catch (InterruptedException e) {
                 e.printStackTrace();
