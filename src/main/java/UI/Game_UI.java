@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import model.data.format.Tram;
 import utils.Pos;
 
 import java.util.ArrayList;
@@ -34,8 +35,6 @@ public class Game_UI extends AnchorPane {
 
     public Game_UI(Interface_UI interface_ui) {
         super();
-
-        //this.interface_ui = interface_ui;
 
         stations = new HashMap<Integer, Station_UI>();
         lines = new HashMap<Color, Line_UI>();
@@ -104,14 +103,18 @@ public class Game_UI extends AnchorPane {
                                 System.out.println("Station is not an end of the line");
                             }
                         } else {
-                            lines.put(selectedLine, new Line_UI(this, selectedLine));
-                            listIdLines.put(lines.get(selectedLine).getId(), selectedLine);
-                            interface_ui.syncLine(selectedLine);
-                            interface_ui.modelAddLine(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
-                            lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
-                            lastSelectedStation.setEndLine(selectedLine, true);
-                            selectedStation.setEndLine(selectedLine, true);
-                            System.out.println("new line");
+                            if(lastSelectedStation != selectedStation) {
+                                lines.put(selectedLine, new Line_UI(this, selectedLine));
+                                listIdLines.put(lines.get(selectedLine).getId(), selectedLine);
+                                interface_ui.syncLine(selectedLine);
+                                interface_ui.modelAddLine(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
+                                lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
+                                lastSelectedStation.setEndLine(selectedLine, true);
+                                selectedStation.setEndLine(selectedLine, true);
+                                System.out.println("new line");
+                            }else{
+                                System.out.println("You can't create a line with only one station");
+                            }
                         }
                         lastSelectedStation.setSelected(false);
                         lastSelectedStation = null;
@@ -154,7 +157,7 @@ public class Game_UI extends AnchorPane {
     }
 
     public void drawGame(){
-        //gc.clearRect(0, 0, interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+        gc.clearRect(0, 0, interface_ui.getWIDTH(), interface_ui.getHEIGHT());
         for (Line_UI line : lines.values()) {
             line.draw();
         }
@@ -186,22 +189,7 @@ public class Game_UI extends AnchorPane {
             selectedLine = Color.VIOLET;
         });
 
-        Button btnAddTram = new Button("Add Tram");
-        btnAddTram.setOnAction(e -> {
-            lines.get(Color.RED).addTram();
-            drawGame();
-        });
-
-
-        Button btnNextStep= new Button("Next step");
-        btnNextStep.setOnAction(e -> {
-            for (Line_UI line : lines.values()) {
-                line.nextStep();
-            }
-            drawGame();
-        });
-
-        btnStation.getChildren().addAll(btnRedLine, btnBlueLine, btnGreenLine, btnVioletLine, btnAddTram, btnNextStep);
+        btnStation.getChildren().addAll(btnRedLine, btnBlueLine, btnGreenLine, btnVioletLine);
 
         this.getChildren().addAll(btnStation);
         setRightAnchor(btnStation, 20d);
@@ -209,15 +197,9 @@ public class Game_UI extends AnchorPane {
     }
 
     public void SEND_tram_next_step(int idTram, int idStation, int idLine) {
-        /*
-        for(Station_UI station : stations.values()) {
-            if(station.getId() == idStation) {
-                lines.get(listIdLines.containsKey(idLine)).SEND_tram_next_step(idTram, station);
-            }
-        }*/
         idStation = convertId(idStation);
         trams.get(idTram).nextStep(stations.get(idStation));
-
+        drawGame();
     }
 
     private int convertId(int idStation){
@@ -231,9 +213,11 @@ public class Game_UI extends AnchorPane {
 
     public void SEND_add_tram(int idStation, int idLine) {
         int idTram = trams.size();
-        trams.put(idTram, new Tram_UI());
+        Tram_UI tram = new Tram_UI();
+        trams.put(idTram, tram);
         idStation = convertId(idStation);
         trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
         trams.get(idTram).draw();
+        lines.get(listIdLines.get(idLine)).addTram(tram);
     }
 }

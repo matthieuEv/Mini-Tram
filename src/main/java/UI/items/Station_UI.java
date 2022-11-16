@@ -30,8 +30,6 @@ public class Station_UI {
 
         endLines = new HashMap<Color, Boolean>();
         people = new ArrayList<>();
-
-        //System.out.println(pos.x + " " + pos.y);
     }
 
     public void draw() {

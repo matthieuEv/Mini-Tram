@@ -25,6 +25,8 @@ public class Tram_UI {
         this.line = line;
         this.station = station;
         this.game_ui = game_ui;
+        x = station.getPos().x;
+        y = station.getPos().y;
         id = idCounter;
         idCounter++;
     }
@@ -43,8 +45,6 @@ public class Tram_UI {
     }
 
     public void draw() {
-        x = station.getPos().x;
-        y = station.getPos().y;
         game_ui.getGc().setFill(Color.WHITE);
         game_ui.getGc().fillRect(x, y, game_ui.getCellSize(), game_ui.getCellSize());
     }
