@@ -45,7 +45,7 @@ public class Tram_UI {
     }
 
     public void draw() {
-        game_ui.getGc().setFill(Color.WHITE);
+        game_ui.getGc().setFill(line.getColor());
         game_ui.getGc().fillRect(x, y, game_ui.getCellSize(), game_ui.getCellSize());
     }
 
