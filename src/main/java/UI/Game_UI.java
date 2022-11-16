@@ -154,7 +154,7 @@ public class Game_UI extends AnchorPane {
     }
 
     public void drawGame(){
-        gc.clearRect(0, 0, interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+        //gc.clearRect(0, 0, interface_ui.getWIDTH(), interface_ui.getHEIGHT());
         for (Line_UI line : lines.values()) {
             line.draw();
         }
@@ -222,6 +222,11 @@ public class Game_UI extends AnchorPane {
     public void SEND_add_tram(int idStation, int idLine) {
         int idTram = trams.size();
         trams.put(idTram, new Tram_UI());
+        for (Map.Entry<Integer, Station_UI> entry : stations.entrySet()) {
+            if (entry.getValue().getId() == idStation) {
+                idStation = entry.getKey();
+            }
+        }
         trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
         trams.get(idTram).draw();
     }
