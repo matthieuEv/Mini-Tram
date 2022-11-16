@@ -2,6 +2,7 @@ package UI;
 
 import UI.items.Line_UI;
 import UI.items.Station_UI;
+import UI.items.Tram_UI;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -27,16 +28,20 @@ public class Game_UI extends AnchorPane {
     private final int cellSize = 20;
     private Station_UI lastSelectedStation;
     private Map<Color, Line_UI> lines;
+    private Map<Integer, Color> listIdLines;
     private Color selectedLine;
+    private Map<Integer, Tram_UI> trams;
 
     public Game_UI(Interface_UI interface_ui) {
         super();
 
-        this.interface_ui = interface_ui;
+        //this.interface_ui = interface_ui;
 
         stations = new HashMap<Integer, Station_UI>();
         lines = new HashMap<Color, Line_UI>();
         selectedLine = null;
+        listIdLines = new HashMap<Integer, Color>();
+        trams = new HashMap<Integer, Tram_UI>();
 
         canvas = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
         gc = canvas.getGraphicsContext2D();
@@ -45,6 +50,30 @@ public class Game_UI extends AnchorPane {
 
         this.getChildren().add(canvas);
 
+
+
+    }
+
+    private void addStation() {
+        Map<Integer, Pos> listStation = interface_ui.getListStations();
+
+        for(Map.Entry<Integer, Pos> entry : listStation.entrySet()) {
+            int id = setSingleId(entry.getValue());
+            stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey()));
+            stations.get(id).draw();
+        }
+    }
+
+    public double getWIDTH() {
+        return interface_ui.getWIDTH();
+    }
+
+    public double getHEIGHT() {
+        return interface_ui.getHEIGHT();
+    }
+
+    public void setInterface_ui(Interface_UI interface_ui) {
+        this.interface_ui = interface_ui;
         canvas.setOnMouseClicked(event -> {
             if(selectedLine != null) {
                 Pos mousePos = new Pos(arroundValue((int) event.getX()), arroundValue((int) event.getY()));
@@ -76,7 +105,9 @@ public class Game_UI extends AnchorPane {
                             }
                         } else {
                             lines.put(selectedLine, new Line_UI(this, selectedLine));
+                            listIdLines.put(lines.get(selectedLine).getId(), selectedLine);
                             interface_ui.syncLine(selectedLine);
+                            interface_ui.modelAddLine(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
                             lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
                             lastSelectedStation.setEndLine(selectedLine, true);
                             selectedStation.setEndLine(selectedLine, true);
@@ -98,24 +129,6 @@ public class Game_UI extends AnchorPane {
         drawDebugMenu();
 
         addStation();
-    }
-
-    private void addStation() {
-        Map<Integer, Pos> listStation = interface_ui.getListStations();
-
-        for(Map.Entry<Integer, Pos> entry : listStation.entrySet()) {
-            int id = setSingleId(entry.getValue());
-            stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey()));
-            stations.get(id).draw();
-        }
-    }
-
-    public double getWIDTH() {
-        return interface_ui.getWIDTH();
-    }
-
-    public double getHEIGHT() {
-        return interface_ui.getHEIGHT();
     }
 
     public GraphicsContext getGc() {
@@ -173,10 +186,42 @@ public class Game_UI extends AnchorPane {
             selectedLine = Color.VIOLET;
         });
 
-        btnStation.getChildren().addAll(btnRedLine, btnBlueLine, btnGreenLine, btnVioletLine);
+        Button btnAddTram = new Button("Add Tram");
+        btnAddTram.setOnAction(e -> {
+            lines.get(Color.RED).addTram();
+            drawGame();
+        });
+
+
+        Button btnNextStep= new Button("Next step");
+        btnNextStep.setOnAction(e -> {
+            for (Line_UI line : lines.values()) {
+                line.nextStep();
+            }
+            drawGame();
+        });
+
+        btnStation.getChildren().addAll(btnRedLine, btnBlueLine, btnGreenLine, btnVioletLine, btnAddTram, btnNextStep);
 
         this.getChildren().addAll(btnStation);
         setRightAnchor(btnStation, 20d);
         setTopAnchor(btnStation, 50d);
+    }
+
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine) {
+        /*
+        for(Station_UI station : stations.values()) {
+            if(station.getId() == idStation) {
+                lines.get(listIdLines.containsKey(idLine)).SEND_tram_next_step(idTram, station);
+            }
+        }*/
+        trams.get(idTram).nextStep(stations.get(idStation));
+
+    }
+
+    public void SEND_add_tram(int idStation, int idLine) {
+        int idTram = trams.size();
+        trams.put(idTram, new Tram_UI());
+        trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
     }
 }

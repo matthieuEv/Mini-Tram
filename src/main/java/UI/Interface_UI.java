@@ -25,6 +25,7 @@ public class Interface_UI {
 
     private Interface_UI(Stage stage) {
         this.stage = stage;
+        game_ui = new Game_UI(this);
     }
 
     public static Interface_UI getInstance(Stage stage) {
@@ -35,13 +36,14 @@ public class Interface_UI {
     }
 
     public void startGame(){
-        Scene gameScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
+        Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
         stage.setScene(gameScene);
         stage.show();
     }
 
     public void showInterface(){
-        Scene menuScene = new Scene(new Game_UI(this), WIDTH, HEIGHT);
+        game_ui.setInterface_ui(this);
+        Scene menuScene = new Scene(game_ui, WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
@@ -78,4 +80,15 @@ public class Interface_UI {
         presenter.syncLine(color);
     }
 
+    public void modelAddLine(int idLine, int idStation1, int idStation2){
+        presenter.modelAddLine(idLine, idStation1, idStation2);
+    }
+
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine){
+        game_ui.SEND_tram_next_step(idTram, idStation, idLine);
+    }
+
+    public void SEND_add_tram(int idStation, int idLine) {
+        game_ui.SEND_add_tram(idStation, idLine);
+    }
 }
