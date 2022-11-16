@@ -6,7 +6,7 @@ public class Tram extends Thread{
     private static int id_counter = 0;
     private int id;
     private boolean active;
-
+    private boolean direction;
     private int place;
 
     public Tram(){
@@ -32,6 +32,23 @@ public class Tram extends Thread{
     }
     public boolean is_active() {
         return active;
+    }
+
+    public void change_direction() {
+        this.direction = !this.direction;
+    }
+
+    /**
+     * Set the direction of the tram
+     * 0 = normal
+     * 1 = inverse
+     * @param direction the direction of the tram
+     */
+    public void change_direction(boolean direction) {
+        this.direction = direction;
+    }
+    public boolean get_direction() {
+        return direction;
     }
 
     //Routine

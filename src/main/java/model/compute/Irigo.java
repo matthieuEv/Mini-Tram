@@ -93,7 +93,13 @@ public class Irigo {
             }
 
             //ask the next station
-            int next_station = LineStation.getInstance().get_next_station(line.get_id(), station);
+            int next_station = LineStation.getInstance().get_next_station(line.get_id(), station,tram.get_direction());
+            if(next_station == -1) {
+                //if the next station is -1 it means that the tram is at the end of the line
+                //so we change the direction
+                tram.change_direction();
+                next_station = LineStation.getInstance().get_next_station(line.get_id(), station,tram.get_direction());
+            }
             //Put the tram at the next station
             TramStation.getInstance().put_tram_at_station(tram.get_id(), next_station);
 

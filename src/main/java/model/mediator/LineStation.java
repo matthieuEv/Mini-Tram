@@ -32,20 +32,28 @@ public class LineStation {
      * Get the list of station of a line
      * @param line_id the id of the line
      * @param station_id the station to add
-     * @return the list of station of the line
+     * @return the list of station of the line or -1 if you need to change direction
      */
-    public int get_next_station(int line_id, int station_id) {
-        List<Integer> stations = line_has_station.get(line_id);
-        int index = -1;
-        for (Integer sta : stations){
-            if (sta == station_id){
-                 index = stations.indexOf(sta);
+    public int get_next_station(int line_id, int station_id, boolean direction) {
+        int index = line_has_station.get(line_id).indexOf(station_id);
+        //check if the station is the last of the line
+        if (!direction) //Sens normal
+        {
+            if (index == line_has_station.get(line_id).size() - 1) {
+                return -1;
+            }else {
+                return line_has_station.get(line_id).get(index + 1);
             }
         }
-        if(index == stations.size() - 1) {
-            return stations.get(0);
+        else //Sens inverse
+        {
+            if (index == 0) {
+                return -1;
+            }else {
+                return line_has_station.get(line_id).get(index - 1);
+            }
         }
-        return stations.get(index + 1);
+
     }
 
     /**

@@ -40,6 +40,10 @@ public class LineTram {
         return tram_on_line.get(tram.get_id());
     }
 
+    /**
+     * get an id from a tram that is not used yet
+     * @return an id from a tram that is not used
+     */
     public int get_available_tram() {
         int output = -1;
         for(int id : Data.get_tram().keySet()){
