@@ -90,10 +90,24 @@ public class LineStation {
         return output;
     }
 
-    public void line_append_station(int line_id, int station) {
-        if(!line_has_station.containsKey(line_id)) {
-            line_has_station.put(line_id, new ArrayList<Integer>());
+    public void line_append_station(int line_id, int stationFrom ,int stationTo) {
+        int indexFrom = get_station_index(line_id, stationFrom);
+        //if index is the last station
+        if (indexFrom == line_has_station.get(line_id).size() - 1) {
+            this.line_has_station.get(line_id).add(stationTo);
+        } else { // if index is the first station
+            this.line_has_station.get(line_id).add(0,stationTo);
         }
-        line_has_station.get(line_id).add(station);
+    }
+
+    private int get_station_index(int line_id, int station_id) {
+        int index = -1;
+        for (Integer sta : this.line_has_station.get(line_id)){
+            if (sta == station_id){
+                index = this.line_has_station.get(line_id).indexOf(sta);
+                return index;
+            }
+        }
+        return index;
     }
 }

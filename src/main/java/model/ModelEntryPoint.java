@@ -58,6 +58,10 @@ public class ModelEntryPoint {
     public void GET_activate_line(int line_id, int station1_id, int station2_id) {
         irigo.activate_line(line_id, station1_id, station2_id);
     }
+    public void GET_add_station(int line_id, int station1_id, int station2_id) {
+        irigo.activate_line(line_id, station1_id, station2_id);
+    }
+
 
 
 
