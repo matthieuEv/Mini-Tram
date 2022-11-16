@@ -30,6 +30,12 @@ public class Irigo {
 
     /* === Compute modules === */
 
+    /**
+     * Activate a line
+     * @param line_id the id of the line
+     * @param station1_id the id of the first station
+     * @param station2_id the id of the second station
+     */
     public void activate_line(int line_id, int station1_id, int station2_id) {
         LineStation.getInstance().line_append_station(line_id, station1_id);
         LineStation.getInstance().line_append_station(line_id, station2_id);
@@ -40,6 +46,17 @@ public class Irigo {
         Data.get_tram(tram_id).set_active(true);
         ModelEntryPoint.getInstance().DEMAND_create_UI_tram(station1_id, line_id);
     }
+
+    /**
+     * Add a station to a Line
+     * @param line_id the id of the line to add the station
+     * @param station1_id the id of the station already in the line
+     * @param station2_id the id of the station to add
+     */
+    public void add_station_to_line(int line_id, int station1_id, int station2_id) {
+        LineStation.getInstance().line_append_station(line_id, station1_id, station2_id);
+    }
+
 
     /**
      * Activated each time a tram arrive at a station
