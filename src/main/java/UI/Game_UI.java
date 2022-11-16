@@ -215,18 +215,24 @@ public class Game_UI extends AnchorPane {
                 lines.get(listIdLines.containsKey(idLine)).SEND_tram_next_step(idTram, station);
             }
         }*/
+        idStation = convertId(idStation);
         trams.get(idTram).nextStep(stations.get(idStation));
 
     }
 
-    public void SEND_add_tram(int idStation, int idLine) {
-        int idTram = trams.size();
-        trams.put(idTram, new Tram_UI());
+    private int convertId(int idStation){
         for (Map.Entry<Integer, Station_UI> entry : stations.entrySet()) {
             if (entry.getValue().getId() == idStation) {
                 idStation = entry.getKey();
             }
         }
+        return idStation;
+    }
+
+    public void SEND_add_tram(int idStation, int idLine) {
+        int idTram = trams.size();
+        trams.put(idTram, new Tram_UI());
+        idStation = convertId(idStation);
         trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
         trams.get(idTram).draw();
     }
