@@ -1,9 +1,17 @@
 package UI;
 
+import UI.intro.Intro;
 import UI.menu.Menu_UI;
 import UI.music.Music;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -16,14 +24,16 @@ public class Interface_UI {
     private Game_UI game_ui;
     private End_UI end_ui;
     private Menu_UI menu_ui;
+    private Intro intro;
     private Music music;
 
     private Interface_UI(Stage stage) {
         this.stage = stage;
-        music = new Music("src/file/audio/music/Mini-Tram.mp3");
+        music = new Music();
+        music.setMusic("src/file/audio/music/intro.mp3");
         music.play();
 
-        Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
+        Scene menuScene = new Scene(new Intro(this), WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
@@ -43,6 +53,9 @@ public class Interface_UI {
     }
 
     public void startMenu(){
+        music.stop();
+        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
+        music.play();
         Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.show();

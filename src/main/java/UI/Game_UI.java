@@ -1,6 +1,7 @@
 package UI;
 
 import UI.items.Station_UI;
+import UI.music.Music;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -25,6 +26,8 @@ public class Game_UI extends AnchorPane {
     private HashMap<Integer, Station_UI> stations;
     private final int cellSize = 20;
     private Station_UI lastSelectedStation;
+
+    private Music music = new Music();
     //private ArrayList<Station_UI> stations;
     public Game_UI(Interface_UI interface_ui) {
         super();
@@ -43,6 +46,7 @@ public class Game_UI extends AnchorPane {
         canvas.setOnMouseClicked(event -> {
             Pos mousePos = new Pos(arroundValue((int)event.getX()), arroundValue((int)event.getY()));
             if(stations.containsKey(setSingleId(mousePos))) {
+                music.playSound("test");
                 Station_UI thisStation = stations.get(setSingleId(mousePos));
                 if(lastSelectedStation == null) {
                     thisStation.setSelected(true);

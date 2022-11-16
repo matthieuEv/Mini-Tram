@@ -1,6 +1,7 @@
 package UI.menu;
 
 import UI.Interface_UI;
+import UI.music.Music;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -9,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,9 +21,10 @@ public class Menu_UI extends GridPane {
     private int widthBtn = 200;
     private int heightBtn = 50;
 
-    private useJson json = new useJson();
+    private UseJson json = new UseJson();
     public Menu_UI(Interface_UI interface_ui) {
         super();
+
         this.interface_ui = interface_ui;
 
         double width = interface_ui.getWIDTH();
@@ -48,6 +48,13 @@ public class Menu_UI extends GridPane {
         btnHover(start);
         start.setOnAction(e -> {
             start();
+        });
+
+        Button mode = new Button("Modes");
+        initBtn(mode);
+        btnHover(mode);
+        mode.setOnAction(e -> {
+            //TODO
         });
 
         Button settings = new Button("Settings");

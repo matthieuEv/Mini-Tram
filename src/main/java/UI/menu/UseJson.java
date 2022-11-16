@@ -1,19 +1,15 @@
 package UI.menu;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
-public class useJson {
+public class UseJson {
     public int readJson(String type){
         int value = 0;
         try {
