@@ -223,5 +223,6 @@ public class Game_UI extends AnchorPane {
         int idTram = trams.size();
         trams.put(idTram, new Tram_UI());
         trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
+        trams.get(idTram).draw();
     }
 }

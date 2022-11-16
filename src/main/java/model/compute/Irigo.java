@@ -37,6 +37,8 @@ public class Irigo {
         LineTram.getInstance().set_tram_on_line(tram_id, line_id);
         TramStation.getInstance().put_tram_at_station(tram_id, station1_id);
         Data.get_tram(tram_id).start();
+        Data.get_tram(tram_id).set_active(true);
+        ModelEntryPoint.getInstance().DEMAND_create_UI_tram(station1_id, line_id);
     }
 
     /**

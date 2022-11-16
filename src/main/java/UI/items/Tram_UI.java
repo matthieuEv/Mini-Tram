@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Tram_UI {
     private Game_UI game_ui;
     private ArrayList<Shape> people;
+    private Station_UI station;
     private Line_UI line;
     private double x;
     private double y;
@@ -22,6 +23,7 @@ public class Tram_UI {
 
     public void setLine(Line_UI line, Station_UI station, Game_UI game_ui) {
         this.line = line;
+        this.station = station;
         this.game_ui = game_ui;
         id = idCounter;
         idCounter++;
@@ -41,6 +43,8 @@ public class Tram_UI {
     }
 
     public void draw() {
+        x = station.getPos().x;
+        y = station.getPos().y;
         game_ui.getGc().setFill(Color.WHITE);
         game_ui.getGc().fillRect(x, y, game_ui.getCellSize(), game_ui.getCellSize());
     }

@@ -40,14 +40,12 @@ public class Tram extends Thread{
      */
     @Override
     public void run(){
-        while(true){
-            if (this.active){
-                try {
-                    Thread.sleep(10000);
-                    Irigo.trigger_tram(this);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        while(this.active){
+            try {
+                Thread.sleep(10000);
+                Irigo.trigger_tram(this);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
