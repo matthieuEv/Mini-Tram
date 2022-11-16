@@ -91,4 +91,8 @@ public class Interface_UI {
     public void SEND_add_tram(int idStation, int idLine) {
         game_ui.SEND_add_tram(idStation, idLine);
     }
+
+    public void modelAddStation(int line_id, int station1_id, int station2_id){
+        presenter.modelAddStation(line_id, station1_id, station2_id);
+    }
 }

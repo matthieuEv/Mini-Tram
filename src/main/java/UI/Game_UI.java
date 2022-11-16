@@ -85,7 +85,9 @@ public class Game_UI extends AnchorPane {
 
                                 if(!selectedStation.isEndLine(selectedLine)){
                                     lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
+                                    interface_ui.modelAddStation(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
                                     lastSelectedStation.setEndLine(selectedLine, false);
+                                    selectedStation.setEndLine(selectedLine, true);
                                     System.out.println("expend line");
                                 }
 
@@ -158,11 +160,11 @@ public class Game_UI extends AnchorPane {
 
     public void drawGame(){
         gc.clearRect(0, 0, interface_ui.getWIDTH(), interface_ui.getHEIGHT());
-        for (Line_UI line : lines.values()) {
-            line.draw();
-        }
         for (Station_UI station : stations.values()) {
             station.draw();
+        }
+        for (Line_UI line : lines.values()) {
+            line.draw();
         }
     }
 

@@ -75,6 +75,9 @@ public class Irigo {
             //ask the list of people in the tram
             List<People> people_in_tram = TramPeople.getInstance().people_in_tram(tram.get_id());
 
+            //display the tram
+            System.out.println("Tram " + tram.get_id() + " is at station " + station + " with " + people_in_tram.size() + "in tram and " + people_at_station.size() + " people in the station");
+
             if (people_in_tram.size() != 0){
                 //Compute the list of person to get out the tram and change the state of the people
                 List<People> people_out_of_tram = need_to_get_out(people_in_tram, Data.get_stations(station), line,tram.get_id());

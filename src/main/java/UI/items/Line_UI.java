@@ -43,4 +43,8 @@ public class Line_UI {
     public int getId() {
         return id;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }
