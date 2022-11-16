@@ -90,6 +90,12 @@ public class LineStation {
         return output;
     }
 
+    public void line_append_station(int line_id, int station) {
+        if(!line_has_station.containsKey(line_id)) {
+            line_has_station.put(line_id, new ArrayList<Integer>());
+        }
+        line_has_station.get(line_id).add(station);
+    }
     public void line_append_station(int line_id, int stationFrom ,int stationTo) {
         int indexFrom = get_station_index(line_id, stationFrom);
         //if index is the last station
@@ -99,6 +105,7 @@ public class LineStation {
             this.line_has_station.get(line_id).add(0,stationTo);
         }
     }
+
 
     private int get_station_index(int line_id, int station_id) {
         int index = -1;
