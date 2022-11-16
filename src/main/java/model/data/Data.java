@@ -1,6 +1,7 @@
 package model.data;
 
 import model.data.format.*;
+import model.mediator.StationPeople;
 import utils.Pos;
 import utils.Shape;
 
@@ -43,6 +44,7 @@ public class Data {
         for(int i = 0; i < 10; i++){
             People p = new People(Shape.random_shape());
             peoples.put(p.get_id(), p);
+            StationPeople.getInstance().people_get_in_station(p, new Random().nextInt(4));
         }
     }
 

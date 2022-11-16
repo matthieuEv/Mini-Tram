@@ -19,6 +19,8 @@ public class StationPeople {
         }
     }
 
+
+
     /**
      * Get the instance of the singleton
      * @return the instance of the class
