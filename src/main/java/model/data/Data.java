@@ -52,7 +52,7 @@ public class Data {
         for(int i = 0; i < 10; i++){
             People p = new People(Shape.random_shape());
             peoples.put(p.get_id(), p);
-            StationPeople.getInstance().people_get_in_station(p, new Random().nextInt(4));
+            StationPeople.getInstance().people_get_in_station(p, new Random().nextInt(8));
         }
     }
 
@@ -78,13 +78,19 @@ public class Data {
      */
     static public void people_disappear(People people) {
         Data.peoples.remove(people.get_id());
-        //Create a new people at a random station
+        //Create a new people with a random shape
         People person = new People(Shape.random_shape());
         Random r = new Random();
         int randomStation;
+        //select a station to put them randomly if the station is the same shape as them shearch another one
         do {
-            randomStation = r.nextInt(Data.stations.size());
+            randomStation = r.nextInt(Data.stations.size()-1);
         }while (stations.get(randomStation).getShape().equals(person.getDestination()));
+
+        //put the person in the station
+        Data.peoples.put(person.get_id(), person);
+        StationPeople.getInstance().people_get_in_station(person, randomStation);
+
     }
 
     /* === Getter === */

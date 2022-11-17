@@ -76,13 +76,15 @@ public class Irigo {
             List<People> people_in_tram = TramPeople.getInstance().people_in_tram(tram.get_id());
 
             //display the tram
-            System.out.println("Tram " + tram.get_id() + " is at station " + station + " with " + people_in_tram.size() + "in tram and " + people_at_station.size() + " people in the station");
+            System.out.println("Tram " + tram.get_id() + " is at station " + station + " shape : "+ Data.get_stations(station).getShape()+"\nwith " + people_in_tram.size() + " people in tram and " + people_at_station.size() + " people in the station");
 
             if (people_in_tram.size() != 0){
                 //Compute the list of person to get out the tram and change the state of the people
                 List<People> people_out_of_tram = need_to_get_out(people_in_tram, Data.get_stations(station), line,tram.get_id());
                 TramPeople.getInstance().people_out_of_tram(people_out_of_tram, tram.get_id());
+                //the algo to compute if people are at the good station is in 'people_get_in_station()' function
                 StationPeople.getInstance().people_get_in_station(people_out_of_tram, station);
+                System.out.println(people_out_of_tram.size()+" got out of the tram => station");
             }
 
             if (people_at_station.size() != 0){
@@ -90,7 +92,9 @@ public class Irigo {
                 List<People> people_get_in_tram = need_to_get_in(people_at_station, Data.get_stations(station), line, tram.get_id());
                 StationPeople.getInstance().people_out_of_station(people_get_in_tram, station);
                 TramPeople.getInstance().people_get_in_tram(people_get_in_tram, tram.get_id());
+                System.out.println(people_get_in_tram.size()+" got out of the station => tram");
             }
+            System.out.println("----------------------------------------");
 
             //ask the next station
             int next_station = LineStation.getInstance().get_next_station(line.get_id(), station,tram.get_direction());
@@ -123,7 +127,7 @@ public class Irigo {
         //See if they need to get out
         for (People person : lst_people){
             if(person.getDestination().equals(station.getShape())){ //if the person is at his destination
-                people_disappear(person, tram_id , station.get_id());
+                output.add(person);
             }else if (!LineStation.getInstance().line_has_shape(line.get_id(),person.getDestination())){ //else if the person is don't have their destination on this line
                 List<Line> lines_passing_here = LineStation.getInstance().line_passing_at_station(station.get_id());
                 for (Line l : lines_passing_here){ //for each line passing at station
