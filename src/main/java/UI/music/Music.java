@@ -33,7 +33,9 @@ public class Music {
     }
 
     public void stop(){
-        this.mediaPlayer.stop();
+        if(this.mediaPlayer != null){
+            this.mediaPlayer.stop();
+        }
     }
 
     private void playfromfile(String url){

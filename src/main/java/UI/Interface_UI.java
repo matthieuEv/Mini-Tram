@@ -41,8 +41,8 @@ public class Interface_UI {
     private Interface_UI(Stage stage) {
         this.stage = stage;
         music = new Music();
-        music.setMusic("src/file/audio/music/intro.mp3");
-        music.play();
+        intro = new Intro(this);
+        menu_ui = new Menu_UI(this);
         game_ui = new Game_UI(this);
     }
 
@@ -52,19 +52,27 @@ public class Interface_UI {
         }
         return instance;
     }
+    public void startIntro(){
+        music.setMusic("src/file/audio/music/intro.mp3");
+        music.play();
+        stage.setScene(new Scene(intro, WIDTH, HEIGHT));
+    }
 
+    public void startMenu(){
+        music.stop();
+        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
+        music.play();
+        stage.setScene(new Scene(menu_ui, WIDTH, HEIGHT));
+    }
     public void startGame(){
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
         stage.setScene(gameScene);
-        stage.show();
     }
 
     public void showInterface(){
+        startMenu();
         game_ui.setInterface_ui(this);
-        Scene menuScene = new Scene(intro, WIDTH, HEIGHT);
-        stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
-        //stage.setMaximized(true);
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
         stage.show();
@@ -72,15 +80,6 @@ public class Interface_UI {
 
     public Music getMusic() {
         return music;
-    }
-
-    public void startMenu(){
-        music.stop();
-        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
-        music.play();
-        Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
-        stage.setScene(menuScene);
-        stage.show();
     }
 
     public double getWIDTH() {

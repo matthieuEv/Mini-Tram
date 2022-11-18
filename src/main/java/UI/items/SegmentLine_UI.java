@@ -19,6 +19,7 @@ public class SegmentLine_UI {
 
     public void draw(){
         game_ui.getGc().setStroke(color);
+        game_ui.getGc().setLineWidth(5);
         game_ui.getGc().strokeLine(station1.getPos().x+(game_ui.getCellSize()/2), station1.getPos().y+(game_ui.getCellSize()/2), station2.getPos().x+(game_ui.getCellSize()/2), station2.getPos().y+(game_ui.getCellSize()/2));
     }
 
