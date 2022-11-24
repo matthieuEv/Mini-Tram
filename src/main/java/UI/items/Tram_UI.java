@@ -1,7 +1,9 @@
 package UI.items;
 
 import UI.Game_UI;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import utils.Pos;
 import utils.Shape;
 
@@ -16,6 +18,8 @@ public class Tram_UI {
     private double y;
     private int id;
     private static int idCounter = 0;
+    private Pane gamePane;
+    private Rectangle tramObject;
 
     public Tram_UI() {
         people = new ArrayList<>();
@@ -25,10 +29,15 @@ public class Tram_UI {
         this.line = line;
         this.station = station;
         this.game_ui = game_ui;
+        this.gamePane = game_ui.getGamePane();
         x = station.getPos().x;
         y = station.getPos().y;
         id = idCounter;
         idCounter++;
+
+        tramObject = new Rectangle(x, y, game_ui.getCellSize(), game_ui.getCellSize());
+        tramObject.setFill(line.getColor());
+        gamePane.getChildren().add(tramObject);
     }
 
     public void personEnter(Shape person){
@@ -42,11 +51,12 @@ public class Tram_UI {
     public void nextStep(Station_UI station) {
         x = station.getPos().x;
         y = station.getPos().y;
+        tramObject.setX(x);
+        tramObject.setY(y);
     }
 
     public void draw() {
-        game_ui.getGc().setFill(line.getColor());
-        game_ui.getGc().fillRect(x, y, game_ui.getCellSize(), game_ui.getCellSize());
+
     }
 
     public int getId() {

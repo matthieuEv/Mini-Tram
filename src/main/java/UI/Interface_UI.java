@@ -44,6 +44,7 @@ public class Interface_UI {
     public void showInterface(){
         game_ui.setInterface_ui(this);
         Scene menuScene = new Scene(game_ui, WIDTH, HEIGHT);
+        //Scene menuScene = new Scene(new testListBtn(), WIDTH, HEIGHT);
         stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
         //stage.setMaximized(true);
