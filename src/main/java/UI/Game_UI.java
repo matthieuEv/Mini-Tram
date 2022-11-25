@@ -216,7 +216,7 @@ public class Game_UI extends StackPane {
         Circle btn = new Circle(10, color);
         listBtnLines.put(color, btn);
         btn.setOnMouseClicked(e -> {
-            listBtnLines.get(color).setRadius(12);
+            listBtnLines.get(color).setRadius(15);
             selectedLine = color;
         });
         btnStation.getChildren().add(btn);

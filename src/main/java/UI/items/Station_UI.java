@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Rectangle;
 import utils.Pos;
 import utils.Shape;
 
@@ -25,6 +26,7 @@ public class Station_UI {
     private Map<Color, Boolean> endLines;
     private ArrayList<Shape> people;
     private Circle circle;
+    private FlowPane peopleContainer;
 
 
     public Station_UI(Game_UI game_ui, Pos pos, int id) {
@@ -42,6 +44,21 @@ public class Station_UI {
         circle.setTranslateY(pos.y+game_ui.getCellSize()/2);
         circle.setFill(Color.RED);
 
+        peopleContainer = new FlowPane();
+        peopleContainer.setTranslateX(pos.x+game_ui.getCellSize());
+        peopleContainer.setTranslateY(pos.y-game_ui.getCellSize());
+        peopleContainer.setMaxWidth((game_ui.getCellSize()/2)*4);
+        peopleContainer.setMaxHeight((game_ui.getCellSize()/2)*2);
+        //peopleContainer.setStyle("-fx-background-color: #FFFFFF;");
+
+        for(int i = 0; i < 7; i++){
+            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+            rectangle.setFill(Color.BLUE);
+            peopleContainer.getChildren().add(rectangle);
+        }
+
+
+        this.gamePane.getChildren().add(peopleContainer);
         this.gamePane.getChildren().add(circle);
     }
 
