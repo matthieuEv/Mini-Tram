@@ -4,23 +4,14 @@ import UI.items.Line_UI;
 import UI.items.Station_UI;
 import UI.items.Tram_UI;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
-import model.data.format.Tram;
 import utils.Pos;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-
-import static java.lang.Long.MAX_VALUE;
 
 public class Game_UI extends StackPane {
     private Interface_UI interface_ui;
@@ -112,18 +103,21 @@ public class Game_UI extends StackPane {
                         selectedStation = stations.get(setSingleId(mousePos));
                         if (lines.containsKey(selectedLine)) {
                             if (lastSelectedStation.isEndLine(selectedLine)) {
-
                                 if (!selectedStation.isEndLine(selectedLine)) {
-                                    lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
-                                    interface_ui.modelAddStation(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
-                                    lastSelectedStation.setEndLine(selectedLine, false);
-                                    selectedStation.setEndLine(selectedLine, true);
-                                    System.out.println("expend line");
+                                    if(!lines.get(selectedLine).containsStation(selectedStation)) {
+                                        lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
+                                        interface_ui.modelAddStation(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
+                                        lastSelectedStation.setEndLine(selectedLine, false);
+                                        selectedStation.setEndLine(selectedLine, true);
+                                        System.out.println("expend line");
 
 
-                                    lastSelectedStation = selectedStation;
-                                    tempLine.setStartX(lastSelectedStation.getPos().x + cellSize / 2);
-                                    tempLine.setStartY(lastSelectedStation.getPos().y + cellSize / 2);
+                                        lastSelectedStation = selectedStation;
+                                        tempLine.setStartX(lastSelectedStation.getPos().x + cellSize / 2);
+                                        tempLine.setStartY(lastSelectedStation.getPos().y + cellSize / 2);
+                                    }else{
+                                        System.out.println("station already in line");
+                                    }
                                 }
                             } else {
                                 System.out.println("Station is not an end of the line");

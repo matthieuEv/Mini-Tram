@@ -47,4 +47,13 @@ public class Line_UI {
     public Color getColor() {
         return color;
     }
+
+    public boolean containsStation(Station_UI station){
+        for (SegmentLine_UI segment : segments) {
+            if(segment.getStation1() == station || segment.getStation2() == station){
+                return true;
+            }
+        }
+        return false;
+    }
 }
