@@ -105,4 +105,8 @@ public class Interface_UI {
     public void GET_add_people_station(int idStation, ArrayList<Shape> shape){
         game_ui.GET_add_people_station(idStation, shape);
     }
+
+    public Shape getShapeStation(int id) {
+        return presenter.getShapeStation(id);
+    }
 }

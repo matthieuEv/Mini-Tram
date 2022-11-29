@@ -78,4 +78,9 @@ public class Main_Presenter {
     public void SEND_add_people_station(int idStation, ArrayList<Shape> shape){
         ui.GET_add_people_station(idStation, shape);
     }
+
+    public Shape getShapeStation(int id) {
+        //return null;
+        return model.SEND_get_shape_station(id);
+    }
 }
