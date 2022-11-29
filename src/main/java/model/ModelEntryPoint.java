@@ -2,9 +2,13 @@ package model;
 
 import model.compute.Irigo;
 import model.data.Data;
+import model.data.format.People;
 import model.data.format.Station;
+import model.mediator.StationPeople;
+import model.mediator.TramPeople;
 import presenter.Main_Presenter;
 import utils.Pos;
+import utils.Shape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +50,23 @@ public class ModelEntryPoint {
     public List<Integer> SEND_all_line_id(){
         return Data.get_lines().keySet().stream().toList();
     }
+
+    public List<Shape> SEND_people_in_station(int station_id){
+        List<Shape> list = new ArrayList<>();
+        for (People people : StationPeople.getInstance().people_at_station(station_id)){
+            list.add(people.getDestination());
+        }
+        return list;
+    }
+
+    public List<Shape> SEND_people_in_tram(int tram_id){
+        List<Shape> list = new ArrayList<>();
+        for (People people : TramPeople.getInstance().people_in_tram(tram_id)){
+            list.add(people.getDestination());
+        }
+        return list;
+    }
+
     /* === DEMAND === */
     public void DEMAND_update_tram(int tram_id, int station_id, int line_id) {
         presenter.SEND_tram_next_step(tram_id, station_id, line_id);
@@ -61,6 +82,8 @@ public class ModelEntryPoint {
     public void GET_add_station(int line_id, int station1_id, int station2_id) {
         irigo.add_station_to_line(line_id, station1_id, station2_id);
     }
+
+
 
 
 
