@@ -4,6 +4,7 @@ import UI.Game_UI;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -88,20 +89,33 @@ public class Tram_UI {
         animTranslate.setOnFinished(event -> {
             animTranslate.setFromY(y);
             animTranslate.setFromX(x);
-            editPeople();
         });
 
         gamePane.getChildren().add(mainTram);
     }
 
     public void editPeople(){
-        people = line.getPeople(id, station.getId());
-        peopleContainer.getChildren().clear();
-        for(int i = 0; i < people.size(); i++){
-            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-            rectangle.setFill(Color.RED);
-            peopleContainer.getChildren().add(rectangle);
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                people = line.getPeople(id, station.getId());
+                peopleContainer.getChildren().clear();
+                for(int i = 0; i < people.size(); i++){
+                    Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+                    rectangle.setFill(Color.RED);
+                    if(people.get(i) == Shape.ROUND){
+                        rectangle.setFill(Color.RED);
+                    } else if(people.get(i) == Shape.SQUARE){
+                        rectangle.setFill(Color.BLUE);
+                    } else if(people.get(i) == Shape.DIAMOND){
+                        rectangle.setFill(Color.GREEN);
+                    } else if (people.get(i) == Shape.TRIANGLE) {
+                        rectangle.setFill(Color.YELLOW);
+                    }
+                    peopleContainer.getChildren().add(rectangle);
+                }
+            }
+        });
     }
 
     public void personEnter(Shape person){
@@ -127,6 +141,8 @@ public class Tram_UI {
         animRotate.setToAngle(angle);
         animTranslate.setToY(y);
         animTranslate.setToX(x);
+
+        editPeople();
         animRotate.play();
     }
 

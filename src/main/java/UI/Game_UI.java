@@ -63,9 +63,9 @@ public class Game_UI extends StackPane {
         Map<Integer, Pos> listStation = interface_ui.getListStations();
 
         for(Map.Entry<Integer, Pos> entry : listStation.entrySet()) {
-            Shape shape = interface_ui.getShapeStation(entry.getKey());
             int id = setSingleId(entry.getValue());
-            stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey()));
+            Shape shape = interface_ui.getShapeStation(entry.getKey());
+            stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey(), shape));
             stations.get(id).draw();
         }
     }

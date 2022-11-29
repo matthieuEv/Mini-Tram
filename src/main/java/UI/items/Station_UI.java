@@ -30,12 +30,13 @@ public class Station_UI {
     private FlowPane peopleContainer;
 
 
-    public Station_UI(Game_UI game_ui, Pos pos, int id) {
+    public Station_UI(Game_UI game_ui, Pos pos, int id, Shape stationShape) {
         super();
         this.game_ui = game_ui;
         this.gamePane = game_ui.getGamePane();
         this.pos = pos;
         this.id = id;
+        this.stationShape = stationShape;
 
         endLines = new HashMap<Color, Boolean>();
         people = new ArrayList<>();

@@ -80,7 +80,6 @@ public class Main_Presenter {
     }
 
     public Shape getShapeStation(int id) {
-        //return null;
         return model.SEND_get_shape_station(id);
     }
 }
