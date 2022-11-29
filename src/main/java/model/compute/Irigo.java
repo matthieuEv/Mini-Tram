@@ -109,6 +109,7 @@ public class Irigo {
 
             //Ask the view to update the UI
             ModelEntryPoint.getInstance().DEMAND_update_tram(tram.get_id(), next_station, line.get_id());
+            ModelEntryPoint.getInstance().DEMAND_update_station(station);
             //Get back to sleep until the next trigger
         }
     }

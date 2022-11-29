@@ -51,13 +51,7 @@ public class ModelEntryPoint {
         return Data.get_lines().keySet().stream().toList();
     }
 
-    public ArrayList<Shape> SEND_people_in_station(int station_id){
-        ArrayList<Shape> list = new ArrayList<>();
-        for (People people : StationPeople.getInstance().people_at_station(station_id)){
-            list.add(people.getDestination());
-        }
-        return list;
-    }
+
 
     public ArrayList<Shape> SEND_people_in_tram(int tram_id){
         ArrayList<Shape> list = new ArrayList<>();
@@ -68,6 +62,13 @@ public class ModelEntryPoint {
     }
 
     /* === DEMAND === */
+    public void DEMAND_update_station(int station_id){
+        ArrayList<Shape> list = new ArrayList<>();
+        for (People people : StationPeople.getInstance().people_at_station(station_id)){
+            list.add(people.getDestination());
+        }
+        presenter.SEND_add_people_station(station_id, list);
+    }
     public void DEMAND_update_tram(int tram_id, int station_id, int line_id) {
         presenter.SEND_tram_next_step(tram_id, station_id, line_id);
     }
