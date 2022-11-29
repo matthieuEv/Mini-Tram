@@ -51,16 +51,16 @@ public class ModelEntryPoint {
         return Data.get_lines().keySet().stream().toList();
     }
 
-    public List<Shape> SEND_people_in_station(int station_id){
-        List<Shape> list = new ArrayList<>();
+    public ArrayList<Shape> SEND_people_in_station(int station_id){
+        ArrayList<Shape> list = new ArrayList<>();
         for (People people : StationPeople.getInstance().people_at_station(station_id)){
             list.add(people.getDestination());
         }
         return list;
     }
 
-    public List<Shape> SEND_people_in_tram(int tram_id){
-        List<Shape> list = new ArrayList<>();
+    public ArrayList<Shape> SEND_people_in_tram(int tram_id){
+        ArrayList<Shape> list = new ArrayList<>();
         for (People people : TramPeople.getInstance().people_in_tram(tram_id)){
             list.add(people.getDestination());
         }
