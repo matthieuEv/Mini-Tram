@@ -94,4 +94,13 @@ public class Station_UI {
     public void personExit(Shape person){
         people.remove(person);
     }
+
+    public void setPeople(ArrayList<Shape> people) {
+        peopleContainer.getChildren().clear();
+        for(int i = 0; i < people.size(); i++){
+            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+            rectangle.setFill(Color.RED);
+            peopleContainer.getChildren().add(rectangle);
+        }
+    }
 }

@@ -9,7 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import utils.Pos;
+import utils.Shape;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -196,9 +198,6 @@ public class Game_UI extends StackPane {
         }
     }
 
-
-
-
     private void drawDebugMenu(){
         addBtnStation(Color.RED);
         addBtnStation(Color.BLUE);
@@ -243,5 +242,14 @@ public class Game_UI extends StackPane {
 
     public Pane getGamePane() {
         return gamePane;
+    }
+
+    public ArrayList<Shape> getPeople(int id, int idStation) {
+        return interface_ui.getPeople(id);
+    }
+
+    public void GET_add_people_station(int idStation, ArrayList<Shape> shape) {
+        idStation = convertId(idStation);
+        stations.get(idStation).setPeople(shape);
     }
 }

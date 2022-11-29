@@ -3,6 +3,7 @@ package UI.items;
 import UI.Game_UI;
 import javafx.scene.paint.Color;
 import model.data.format.Tram;
+import utils.Shape;
 
 import java.util.ArrayList;
 
@@ -55,5 +56,9 @@ public class Line_UI {
             }
         }
         return false;
+    }
+
+    public ArrayList<Shape> getPeople(int id, int idStation) {
+        return game_ui.getPeople(id, idStation);
     }
 }

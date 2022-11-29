@@ -73,12 +73,6 @@ public class Tram_UI {
         peopleContainer.setMaxHeight(game_ui.getCellSize()/2);
         mainTram.getChildren().add(peopleContainer);
 
-        for(int i = 0; i < 7; i++){
-            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-            rectangle.setFill(Color.RED);
-            peopleContainer.getChildren().add(rectangle);
-        }
-
         animRotate = new RotateTransition(Duration.seconds(0.05), mainTram);
         animRotate.setFromAngle(angle);
         animRotate.setInterpolator(Interpolator.LINEAR);
@@ -94,9 +88,20 @@ public class Tram_UI {
         animTranslate.setOnFinished(event -> {
             animTranslate.setFromY(y);
             animTranslate.setFromX(x);
+            editPeople();
         });
 
         gamePane.getChildren().add(mainTram);
+    }
+
+    public void editPeople(){
+        people = line.getPeople(id, station.getId());
+        peopleContainer.getChildren().clear();
+        for(int i = 0; i < people.size(); i++){
+            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+            rectangle.setFill(Color.RED);
+            peopleContainer.getChildren().add(rectangle);
+        }
     }
 
     public void personEnter(Shape person){
@@ -110,13 +115,13 @@ public class Tram_UI {
     public void nextStep(Station_UI station) {
         int newX = station.getPos().x;
         int newY = station.getPos().y;
-        System.out.println(angle);
+        //System.out.println(angle);
         angle = Math.toDegrees(Math.atan2(newY - y, newX - x));
 
         if(angle < 0){
             angle += 360;
         }
-        System.out.println(angle);
+        //System.out.println(angle);
         x = station.getPos().x;
         y = station.getPos().y;
         animRotate.setToAngle(angle);

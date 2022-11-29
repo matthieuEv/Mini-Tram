@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
 import utils.Pos;
+import utils.Shape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,5 +69,13 @@ public class Main_Presenter {
 
     public void modelAddStation(int line_id, int station1_id, int station2_id){
         model.GET_add_station(line_id, station1_id, station2_id);
+    }
+
+    public ArrayList<Shape> getPeople(int id) {
+        return model.SEND_people_in_tram(id);
+    }
+
+    public void SEND_add_people_station(int idStation, ArrayList<Shape> shape){
+        ui.GET_add_people_station(idStation, shape);
     }
 }
