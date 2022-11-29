@@ -81,6 +81,10 @@ public class LineStation {
         return (get_shape_on_line(line_id).contains(shape));
     }
 
+    public boolean line_has_station(int line_id, int station_id) {
+        return (line_has_station.get(line_id).contains(station_id));
+    }
+
     /**
      * Get the list of line passing at a given station
      * @param station_id the id of the station
@@ -94,6 +98,17 @@ public class LineStation {
                     output.add(Data.get_lines().get(entry.getKey()));
                 }
             }
+        }
+        return output;
+    }
+    public List<Station> stations_on_line(int line_id){
+        List<Station> output = new LinkedList<>();
+        try {
+            for (int station_id : line_has_station.get(line_id)) {
+                output.add(Data.get_stations(station_id));
+            }
+        }catch (Exception e){
+
         }
         return output;
     }

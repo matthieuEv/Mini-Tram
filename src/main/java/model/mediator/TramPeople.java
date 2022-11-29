@@ -71,4 +71,15 @@ public class TramPeople {
     public int free_place_in_tram(int tram_id) {
         return Data.get_tram(tram_id).getPlace() - tram_carry_people.get(tram_id).size();
     }
+
+    public int get_tram_for_people(int id_people){
+        for (int i = 0; i < tram_carry_people.size(); i++) {
+            for (int j = 0; j < tram_carry_people.get(i).size(); j++) {
+                if (tram_carry_people.get(i).get(j).get_id() == id_people){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
 }

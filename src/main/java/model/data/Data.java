@@ -1,14 +1,13 @@
 package model.data;
 
 import model.data.format.*;
+import model.mediator.LineStation;
 import model.mediator.StationPeople;
+import model.mediator.TramPeople;
 import utils.Pos;
 import utils.Shape;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Data {
     private static Data instance = null;
@@ -52,7 +51,8 @@ public class Data {
         for(int i = 0; i < 10; i++){
             People p = new People(Shape.random_shape());
             peoples.put(p.get_id(), p);
-            StationPeople.getInstance().people_get_in_station(p, new Random().nextInt(8));
+            int randomStation = (int)(Math.random() * stations.size());
+            StationPeople.getInstance().people_get_in_station(p, randomStation);
         }
     }
 
@@ -91,6 +91,55 @@ public class Data {
         Data.peoples.put(person.get_id(), person);
         StationPeople.getInstance().people_get_in_station(person, randomStation);
 
+        //find a path for the person
+        explorateur(randomStation, -1 , person.getDestination(),new LinkedList<Integer>(), person, stations.size());
+
+    }
+
+    private static boolean explorateur(int idStation, int idLine, Shape shape, List<Integer> listStation, People target, int ttl){
+        System.out.println("Explorateur : " + idStation + " " + idLine + " " + shape + " " + listStation + " " + target + " " + ttl);
+        if (ttl == 0){
+            return true;
+        }
+        listStation.add(idStation);
+        for (Line lineObject : LineStation.getInstance().line_passing_at_station(idStation)){
+            int li = lineObject.get_id();
+            if (li!=idLine){
+                for (Station stationObject : LineStation.getInstance().stations_on_line(li)){
+                    int st = stationObject.get_id();
+                    if (stationObject.getShape() == shape){
+                        target.setPath(listStation);
+                        System.out.println("Path found : " + listStation);
+                        return true;
+                    }
+                    else if (!listStation.contains(st)){
+                        ttl--;
+                        if (explorateur(st,li,shape,listStation,target, ttl)){
+                            return true;
+                        }else {
+                            for (int i = 0; i < listStation.size(); i++) {
+                                if (listStation.get(i) == st){
+                                    listStation.remove(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    static public void reset_all_paths(){
+        for (People people : peoples.values()){
+            people.resetPath();
+            int station = StationPeople.getInstance().get_station_for_people(people);
+            if (station == -1){
+                station = TramPeople.getInstance().get_tram_for_people(people.get_id());
+            }
+            explorateur(station,-1, people.getDestination(),new LinkedList<Integer>(),people,stations.size());
+            System.out.println("Path : "+people.getPath());
+        }
     }
 
     /* === Getter === */
@@ -117,6 +166,9 @@ public class Data {
     }
     static public Map<Integer, People> get_peoples() {
         return peoples;
+    }
+    static public People get_peoples(int people_id) {
+        return peoples.get(people_id);
     }
     static public Map<Integer, Line> get_lines() {
         return lines;

@@ -44,6 +44,9 @@ public class Tram_UI {
         y = station.getPos().y;
     }
 
+    /**
+     * Function to draw the tram
+     */
     public void draw() {
         game_ui.getGc().setFill(line.getColor());
         game_ui.getGc().fillRect(x, y, game_ui.getCellSize(), game_ui.getCellSize());
