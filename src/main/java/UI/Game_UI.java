@@ -12,13 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
+import model.compute.Layout;
 import model.data.format.Tram;
 import utils.Pos;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Long.MAX_VALUE;
 
@@ -51,18 +49,20 @@ public class Game_UI extends StackPane {
 
         gamePane = new Pane();
         gamePane.setPrefSize(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
-        gamePane.setStyle("-fx-background-color: #424242;");
+
+        Canvas canvas = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+        Canvas background = renderCanvas(canvas);
 
         btnStation = new VBox();
         btnStation.setPadding(new Insets(0, 20, 0, 0));
         btnStation.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
         btnStation.setSpacing(10);
 
-        this.getChildren().add(gamePane);
-        this.getChildren().add(btnStation);
+        this.getChildren().addAll(background, gamePane, btnStation);
 
         tempLine = new Line();
         tempLine.setStrokeWidth(5);
+        tempLine.setStyle("-fx-stroke-line-cap: round;");
         gamePane.getChildren().add(tempLine);
     }
 
@@ -92,8 +92,8 @@ public class Game_UI extends StackPane {
                 if (stations.containsKey(setSingleId(mousePos))) {
                     lastSelectedStation = stations.get(setSingleId(mousePos));
                     tempLine.setStroke(selectedLine);
-                    tempLine.setStartX(lastSelectedStation.getPos().x + cellSize / 2);
-                    tempLine.setStartY(lastSelectedStation.getPos().y + cellSize / 2);
+                    tempLine.setStartX(lastSelectedStation.getPos().x + cellSize / 2f);
+                    tempLine.setStartY(lastSelectedStation.getPos().y + cellSize / 2f);
                     tempLine.setEndX(mousePos.x);
                     tempLine.setEndY(mousePos.y);
                     //lastSelectedStation.setSelected(true);
@@ -158,7 +158,8 @@ public class Game_UI extends StackPane {
         });
         this.setOnMouseReleased(event -> {
             if(listBtnLines.containsKey(selectedLine)) {
-                listBtnLines.get(selectedLine).setRadius(10);
+                listBtnLines.get(selectedLine).setTranslateX(0);
+
             }
             selectedLine = null;
             selectedStation = null;
@@ -202,9 +203,6 @@ public class Game_UI extends StackPane {
         }
     }
 
-
-
-
     private void drawDebugMenu(){
         addBtnStation(Color.RED);
         addBtnStation(Color.BLUE);
@@ -216,7 +214,7 @@ public class Game_UI extends StackPane {
         Circle btn = new Circle(10, color);
         listBtnLines.put(color, btn);
         btn.setOnMouseClicked(e -> {
-            listBtnLines.get(color).setRadius(15);
+            listBtnLines.get(color).setTranslateX(-20);
             selectedLine = color;
         });
         btnStation.getChildren().add(btn);
@@ -249,5 +247,38 @@ public class Game_UI extends StackPane {
 
     public Pane getGamePane() {
         return gamePane;
+    }
+
+    public Canvas renderCanvas(Canvas canvas){
+        Color groundColor = Color.web("#2F2F2F");
+        Color waterColor = Color.web("#527B8F");
+
+        Layout map = new Layout();
+
+        List<List<Integer>> backgroundMap = map.returnMap();
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        double canvasWidth = canvas.getWidth(); //1000 -> 20
+        double canvasHeight = canvas.getHeight(); //700 -> 14
+
+        int row = (int)(canvasWidth/50);
+        int column = (int)(canvasHeight/50);
+
+        int cellSize = 50;
+
+        for (int i = 0; i < column; i++) {
+            for (int j = 0; j < row; j++) {
+                if(backgroundMap.get(i).get(j) == 0){
+                    gc.setFill(groundColor);
+                    gc.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
+                }else if(backgroundMap.get(i).get(j) == 1){
+                    gc.setFill(waterColor);
+                    gc.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
+                }
+            }
+        }
+
+
+        return canvas;
     }
 }

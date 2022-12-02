@@ -5,6 +5,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.util.concurrent.Flow;
 
@@ -16,6 +17,7 @@ public class SegmentLine_UI {
     private Color color;
     private Pane gamePane;
     private Line line;
+    private Rectangle squareLine;
 
     public SegmentLine_UI(Game_UI game_ui, Station_UI station1, Station_UI station2, Color color) {
         this.game_ui = game_ui;
@@ -27,6 +29,7 @@ public class SegmentLine_UI {
         line = new Line(station1.getPos().x+game_ui.getCellSize()/2, station1.getPos().y+game_ui.getCellSize()/2, station2.getPos().x+game_ui.getCellSize()/2, station2.getPos().y+game_ui.getCellSize()/2);
         line.setStroke(color);
         line.setStrokeWidth(5);
+        line.setStyle("-fx-stroke-line-cap: round;");
         gamePane.getChildren().add(line);
     }
 

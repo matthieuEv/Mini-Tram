@@ -5,15 +5,21 @@ import UI.items.Station_UI;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
+import model.compute.Layout;
 import utils.Pos;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main_Presenter {
     ModelEntryPoint model;
     Interface_UI ui;
+
+    private static Layout map;
+
     private static Main_Presenter instance = null;
     private Map<Integer, Color> listLines;
 
@@ -68,5 +74,9 @@ public class Main_Presenter {
 
     public void modelAddStation(int line_id, int station1_id, int station2_id){
         model.GET_add_station(line_id, station1_id, station2_id);
+    }
+
+    public List<List<Integer>> returnMap() {
+        return map.returnMap();
     }
 }

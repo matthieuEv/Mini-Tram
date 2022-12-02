@@ -3,11 +3,9 @@ package UI.items;
 import UI.Game_UI;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import utils.Pos;
 import utils.Shape;
 
@@ -45,18 +43,18 @@ public class Tram_UI {
         mainTram.setTranslateX(x);
         mainTram.setTranslateY(y);
         //mainTram.setStyle("-fx-background-color: " + line.getColor().toString().substring(2, 8) + ";");
-        mainTram.setPrefSize(game_ui.getCellSize()*2, game_ui.getCellSize()+game_ui.getCellSize()/2);
+        mainTram.setPrefSize(game_ui.getCellSize()*4, game_ui.getCellSize()*3);
 
         tramObject = new Path();
-        MoveTo moveTo = new MoveTo(0, game_ui.getCellSize()/2);
-        LineTo line1 = new LineTo(game_ui.getCellSize()/2, game_ui.getCellSize());
+        MoveTo moveTo = new MoveTo(0, game_ui.getCellSize()+game_ui.getCellSize()/2f);
+        LineTo line1 = new LineTo(game_ui.getCellSize()/2f, game_ui.getCellSize());
         LineTo line2 = new LineTo(game_ui.getCellSize()*2, game_ui.getCellSize());
         LineTo line3 = new LineTo(game_ui.getCellSize()*2, 0);
-        LineTo line4 = new LineTo(game_ui.getCellSize()/2, 0);
-        LineTo line5 = new LineTo(0, game_ui.getCellSize()/2);
+        LineTo line4 = new LineTo(game_ui.getCellSize()/2f, 0);
+        LineTo line5 = new LineTo(0, game_ui.getCellSize()/2f);
 
         tramObject.setStroke(line.getColor());
-        tramObject.setStrokeWidth(3);
+        tramObject.setStrokeWidth(7);
 
         tramObject.getElements().add(moveTo);
         tramObject.getElements().addAll(line1, line2, line3, line4, line5);
@@ -64,13 +62,17 @@ public class Tram_UI {
 
         peopleContainer = new FlowPane();
         peopleContainer.setMaxWidth(game_ui.getCellSize()*2);
-        peopleContainer.setMaxHeight(game_ui.getCellSize()/2);
+        peopleContainer.setMaxHeight(game_ui.getCellSize()/2f);
         mainTram.getChildren().add(peopleContainer);
 
-        for(int i = 0; i < 7; i++){
-            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-            rectangle.setFill(Color.RED);
-            peopleContainer.getChildren().add(rectangle);
+        for(int i = 0; i < 8; i++){
+            VBox vBoxCircle = new VBox();
+            vBoxCircle.setStyle("-fx-padding: 1;");
+            Circle circle = new Circle(game_ui.getCellSize()/4f-2);
+            circle.setFill(Color.RED);
+            vBoxCircle.getChildren().add(circle);
+            peopleContainer.getChildren().add(vBoxCircle);
+            peopleContainer.setTranslateX(5);
         }
 
         //tramObject = new Rectangle(x, y, game_ui.getCellSize(), game_ui.getCellSize());

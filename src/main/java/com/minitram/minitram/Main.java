@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
+import model.compute.Layout;
 import presenter.Main_Presenter;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+
         ModelEntryPoint model = ModelEntryPoint.getInstance();
         Interface_UI ui = Interface_UI.getInstance(stage);
         Main_Presenter presenter = Main_Presenter.getInstance(model, ui);
@@ -26,6 +29,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch();/*
+        //A supprimer
+        Layout layout = new Layout();
+        System.out.println(layout.returnMap());*/
+
     }
 }
