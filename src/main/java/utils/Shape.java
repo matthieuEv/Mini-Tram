@@ -9,7 +9,7 @@ public enum Shape {
     ROUND,
     SQUARE,
     TRIANGLE,
-    DIAMOND;
+    HEXAGON;
 
 
     private static final List<Shape> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
