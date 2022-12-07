@@ -3,6 +3,7 @@ package UI;
 import UI.items.Line_UI;
 import UI.items.Station_UI;
 import UI.items.Tram_UI;
+import UI.items.shape_UI;
 import UI.music.Music;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -47,7 +48,7 @@ public class Game_UI extends StackPane {
         super();
 
         //this.interface_ui = interface_ui;
-
+        shape_UI shape_ui = shape_UI.getInstance(this);
         stations = new HashMap<Integer, Station_UI>();
         lines = new HashMap<Color, Line_UI>();
         selectedLine = null;
@@ -171,7 +172,7 @@ public class Game_UI extends StackPane {
         });
         this.setOnMouseReleased(event -> {
             if(listBtnLines.containsKey(selectedLine)) {
-                listBtnLines.get(selectedLine).setRadius(10);
+                listBtnLines.get(selectedLine).setTranslateX(0);
             }
             selectedLine = null;
             selectedStation = null;
@@ -226,7 +227,7 @@ public class Game_UI extends StackPane {
         Circle btn = new Circle(10, color);
         listBtnLines.put(color, btn);
         btn.setOnMouseClicked(e -> {
-            listBtnLines.get(color).setRadius(15);
+            listBtnLines.get(color).setTranslateX(-20);
             selectedLine = color;
         });
         btnStation.getChildren().add(btn);

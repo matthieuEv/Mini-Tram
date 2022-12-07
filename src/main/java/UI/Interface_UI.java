@@ -68,13 +68,15 @@ public class Interface_UI {
     }
     public void startGame(){
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
+        game_ui.setInterface_ui(this);
         stage.setScene(gameScene);
         stage.show();
     }
 
     public void showInterface(){
-        startIntro();
-        game_ui.setInterface_ui(this);
+        //startIntro(); // uncomment to show intro
+        stage.setScene(new Scene(game_ui, WIDTH, HEIGHT)); // remove this line to start with intro
+        game_ui.setInterface_ui(this); // remove this line to start with intro
         stage.setTitle("Mini Tram");
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
