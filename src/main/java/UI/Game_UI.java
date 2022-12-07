@@ -3,17 +3,27 @@ package UI;
 import UI.items.Line_UI;
 import UI.items.Station_UI;
 import UI.items.Tram_UI;
+import UI.music.Music;
 import javafx.geometry.Insets;
-import javafx.scene.layout.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Ellipse;
 import utils.Pos;
 import utils.Shape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Game_UI extends StackPane {
     private Interface_UI interface_ui;
@@ -30,8 +40,13 @@ public class Game_UI extends StackPane {
     private Station_UI selectedStation;
     private Map<Color, Circle> listBtnLines;
 
+
+    private Music music = new Music();
+    //private ArrayList<Station_UI> stations;
     public Game_UI(Interface_UI interface_ui) {
         super();
+
+        //this.interface_ui = interface_ui;
 
         stations = new HashMap<Integer, Station_UI>();
         lines = new HashMap<Color, Line_UI>();
@@ -40,6 +55,7 @@ public class Game_UI extends StackPane {
         trams = new HashMap<Integer, Tram_UI>();
         listBtnLines = new HashMap<Color, Circle>();
 
+        this.setStyle("-fx-background-color: #424040;");
 
 
         gamePane = new Pane();

@@ -1,8 +1,21 @@
 package UI;
 
+import UI.intro.Intro;
+import UI.menu.Menu_UI;
+import UI.music.Music;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import UI.intro.Intro;
+import UI.menu.Menu_UI;
+import UI.music.Music;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import presenter.Main_Presenter;
@@ -23,10 +36,16 @@ public class Interface_UI {
     private End_UI end_ui;
     private Menu_UI menu_ui;
     private Main_Presenter presenter;
+    private Intro intro;
+    private Music music;
 
     private Interface_UI(Stage stage) {
         this.stage = stage;
+        music = new Music();
+        intro = new Intro(this);
+        menu_ui = new Menu_UI(this);
         game_ui = new Game_UI(this);
+        end_ui = new End_UI(this);
     }
 
     public static Interface_UI getInstance(Stage stage) {
@@ -35,7 +54,18 @@ public class Interface_UI {
         }
         return instance;
     }
+    public void startIntro(){
+        music.setMusic("src/file/audio/music/intro.mp3");
+        music.play();
+        stage.setScene(new Scene(intro, WIDTH, HEIGHT));
+    }
 
+    public void startMenu(){
+        music.stop();
+        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
+        music.play();
+        stage.setScene(new Scene(menu_ui, WIDTH, HEIGHT));
+    }
     public void startGame(){
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
         stage.setScene(gameScene);
@@ -43,21 +73,16 @@ public class Interface_UI {
     }
 
     public void showInterface(){
+        startMenu();
         game_ui.setInterface_ui(this);
-        Scene menuScene = new Scene(game_ui, WIDTH, HEIGHT);
-        //Scene menuScene = new Scene(new testListBtn(), WIDTH, HEIGHT);
-        stage.setScene(menuScene);
         stage.setTitle("Mini Tram");
-        //stage.setMaximized(true);
-        Image image = new Image(new File("src/textures/ui/icon.png").toURI().toString());
+        Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
         stage.show();
     }
 
-    public void startMenu(){
-        Scene menuScene = new Scene(new Menu_UI(this), WIDTH, HEIGHT);
-        stage.setScene(menuScene);
-        stage.show();
+    public Music getMusic() {
+        return music;
     }
 
     public double getWIDTH() {
@@ -69,7 +94,7 @@ public class Interface_UI {
         //HEIGHT = stage.getHeight();
         return HEIGHT;
     }
-    
+
     public void appendPresenter(Main_Presenter presenter){
         this.presenter = presenter;
     }
