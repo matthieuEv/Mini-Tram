@@ -73,7 +73,7 @@ public class Interface_UI {
     }
 
     public void showInterface(){
-        startMenu();
+        startIntro();
         game_ui.setInterface_ui(this);
         stage.setTitle("Mini Tram");
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
