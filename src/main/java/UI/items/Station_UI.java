@@ -1,6 +1,7 @@
 package UI.items;
 
 import UI.Game_UI;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.FlowPane;
@@ -29,12 +30,13 @@ public class Station_UI {
     private FlowPane peopleContainer;
 
 
-    public Station_UI(Game_UI game_ui, Pos pos, int id) {
+    public Station_UI(Game_UI game_ui, Pos pos, int id, Shape stationShape) {
         super();
         this.game_ui = game_ui;
         this.gamePane = game_ui.getGamePane();
         this.pos = pos;
         this.id = id;
+        this.stationShape = stationShape;
 
         endLines = new HashMap<Color, Boolean>();
         people = new ArrayList<>();
@@ -43,6 +45,15 @@ public class Station_UI {
         circle.setTranslateX(pos.x+game_ui.getCellSize()/2);
         circle.setTranslateY(pos.y+game_ui.getCellSize()/2);
         circle.setFill(Color.RED);
+        if(stationShape == Shape.ROUND){
+            circle.setFill(Color.RED);
+        } else if(stationShape == Shape.SQUARE){
+            circle.setFill(Color.BLUE);
+        } else if(stationShape == Shape.DIAMOND){
+            circle.setFill(Color.GREEN);
+        } else if (stationShape == Shape.TRIANGLE) {
+            circle.setFill(Color.YELLOW);
+        }
 
         peopleContainer = new FlowPane();
         peopleContainer.setTranslateX(pos.x+game_ui.getCellSize());
@@ -51,11 +62,11 @@ public class Station_UI {
         peopleContainer.setMaxHeight((game_ui.getCellSize()/2)*2);
         //peopleContainer.setStyle("-fx-background-color: #FFFFFF;");
 
-        for(int i = 0; i < 7; i++){
-            Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-            rectangle.setFill(Color.BLUE);
-            peopleContainer.getChildren().add(rectangle);
-        }
+        //for(int i = 0; i < 7; i++){
+        //    Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+        //    rectangle.setFill(Color.BLUE);
+        //    peopleContainer.getChildren().add(rectangle);
+        //}
 
 
         this.gamePane.getChildren().add(peopleContainer);
@@ -63,7 +74,6 @@ public class Station_UI {
     }
 
     public void draw() {
-
     }
 
     public Pos getPos() {
@@ -93,5 +103,29 @@ public class Station_UI {
 
     public void personExit(Shape person){
         people.remove(person);
+    }
+
+    public void setPeople(ArrayList<Shape> people) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                peopleContainer.getChildren().clear();
+                for(int i = 0; i < people.size(); i++){
+                    Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+                    rectangle.setFill(Color.RED);
+                    if(people.get(i) == Shape.ROUND){
+                        rectangle.setFill(Color.RED);
+                    } else if(people.get(i) == Shape.SQUARE){
+                        rectangle.setFill(Color.BLUE);
+                    } else if(people.get(i) == Shape.DIAMOND){
+                        rectangle.setFill(Color.GREEN);
+                    } else if (people.get(i) == Shape.TRIANGLE) {
+                        rectangle.setFill(Color.YELLOW);
+                    }
+                    peopleContainer.getChildren().add(rectangle);
+                }
+            }
+        });
     }
 }

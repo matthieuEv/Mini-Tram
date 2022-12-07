@@ -1,5 +1,6 @@
 package model.data;
 
+import model.ModelEntryPoint;
 import model.data.format.*;
 import model.mediator.LineStation;
 import model.mediator.StationPeople;
@@ -34,9 +35,9 @@ public class Data {
         Station s2 = new Station(Shape.TRIANGLE,new Pos(8,2));
         Station s3 = new Station(Shape.SQUARE,new Pos(12,8));
         Station s4 = new Station(Shape.DIAMOND,new Pos(9,11));
-        Station s5 = new Station(Shape.DIAMOND,new Pos(15,5));
-        Station s6 = new Station(Shape.DIAMOND,new Pos(2,11));
-        Station s7 = new Station(Shape.DIAMOND,new Pos(11,2));
+        Station s5 = new Station(Shape.ROUND,new Pos(15,5));
+        Station s6 = new Station(Shape.TRIANGLE,new Pos(2,11));
+        Station s7 = new Station(Shape.SQUARE,new Pos(11,2));
         Station s8 = new Station(Shape.DIAMOND,new Pos(10,20));
         stations.put(s1.get_id(), s1);
         stations.put(s2.get_id(), s2);
@@ -51,7 +52,7 @@ public class Data {
         for(int i = 0; i < 10; i++){
             People p = new People(Shape.random_shape());
             peoples.put(p.get_id(), p);
-            int randomStation = (int)(Math.random() * stations.size());
+            int randomStation = new Random().nextInt(stations.size());
             StationPeople.getInstance().people_get_in_station(p, randomStation);
         }
     }
@@ -90,6 +91,7 @@ public class Data {
         //put the person in the station
         Data.peoples.put(person.get_id(), person);
         StationPeople.getInstance().people_get_in_station(person, randomStation);
+        ModelEntryPoint.getInstance().DEMAND_update_station(randomStation);
 
         //find a path for the person
         explorateur(randomStation, -1 , person.getDestination(),new LinkedList<Integer>(), person, stations.size());

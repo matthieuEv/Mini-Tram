@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import presenter.Main_Presenter;
 import utils.Pos;
+import utils.Shape;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -95,5 +96,17 @@ public class Interface_UI {
 
     public void modelAddStation(int line_id, int station1_id, int station2_id){
         presenter.modelAddStation(line_id, station1_id, station2_id);
+    }
+
+    public ArrayList<Shape> getPeople(int id) {
+        return presenter.getPeople(id);
+    }
+
+    public void GET_add_people_station(int idStation, ArrayList<Shape> shape){
+        game_ui.GET_add_people_station(idStation, shape);
+    }
+
+    public Shape getShapeStation(int id) {
+        return presenter.getShapeStation(id);
     }
 }
