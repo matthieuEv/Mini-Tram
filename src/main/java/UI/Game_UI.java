@@ -141,6 +141,11 @@ public class Game_UI extends StackPane {
         return interface_ui.getHEIGHT();
     }
 
+    /**
+     * Is used for the definition of the different fonctionnement of the mouse like the drag and drop
+     * Used for draw line or expand the line
+     * @param interface_ui the interface_ui to set
+     */
     public void setInterface_ui(Interface_UI interface_ui) {
         this.interface_ui = interface_ui;
         this.setOnMousePressed(event -> {
@@ -236,27 +241,37 @@ public class Game_UI extends StackPane {
         addStation();
     }
 
+    /**
+     * Arround the value to the nearest cell
+     * @param value the value to arround
+     * @return the value arround
+     */
     public int arroundValue(int value) {
         return ((value/cellSize)*cellSize);
     }
 
+    /**
+     * Generate a single id for a position
+     * @param pos the position
+     * @return the single id
+     */
     public int setSingleId(Pos pos){
         int cmx = (int)interface_ui.getWIDTH()/cellSize;
         int cmy = (int)interface_ui.getHEIGHT()/cellSize;
         return (pos.x/cellSize) + (pos.y/cellSize)*cmx;
     }
 
+    /**
+     * Get the cellule size for the ui
+     * @return the cellule size
+     */
     public int getCellSize() {
         return cellSize;
     }
 
-    public Pos getStationPos(int id){
-        return stations.get(id).getPos();
-    }
-
-    public void drawGame(){
-    }
-
+    /**
+     * Generate 4 buttons to select the line color
+     */
     private void drawDebugMenu(){
         addBtnStation(Color.RED);
         addBtnStation(Color.BLUE);
@@ -264,6 +279,10 @@ public class Game_UI extends StackPane {
         addBtnStation(Color.VIOLET);
     }
 
+    /**
+     * Generate a new button for a new line
+     * @param color The color of the line
+     */
     public void addBtnStation(Color color){
         Circle btn = new Circle(10, color);
         listBtnLines.put(color, btn);
@@ -274,6 +293,13 @@ public class Game_UI extends StackPane {
         btnStation.getChildren().add(btn);
     }
 
+    /**
+     * Send the next step to the tram and update the position of the tram
+     * @param idTram the id of the tram
+     * @param idStation the id of the station
+     * @param idLine the id of the line
+     * @param time the time for the tram animation
+     */
     public void SEND_tram_next_step(int idTram, int idStation, int idLine, int time) {
         idStation = convertId(idStation);
         trams.get(idTram).nextStep(stations.get(idStation), time);
