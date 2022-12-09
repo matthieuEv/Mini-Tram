@@ -19,8 +19,11 @@ public class Data {
     private static Map<Integer, People> peoples;
     private static Map<Integer, Line> lines;
 
+    private static int score;
+
     //The constructor is the builder
     private Data() {
+        this.score = 0;
     }
 
     /**
@@ -98,11 +101,11 @@ public class Data {
      */
     static public void people_disappear(People people) {
         Data.peoples.remove(people.get_id());
-
+        score += 1;
     }
 
     /**
-     * Make a people apear on the map at random place
+     * Make a people apear with a ramdom shape at a random place
      */
     static public void peopleAppear() {
         //Create a new people with a random shape
@@ -111,8 +114,10 @@ public class Data {
         int randomStation;
         //select a station to put them randomly if the station is the same shape as them shearch another one
         do {
-            randomStation = r.nextInt(Data.stations.size()-1);
+            randomStation = r.nextInt(Data.stations.size());
         }while (stations.get(randomStation).getShape().equals(person.getDestination()));
+
+        System.out.println("People added to station " + randomStation + " with destination " + person.getDestination());
 
         //put the person in the station
         Data.peoples.put(person.get_id(), person);
@@ -149,6 +154,9 @@ public class Data {
     }
     static public Map<Integer, Line> get_lines() {
         return lines;
+    }
+    static public int get_score() {
+        return score;
     }
 
 }

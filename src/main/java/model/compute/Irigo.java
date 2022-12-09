@@ -1,6 +1,7 @@
 package model.compute;
 
 import model.ModelEntryPoint;
+import model.compute.progression.ProgressionHandler;
 import model.data.Data;
 import model.data.format.*;
 import model.mediator.*;
@@ -111,6 +112,8 @@ public class Irigo {
             ModelEntryPoint.getInstance().DEMAND_update_tram(tram.get_id(), next_station, line.get_id());
             ModelEntryPoint.getInstance().DEMAND_update_station(station);
             //Get back to sleep until the next trigger
+
+
         }
     }
 

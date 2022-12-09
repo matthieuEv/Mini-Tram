@@ -60,6 +60,10 @@ public class Main_Presenter {
         }
     }
 
+    public void stopGame(){
+        ui.startEnd();
+    }
+
     public void modelAddLine(int idLine, int idStation1, int idStation2){
         model.GET_activate_line(idLine, idStation1, idStation2);
     }

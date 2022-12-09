@@ -58,6 +58,11 @@ public class ModelEntryPoint {
         progressionHandler = new ProgressionHandler();
     }
 
+    static public void stopGame(){
+        progressionHandler.StopGame();
+        presenter.stopGame();
+    }
+
 
     static public ArrayList<Shape> SEND_people_in_tram(int tram_id){
         ArrayList<Shape> list = new ArrayList<>();

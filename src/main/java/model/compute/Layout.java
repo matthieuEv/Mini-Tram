@@ -1,5 +1,7 @@
 package model.compute;
 
+import utils.Pos;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,25 +10,33 @@ import java.util.Random;
 
 public class Layout {
 
-    public List<List<Integer>> returnMap() {
-        final List<List<Integer>> output = new ArrayList<>();
-//        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+    final List<List<Integer>> map;
 
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
-        output.add(Arrays.asList(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
-
-        return output;
+    Layout() {
+        map = new ArrayList<>();
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        map.add(Arrays.asList(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
     }
+
+
+    public List<List<Integer>> returnMap() {
+        return this.map;
+    }
+
+    public boolean waterAtPos(Pos pos) {
+        return this.map.get(pos.y).get(pos.x) == 1;
+    }
+
 }

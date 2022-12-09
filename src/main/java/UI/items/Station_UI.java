@@ -111,7 +111,7 @@ public class Station_UI {
 
                 peopleContainer.getChildren().clear();
                 for(int i = 0; i < people.size(); i++){
-                    javafx.scene.shape.Shape peopleShape = getShape(stationShape, 0.5);
+                    javafx.scene.shape.Shape peopleShape = getShape(people.get(i), 0.5);
                     peopleShape.setFill(Color.BLACK);
 
                     /*Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
