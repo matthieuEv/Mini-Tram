@@ -130,7 +130,6 @@ public class Game_UI extends StackPane {
             int id = setSingleId(entry.getValue());
             Shape shape = interface_ui.getShapeStation(entry.getKey());
             stations.put(id, new Station_UI(this, entry.getValue(), entry.getKey(), shape));
-            stations.get(id).draw();
         }
     }
 
@@ -256,12 +255,6 @@ public class Game_UI extends StackPane {
     }
 
     public void drawGame(){
-        for (Station_UI station : stations.values()) {
-            station.draw();
-        }
-        for (Line_UI line : lines.values()) {
-            line.draw();
-        }
     }
 
     private void drawDebugMenu(){
@@ -281,12 +274,16 @@ public class Game_UI extends StackPane {
         btnStation.getChildren().add(btn);
     }
 
-    public void SEND_tram_next_step(int idTram, int idStation, int idLine) {
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine, int time) {
         idStation = convertId(idStation);
-        trams.get(idTram).nextStep(stations.get(idStation));
-        drawGame();
+        trams.get(idTram).nextStep(stations.get(idStation), time);
     }
 
+    /**
+     * Convert the id of station in model to the id of the station in the interface
+     * @param idStation the id of the station
+     * @return the new id for the ui
+     */
     private int convertId(int idStation){
         for (Map.Entry<Integer, Station_UI> entry : stations.entrySet()) {
             if (entry.getValue().getId() == idStation) {
@@ -296,29 +293,52 @@ public class Game_UI extends StackPane {
         return idStation;
     }
 
+    /**
+     * Add a new tram on the line
+     * @param idStation the id of the station
+     * @param idLine the id of the line
+     */
     public void SEND_add_tram(int idStation, int idLine) {
         int idTram = trams.size();
         Tram_UI tram = new Tram_UI();
         trams.put(idTram, tram);
         idStation = convertId(idStation);
         trams.get(idTram).setLine(lines.get(listIdLines.get(idLine)), stations.get(idStation), this);
-        trams.get(idTram).draw();
         lines.get(listIdLines.get(idLine)).addTram(tram);
     }
 
+    /**
+     * Use for the object to get the game pane
+     * @return the pane of the game
+     */
     public Pane getGamePane() {
         return gamePane;
     }
 
-    public ArrayList<Shape> getPeople(int id, int idStation) {
+    /**
+     * Get the list of people in the tram an send it to the tram UI
+     * @param id the id of the tram
+     * @return the list of people in the tram
+     */
+    public ArrayList<Shape> getPeople(int id) {
         return interface_ui.getPeople(id);
     }
 
+    /**
+     * Get the list of people and send the list to the right station
+     * @param idStation The id of the station
+     * @param shape a list of shape to show the people
+     */
     public void GET_add_people_station(int idStation, ArrayList<Shape> shape) {
         idStation = convertId(idStation);
         stations.get(idStation).setPeople(shape);
     }
 
+    /**
+     * Generate a canvas with the background draw on it
+     * @param canvas The canvas to draw on
+     * @return The canvas with the grid drawn on it
+     */
     public Canvas renderCanvas(Canvas canvas){
         Color groundColor = Color.web("#2F2F2F");
         Color waterColor = Color.web("#527B8F");

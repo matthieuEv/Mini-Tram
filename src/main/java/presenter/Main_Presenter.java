@@ -59,8 +59,8 @@ public class Main_Presenter {
         model.GET_activate_line(idLine, idStation1, idStation2);
     }
 
-    public void SEND_tram_next_step(int idTram, int idStation, int idLine){
-        ui.SEND_tram_next_step(idTram, idStation, idLine);
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine, int time){
+        ui.SEND_tram_next_step(idTram, idStation, idLine, time);
     }
 
     public void SEND_add_tram(int idStation, int idLine){

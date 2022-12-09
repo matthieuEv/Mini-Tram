@@ -120,8 +120,8 @@ public class Interface_UI {
         presenter.modelAddLine(idLine, idStation1, idStation2);
     }
 
-    public void SEND_tram_next_step(int idTram, int idStation, int idLine){
-        game_ui.SEND_tram_next_step(idTram, idStation, idLine);
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine, int time){
+        game_ui.SEND_tram_next_step(idTram, idStation, idLine, time);
     }
 
     public void SEND_add_tram(int idStation, int idLine) {
@@ -139,6 +139,7 @@ public class Interface_UI {
     public void GET_add_people_station(int idStation, ArrayList<Shape> shape){
         game_ui.GET_add_people_station(idStation, shape);
     }
+
 
     public Shape getShapeStation(int id) {
         return presenter.getShapeStation(id);
