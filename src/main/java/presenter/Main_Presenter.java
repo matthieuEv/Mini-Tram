@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import model.ModelEntryPoint;
 import model.compute.Layout;
 import model.compute.progression.ProgressionHandler;
+import model.data.Data;
 import utils.Pos;
 import utils.Shape;
 
@@ -100,5 +101,9 @@ public class Main_Presenter {
 
     public Layout getMap(){
         return model.SEND_get_layout();
+    }
+
+    public void SEND_score(){
+        Data.get_score();
     }
 }
