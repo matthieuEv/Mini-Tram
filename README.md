@@ -15,3 +15,6 @@ On peut gérer le volume de la musique et des effets sonores dans le menu **Sett
 ## Exit
 
 On peut quitter le jeu en appuyant sur le boutton **Exit**.
+
+
+Enjoy :)
