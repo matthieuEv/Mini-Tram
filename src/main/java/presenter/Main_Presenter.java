@@ -5,6 +5,9 @@ import UI.items.Station_UI;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
+import model.compute.Layout;
+import model.compute.progression.ProgressionHandler;
+import model.data.Data;
 import utils.Pos;
 import utils.Shape;
 
@@ -47,12 +50,20 @@ public class Main_Presenter {
         return output;
     }
 
+    public void StartGame(){
+        ModelEntryPoint.StarGame();
+    }
+
     public void syncLine(Color color){
         for (Integer ids : model.SEND_all_line_id()){
             if(!listLines.containsKey(ids)){
                 listLines.put(ids, color);
             }
         }
+    }
+
+    public void stopGame(){
+        ui.startEnd();
     }
 
     public void modelAddLine(int idLine, int idStation1, int idStation2){
@@ -81,5 +92,22 @@ public class Main_Presenter {
 
     public Shape getShapeStation(int id) {
         return model.SEND_get_shape_station(id);
+    }
+
+    public void DEMAND_add_station(int idStation, Pos pos){
+
+        ui.DEMAND_add_station(idStation, pos);
+    }
+
+    public Layout getMap(){
+        return model.SEND_get_layout();
+    }
+
+    public void SEND_score(){
+        Data.get_score();
+    }
+
+    public void closeGame(){
+        model.closeGame();
     }
 }

@@ -49,12 +49,21 @@ public class Game_UI extends StackPane {
     private RotateTransition clockAnim;
     private int nbDays;
     private Text textNbDays;
+    private Canvas background;
 
 
     private Music music = new Music();
     //private ArrayList<Station_UI> stations;
+
+    /**
+     * Generate the default element of the game and show it on the screen
+     * Start the timer
+     * @param interface_ui the interface ui
+     */
     public Game_UI(Interface_UI interface_ui) {
         super();
+
+        this.interface_ui = interface_ui;
 
         //this.interface_ui = interface_ui;
         shape_UI shape_ui = shape_UI.getInstance(this);
@@ -111,8 +120,8 @@ public class Game_UI extends StackPane {
         clock.getChildren().addAll(clockImg, clockLine, textNbDays);
 
 
-        Canvas canvas = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
-        Canvas background = renderCanvas(canvas);
+        background = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+
 
         this.getChildren().addAll(background, clock, gamePane, btnStation);
 
@@ -123,6 +132,9 @@ public class Game_UI extends StackPane {
 
     }
 
+    /**
+     * Add a station on the map
+     */
     private void addStation() {
         Map<Integer, Pos> listStation = interface_ui.getListStations();
 
@@ -133,10 +145,29 @@ public class Game_UI extends StackPane {
         }
     }
 
+    /**
+     * Add a station on the map
+     * @param id_st the id of the station
+     * @param pos the position of the station
+     */
+    public void addStation(int id_st, Pos pos) {
+        int id = setSingleId(new Pos(pos.x*cellSize, pos.y*cellSize));
+        Shape shape = interface_ui.getShapeStation(id_st);
+        stations.put(id, new Station_UI(this, new Pos(pos.x*cellSize, pos.y*cellSize), id_st, shape));
+    }
+
+    /**
+     * Get the width of the window
+     * @return the width of the window
+     */
     public double getWIDTH() {
         return interface_ui.getWIDTH();
     }
 
+    /**
+     * Get the height of the window
+     * @return the height of the window
+     */
     public double getHEIGHT() {
         return interface_ui.getHEIGHT();
     }
@@ -148,6 +179,7 @@ public class Game_UI extends StackPane {
      */
     public void setInterface_ui(Interface_UI interface_ui) {
         this.interface_ui = interface_ui;
+        background = renderCanvas(background);
         this.setOnMousePressed(event -> {
             music.playSound("click");
             if(selectedLine != null) {
@@ -161,7 +193,6 @@ public class Game_UI extends StackPane {
                     tempLine.setEndY(mousePos.y);
                     //lastSelectedStation.setSelected(true);
                     selectedStation = stations.get(setSingleId(mousePos));
-                    System.out.println("first station");
                 }
             }
         });
@@ -181,18 +212,13 @@ public class Game_UI extends StackPane {
                                         interface_ui.modelAddStation(lines.get(selectedLine).getId(), lastSelectedStation.getId(), selectedStation.getId());
                                         lastSelectedStation.setEndLine(selectedLine, false);
                                         selectedStation.setEndLine(selectedLine, true);
-                                        System.out.println("expend line");
 
 
                                         lastSelectedStation = selectedStation;
                                         tempLine.setStartX(lastSelectedStation.getPos().x + cellSize / 2);
                                         tempLine.setStartY(lastSelectedStation.getPos().y + cellSize / 2);
-                                    }else{
-                                        System.out.println("station already in line");
                                     }
                                 }
-                            } else {
-                                System.out.println("Station is not an end of the line");
                             }
                         } else {
                             if (lastSelectedStation != selectedStation) {
@@ -203,14 +229,11 @@ public class Game_UI extends StackPane {
                                 lines.get(selectedLine).addSegment(lastSelectedStation, selectedStation);
                                 lastSelectedStation.setEndLine(selectedLine, true);
                                 selectedStation.setEndLine(selectedLine, true);
-                                System.out.println("new line");
 
 
                                 lastSelectedStation = selectedStation;
                                 tempLine.setStartX(lastSelectedStation.getPos().x + cellSize / 2);
                                 tempLine.setStartY(lastSelectedStation.getPos().y + cellSize / 2);
-                            } else {
-                                System.out.println("You can't create a line with only one station");
                             }
                         }
                     }
@@ -369,7 +392,7 @@ public class Game_UI extends StackPane {
         Color groundColor = Color.web("#2F2F2F");
         Color waterColor = Color.web("#527B8F");
 
-        Layout map = new Layout();
+        Layout map = interface_ui.getMap();
 
         List<List<Integer>> backgroundMap = map.returnMap();
 

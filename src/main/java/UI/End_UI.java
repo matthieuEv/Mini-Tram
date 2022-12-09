@@ -7,5 +7,6 @@ public class End_UI extends StackPane {
     public End_UI(Interface_UI interface_ui) {
         super();
         this.interface_ui = interface_ui;
+
     }
 }
