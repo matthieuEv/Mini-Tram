@@ -36,10 +36,19 @@ public class Tram_UI {
     private RotateTransition animRotate;
     private double angle;
 
+    /**
+     * Instanciate a new tram
+     */
     public Tram_UI() {
         people = new ArrayList<>();
     }
 
+    /**
+     * Add the tram to a line and draw it with the animation
+     * @param game_ui the game ui
+     * @param station the station where the tram is at the start
+     * @param line the line of the tram
+     */
     public void setLine(Line_UI line, Station_UI station, Game_UI game_ui) {
         this.line = line;
         this.station = station;
@@ -96,27 +105,16 @@ public class Tram_UI {
         gamePane.getChildren().add(mainTram);
     }
 
+    /**
+     * Show the people in the tram
+     */
     public void editPeople(){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                people = line.getPeople(id, station.getId());
+                people = line.getPeople(id);
                 peopleContainer.getChildren().clear();
                 for(int i = 0; i < people.size(); i++){
-
-                    /*Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-                    rectangle.setFill(Color.RED);
-                    if(people.get(i) == Shape.ROUND){
-                        rectangle.setFill(Color.RED);
-                    } else if(people.get(i) == Shape.SQUARE){
-                        rectangle.setFill(Color.BLUE);
-                    } else if(people.get(i) == Shape.DIAMOND){
-                        rectangle.setFill(Color.GREEN);
-                    } else if (people.get(i) == Shape.TRIANGLE) {
-                        rectangle.setFill(Color.YELLOW);
-                    }
-                    peopleContainer.getChildren().add(rectangle);*/
-
                     javafx.scene.shape.Shape shape = getShape(people.get(i), 0.47);
                     shape.setFill(Color.BLACK);
                     peopleContainer.getChildren().add(shape);
@@ -125,19 +123,11 @@ public class Tram_UI {
         });
     }
 
-    public void personEnter(Shape person){
-        people.add(person);
-    }
-
-    public void personExit(Shape person){
-        people.remove(person);
-    }
-
     /**
      * Difine the next station to go
      * @param station The station to move to
      */
-    public void nextStep(Station_UI station) {
+    public void nextStep(Station_UI station, int time) {
         int newX = station.getPos().x;
         int newY = station.getPos().y;
         //System.out.println(angle);
@@ -152,18 +142,15 @@ public class Tram_UI {
         animRotate.setToAngle(angle);
         animTranslate.setToY(y);
         animTranslate.setToX(x);
+        animTranslate.setDuration(Duration.seconds((time/1000f)-0.1));
 
         editPeople();
         animRotate.play();
     }
 
-    public void draw() {
-
-    }
-
     /**
      * Give the tram id
-     * @return the station
+     * @return id of the tram
      */
     public int getId() {
         return id;

@@ -1,6 +1,7 @@
 package model.data.format;
 
 import model.compute.Irigo;
+import utils.Pos;
 
 public class Tram extends Thread{
     private static int id_counter = 0;
@@ -57,13 +58,16 @@ public class Tram extends Thread{
      */
     @Override
     public void run(){
+        int time = 1000;
         while(this.active){
             try {
-                Thread.sleep(1000);
-                Irigo.trigger_tram(this);
+                Thread.sleep(time);
+                time = Irigo.trigger_tram(this);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
 }

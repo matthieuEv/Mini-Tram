@@ -67,12 +67,9 @@ public class Station_UI {
         this.gamePane.getChildren().add(shape);
     }
 
-    public void draw() {
-    }
-
     /**
      * Give the position of the station
-     * @return the pos
+     * @return the pos of the station
      */
     public Pos getPos() {
         return pos;

@@ -9,6 +9,11 @@ import javafx.scene.shape.Shape;
 public class shape_UI {
     private static shape_UI instance = null;
     private static Game_UI game_ui;
+
+    /**
+     * Init the shape UI
+     * @param game_ui the game_ui
+     */
     private shape_UI(Game_UI game_ui) {
         this.game_ui = game_ui;
     }

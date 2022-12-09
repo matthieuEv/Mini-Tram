@@ -81,8 +81,8 @@ public class ModelEntryPoint {
         }
         presenter.SEND_add_people_station(station_id, list);
     }
-    static public void DEMAND_update_tram(int tram_id, int station_id, int line_id) {
-        presenter.SEND_tram_next_step(tram_id, station_id, line_id);
+    static public void DEMAND_update_tram(int tram_id, int station_id, int line_id , int time) {
+        presenter.SEND_tram_next_step(tram_id, station_id, line_id, time);
     }
     static public void DEMAND_create_UI_tram(int station_id, int line_id) {
         presenter.SEND_add_tram(station_id, line_id);

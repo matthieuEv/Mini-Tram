@@ -5,6 +5,7 @@ import model.compute.progression.ProgressionHandler;
 import model.data.Data;
 import model.data.format.*;
 import model.mediator.*;
+import utils.Pos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class Irigo {
      * @param tram the tram that activate trigger the event
      * @warning This portion of code is written here but the Only place your allow to execute it is from a tram routine
      */
-    public static void trigger_tram(Tram tram) {
+    public static int trigger_tram(Tram tram) {
         synchronized (Data.getInstance()) {
             //ask the line of the tram :
             Line line = Data.get_line(LineTram.getInstance().tram_get_line(tram));
@@ -105,14 +106,22 @@ public class Irigo {
                 tram.change_direction();
                 next_station = LineStation.getInstance().get_next_station(line.get_id(), station,tram.get_direction());
             }
+
+            //Get pos from the station
+            Pos oldPos = Data.get_stations(station).get_pos();
+            Pos newPos = Data.get_stations(next_station).get_pos();
+
+            int time = calcTime(oldPos, newPos);
+
             //Put the tram at the next station
             TramStation.getInstance().put_tram_at_station(tram.get_id(), next_station);
 
             //Ask the view to update the UI
-            ModelEntryPoint.getInstance().DEMAND_update_tram(tram.get_id(), next_station, line.get_id());
+            ModelEntryPoint.getInstance().DEMAND_update_tram(tram.get_id(), next_station, line.get_id(), time);
             ModelEntryPoint.getInstance().DEMAND_update_station(station);
             //Get back to sleep until the next trigger
 
+            return time;
 
         }
     }
@@ -172,6 +181,10 @@ public class Irigo {
             }
         }
         return output;
+    }
+
+    private static int calcTime(Pos newStation, Pos oldStation){
+        return (int) Math.sqrt(Math.pow(newStation.x - oldStation.x, 2) + Math.pow(newStation.y - oldStation.y, 2)) * 100;
     }
 
     /**
