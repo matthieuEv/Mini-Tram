@@ -33,6 +33,10 @@ public class Intro extends GridPane {
 
     private UseJson json = new UseJson();
 
+    /**
+     * Create the intro of the game
+     * @param interface_ui
+     */
     public Intro(Interface_UI interface_ui) {
         super();
 
