@@ -4,6 +4,7 @@ import UI.intro.Intro;
 import UI.menu.Menu_UI;
 import UI.music.Music;
 import UI.outro.Outro;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import UI.intro.Intro;
@@ -19,6 +20,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.compute.Layout;
 import presenter.Main_Presenter;
 import utils.Pos;
 import utils.Shape;
@@ -56,6 +58,8 @@ public class Interface_UI {
         return instance;
     }
     public void startIntro(){
+        music.setMusic("src/file/audio/music/intro.mp3");
+        music.play();
         stage.setScene(new Scene(intro, WIDTH, HEIGHT));
     }
 
@@ -66,6 +70,7 @@ public class Interface_UI {
         stage.setScene(new Scene(menu_ui, WIDTH, HEIGHT));
     }
     public void startGame(){
+        presenter.StartGame();
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
         game_ui.setInterface_ui(this);
         stage.setScene(gameScene);
@@ -73,12 +78,12 @@ public class Interface_UI {
     }
 
     public void startEnd(){
-        outro.setEndLabel(2, game_ui.getEndPeople());
+        outro.setEndLabel(2, 3);
         stage.setScene(new Scene(outro, WIDTH, HEIGHT));
     }
 
     public void showInterface(){
-        startIntro();
+        startIntro(); // uncomment to show intro
         stage.setTitle("Mini Tram");
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
@@ -99,6 +104,10 @@ public class Interface_UI {
         return HEIGHT;
     }
 
+    public Layout getMap(){
+        return presenter.getMap();
+    }
+
     public void appendPresenter(Main_Presenter presenter){
         this.presenter = presenter;
     }
@@ -115,8 +124,8 @@ public class Interface_UI {
         presenter.modelAddLine(idLine, idStation1, idStation2);
     }
 
-    public void SEND_tram_next_step(int idTram, int idStation, int idLine){
-        game_ui.SEND_tram_next_step(idTram, idStation, idLine);
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine , int time){
+        game_ui.SEND_tram_next_step(idTram, idStation, idLine, time);
     }
 
     public void SEND_add_tram(int idStation, int idLine) {
@@ -133,6 +142,16 @@ public class Interface_UI {
 
     public void GET_add_people_station(int idStation, ArrayList<Shape> shape){
         game_ui.GET_add_people_station(idStation, shape);
+    }
+    public void DEMAND_add_station(int idStation, Pos pos){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                game_ui.addStation(idStation, pos);
+
+            }
+        });
+
     }
 
     public Shape getShapeStation(int id) {

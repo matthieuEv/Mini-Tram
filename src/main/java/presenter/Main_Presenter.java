@@ -5,6 +5,9 @@ import UI.items.Station_UI;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
+import model.compute.Layout;
+import model.compute.progression.ProgressionHandler;
+import model.data.Data;
 import utils.Pos;
 import utils.Shape;
 
@@ -47,6 +50,10 @@ public class Main_Presenter {
         return output;
     }
 
+    public void StartGame(){
+        ModelEntryPoint.StarGame();
+    }
+
     public void syncLine(Color color){
         for (Integer ids : model.SEND_all_line_id()){
             if(!listLines.containsKey(ids)){
@@ -55,12 +62,16 @@ public class Main_Presenter {
         }
     }
 
+    public void stopGame(){
+        ui.startEnd();
+    }
+
     public void modelAddLine(int idLine, int idStation1, int idStation2){
         model.GET_activate_line(idLine, idStation1, idStation2);
     }
 
-    public void SEND_tram_next_step(int idTram, int idStation, int idLine){
-        ui.SEND_tram_next_step(idTram, idStation, idLine);
+    public void SEND_tram_next_step(int idTram, int idStation, int idLine, int time){
+        ui.SEND_tram_next_step(idTram, idStation, idLine, time);
     }
 
     public void SEND_add_tram(int idStation, int idLine){
@@ -81,5 +92,18 @@ public class Main_Presenter {
 
     public Shape getShapeStation(int id) {
         return model.SEND_get_shape_station(id);
+    }
+
+    public void DEMAND_add_station(int idStation, Pos pos){
+
+        ui.DEMAND_add_station(idStation, pos);
+    }
+
+    public Layout getMap(){
+        return model.SEND_get_layout();
+    }
+
+    public void SEND_score(){
+        Data.get_score();
     }
 }
