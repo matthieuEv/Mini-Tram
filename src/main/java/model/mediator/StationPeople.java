@@ -66,7 +66,7 @@ public class StationPeople {
     public List<Integer> get_station_with_too_much_people() {
         List<Integer> station_with_too_much_people = new ArrayList<>();
         for (int i = 0 ; i < Data.get_stations_list().size() ; i++) {
-            if (this.station_waiting_people.get(i).size() > 8) {
+            if (this.station_waiting_people.get(i).size() > 7) {
                 station_with_too_much_people.add(i);
             }
         }

@@ -26,7 +26,7 @@ public class Data {
 
     //The constructor is the builder
     private Data() {
-        this.score = 0;
+
     }
 
     /**
@@ -173,5 +173,9 @@ public class Data {
 
     public static Layout get_map() {
         return map;
+    }
+
+    public static void set_score(int score) {
+        Data.score = score;
     }
 }

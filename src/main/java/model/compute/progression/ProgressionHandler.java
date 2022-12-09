@@ -61,6 +61,8 @@ public class ProgressionHandler extends Thread {
         //Init with 3 Peoples places at random stations
         Data.set_people(new HashMap<>());
 
+        Data.set_score(0);
+
         Layout map = new Layout();
         Data.set_map(map);
 
@@ -82,7 +84,13 @@ public class ProgressionHandler extends Thread {
     public void run(){
         boolean game = true;
         while(game){
-            game = endGame();
+            try {
+                Thread.sleep(100);
+                game = endGame();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

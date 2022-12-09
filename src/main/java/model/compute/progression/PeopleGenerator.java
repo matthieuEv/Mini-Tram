@@ -28,7 +28,6 @@ public class PeopleGenerator extends Thread {
         while(this.active) {
             try{
                 int timeSleep = 3000/(time/10+1);
-                timeSleep = 10;
                 System.out.println("timeSleep : " + timeSleep);
                 timeSleep = Math.max(timeSleep, 200);
                 Thread.sleep(timeSleep);

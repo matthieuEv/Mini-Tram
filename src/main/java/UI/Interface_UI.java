@@ -79,6 +79,7 @@ public class Interface_UI {
     }
 
     public void startEnd(){
+        outro = new Outro(this);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
