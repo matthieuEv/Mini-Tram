@@ -3,6 +3,7 @@ package UI;
 import UI.intro.Intro;
 import UI.menu.Menu_UI;
 import UI.music.Music;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import UI.intro.Intro;
@@ -67,14 +68,15 @@ public class Interface_UI {
         stage.setScene(new Scene(menu_ui, WIDTH, HEIGHT));
     }
     public void startGame(){
+        presenter.StartGame();
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
+        game_ui.setInterface_ui(this);
         stage.setScene(gameScene);
         stage.show();
     }
 
     public void showInterface(){
         startIntro();
-        game_ui.setInterface_ui(this);
         stage.setTitle("Mini Tram");
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);
@@ -129,6 +131,16 @@ public class Interface_UI {
 
     public void GET_add_people_station(int idStation, ArrayList<Shape> shape){
         game_ui.GET_add_people_station(idStation, shape);
+    }
+    public void DEMAND_add_station(int idStation, Pos pos){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                game_ui.addStation(idStation, pos);
+
+            }
+        });
+
     }
 
     public Shape getShapeStation(int id) {

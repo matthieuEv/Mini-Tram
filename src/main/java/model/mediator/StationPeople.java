@@ -15,7 +15,7 @@ public class StationPeople {
     private StationPeople() {
         this.station_waiting_people = new HashMap<>();
         for (int i = 0; i < Data.get_stations_list().size(); i++) {
-            this.station_waiting_people.put(i, new ArrayList<>());
+            this.add_station(i);
         }
     }
 
@@ -33,10 +33,22 @@ public class StationPeople {
     }
 
     /* === Setter === */
+
+    /**
+     * Add the people into the station
+     * @param people the people to add
+     * @param station_id the id of the station
+     */
     public void people_get_in_station(People people, int station_id) {
         Data.get_peoples().put(people.get_id(), people);
         this.station_waiting_people.get(station_id).add(people);
     }
+
+    /**
+     * Add the people into the station
+     * @param people the list of people to add
+     * @param station_id the id of the station
+     */
     public void people_get_in_station(List<People> people, int station_id) {
         for (int i = 0 ; i < people.size() ; i++) {
             if (people.get(i).getDestination().equals(Data.get_stations(station_id).getShape())){
@@ -56,6 +68,10 @@ public class StationPeople {
             Data.get_peoples().remove(p.get_id());
             this.station_waiting_people.get(station_id).remove(p);
         }
+    }
+
+    public void add_station(int station_id) {
+        this.station_waiting_people.put(station_id, new ArrayList<>());
     }
 
     /* === Getter === */

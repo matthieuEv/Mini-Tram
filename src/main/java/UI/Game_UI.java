@@ -85,6 +85,12 @@ public class Game_UI extends StackPane {
             stations.get(id).draw();
         }
     }
+    public void addStation(int id_st, Pos pos) {
+        int id = setSingleId(new Pos(pos.x*cellSize, pos.y*cellSize));
+        Shape shape = interface_ui.getShapeStation(id_st);
+        stations.put(id, new Station_UI(this, new Pos(pos.x*cellSize, pos.y*cellSize), id_st, shape));
+        stations.get(id).draw();
+    }
 
     public double getWIDTH() {
         return interface_ui.getWIDTH();

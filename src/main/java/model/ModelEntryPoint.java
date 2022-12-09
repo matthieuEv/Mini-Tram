@@ -1,6 +1,7 @@
 package model;
 
 import model.compute.Irigo;
+import model.compute.progression.ProgressionHandler;
 import model.data.Data;
 import model.data.format.People;
 import model.data.format.Station;
@@ -19,6 +20,8 @@ public class ModelEntryPoint {
     private static ModelEntryPoint instance = null;
     private static Irigo irigo;
     private static Main_Presenter presenter;
+
+    private static ProgressionHandler progressionHandler;
 
     private ModelEntryPoint() {
         irigo = Irigo.getInstance();
@@ -51,6 +54,9 @@ public class ModelEntryPoint {
         return Data.get_lines().keySet().stream().toList();
     }
 
+    static public void StarGame(){
+        progressionHandler = new ProgressionHandler();
+    }
 
 
     static public ArrayList<Shape> SEND_people_in_tram(int tram_id){
@@ -84,6 +90,9 @@ public class ModelEntryPoint {
         irigo.add_station_to_line(line_id, station1_id, station2_id);
     }
 
+    public static void ADD_station(Station station) {
+        presenter.DEMAND_add_station(station.get_id(), station.get_pos());
+    }
 
     public Shape SEND_get_shape_station(int id) {
         return Data.get_stations_list().get(id).getShape();

@@ -21,41 +21,6 @@ public class Data {
 
     //The constructor is the builder
     private Data() {
-        //Init with 4 trams and 4 lines
-        trams = new HashMap<>();
-        lines = new HashMap<>();
-        for (int i = 0; i < 4; i++) {
-            Tram t = new Tram();
-            Line l = new Line();
-            trams.put(t.get_id(), t);
-            lines.put(l.get_id(), l);
-        }
-        //Init with 4 stations
-        stations = new HashMap<>();
-        Station s1 = new Station(Shape.ROUND, new Pos(2,5));
-        Station s2 = new Station(Shape.TRIANGLE,new Pos(8,2));
-        Station s3 = new Station(Shape.SQUARE,new Pos(12,8));
-        Station s4 = new Station(Shape.DIAMOND,new Pos(9,11));
-        Station s5 = new Station(Shape.ROUND,new Pos(15,5));
-        Station s6 = new Station(Shape.TRIANGLE,new Pos(2,11));
-        Station s7 = new Station(Shape.SQUARE,new Pos(11,2));
-        Station s8 = new Station(Shape.DIAMOND,new Pos(10,20));
-        stations.put(s1.get_id(), s1);
-        stations.put(s2.get_id(), s2);
-        stations.put(s3.get_id(), s3);
-        stations.put(s4.get_id(), s4);
-        stations.put(s5.get_id(), s5);
-        stations.put(s6.get_id(), s6);
-        stations.put(s7.get_id(), s7);
-        stations.put(s8.get_id(), s8);
-        //Init with 10 Peoples
-        peoples = new HashMap<>();
-        for(int i = 0; i < 10; i++){
-            People p = new People(Shape.random_shape());
-            peoples.put(p.get_id(), p);
-            int randomStation = new Random().nextInt(stations.size());
-            StationPeople.getInstance().people_get_in_station(p, randomStation);
-        }
     }
 
     /**
@@ -75,11 +40,71 @@ public class Data {
     }
 
     /**
+     * Empty all the data at the end of a game
+     */
+    static public void empty_data() {
+        trams = new HashMap<>();
+        stations = new HashMap<>();
+        peoples = new HashMap<>();
+        lines = new HashMap<>();
+    }
+
+    /**
+     * Add trams to the data
+     * @param trams the Map of tram to add
+     */
+    static public void set_tram(Map<Integer, Tram> trams) {
+        Data.trams = trams;
+    }
+
+    /**
+     * Add stations to the data
+     * @param stations the Map of station to add
+     */
+    static public void set_station(Map<Integer, Station> stations) {
+        Data.stations = stations;
+    }
+    static public void set_station(Station station) {
+        Data.stations.put(station.get_id(),station);
+    }
+
+    /**
+     * Add peoples to the data
+     * @param peoples the Map of people to add
+     */
+    static public void set_people(Map<Integer, People> peoples) {
+        Data.peoples = peoples;
+    }
+    /**
+     * Add a people to the data
+     * @param Po the people to add
+     */
+    static public void set_people(People Po) {
+        Data.peoples.put(Po.get_id(),Po);
+    }
+
+    /**
+     * Add lines to the data
+     * @param lines the Map of line to add
+     */
+    static public void set_line(Map<Integer, Line> lines) {
+        Data.lines = lines;
+    }
+
+
+    /**
      * make someone disapear and create a new person
      * @param people the people to make disapear
      */
     static public void people_disappear(People people) {
         Data.peoples.remove(people.get_id());
+
+    }
+
+    /**
+     * Make a people apear on the map at random place
+     */
+    static public void peopleAppear() {
         //Create a new people with a random shape
         People person = new People(Shape.random_shape());
         Random r = new Random();
@@ -94,6 +119,8 @@ public class Data {
         StationPeople.getInstance().people_get_in_station(person, randomStation);
         ModelEntryPoint.getInstance().DEMAND_update_station(randomStation);
     }
+
+
 
     /* === Getter === */
     static public Map<Integer, Line> get_line() {

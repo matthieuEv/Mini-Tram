@@ -1,0 +1,78 @@
+package model.compute.progression;
+
+import model.data.Data;
+import model.data.format.Line;
+import model.data.format.People;
+import model.data.format.Station;
+import model.data.format.Tram;
+import model.mediator.StationPeople;
+import utils.Pos;
+import utils.Shape;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+public class ProgressionHandler {
+
+    private PeopleGenerator peopleGenerator;
+    private StationGenerator stationGenerator;
+
+    public ProgressionHandler() {
+        //Create the variable to old the created data set
+        Map<Integer, Tram> trams;
+        Map<Integer, Station> stations;
+        Map<Integer, Line> lines;
+
+        //Init with 4 trams and 4 lines
+        trams = new HashMap<>();
+        lines = new HashMap<>();
+        for (int i = 0; i < 4; i++) {
+            Tram t = new Tram();
+            Line l = new Line();
+            trams.put(t.get_id(), t);
+            lines.put(l.get_id(), l);
+        }
+        //Set in data
+        Data.set_tram(trams);
+        Data.set_line(lines);
+
+        //Init with 4 stations
+        int number_of_station_start = 4;
+        //Max pos for a station will be x : 45 and y : 35
+        stations = new HashMap<>();
+        Station s1 = new Station(Shape.ROUND, new Pos(2,5));
+        Station s2 = new Station(Shape.TRIANGLE,new Pos(15,8));
+        Station s3 = new Station(Shape.SQUARE,new Pos(6,13));
+        Station s4 = new Station(Shape.DIAMOND,new Pos(8,5));
+        stations.put(s1.get_id(), s1);
+        stations.put(s2.get_id(), s2);
+        stations.put(s3.get_id(), s3);
+        stations.put(s4.get_id(), s4);
+        //Set in data
+        Data.set_station(stations);
+
+        //Init with 3 Peoples places at random stations
+        Data.set_people(new HashMap<>());
+
+        //Start both thread
+        peopleGenerator = new PeopleGenerator();
+        stationGenerator = new StationGenerator(number_of_station_start);
+        peopleGenerator.start();
+        stationGenerator.start();
+    }
+
+    /**
+     * Stop the game by stopping each tram and resting all the data
+     */
+    public void StopGame() {
+        //Stop the all threads
+        peopleGenerator.kill();
+        stationGenerator.kill();
+        Data.get_tram().forEach((id, tram) -> {
+            tram.set_active(false);
+        });
+        Data.empty_data();
+    }
+
+}
