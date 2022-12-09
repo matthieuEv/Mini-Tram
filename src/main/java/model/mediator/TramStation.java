@@ -41,4 +41,8 @@ public class TramStation {
         return tram_is_at_station.get(tram_id);
     }
 
+    public void resetAll(){
+        this.tram_is_at_station = new HashMap<>();
+    }
+
 }

@@ -27,4 +27,8 @@ public class Station {
     public Pos get_pos() {
         return pos;
     }
+    static public void reset_id_counter() {
+        id_counter = 0;
+    }
+
 }

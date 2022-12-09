@@ -54,4 +54,9 @@ public class LineTram {
         }
         return output;
     }
+
+    public void resetAll(){
+        this.tram_on_line = new HashMap<>();
+
+    }
 }

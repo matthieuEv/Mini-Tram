@@ -100,7 +100,7 @@ public class Game_UI extends StackPane {
         textNbDays.setFont(javafx.scene.text.Font.font("Arial", 20));
 
         nbDays = 0;
-        clockAnim = new RotateTransition(Duration.seconds(30), clockLine);
+        clockAnim = new RotateTransition(Duration.seconds(1), clockLine);
         clockAnim.setFromAngle(0);
         clockAnim.setToAngle(360);
         clockAnim.setInterpolator(Interpolator.LINEAR);
@@ -381,7 +381,7 @@ public class Game_UI extends StackPane {
         return canvas;
     }
 
-    public int getEndPeople(){
+    public int getNbDays(){
         return nbDays;
     }
 }

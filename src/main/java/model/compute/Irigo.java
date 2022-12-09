@@ -183,6 +183,12 @@ public class Irigo {
         return output;
     }
 
+    /**
+     * Compute the time needed to go from one station to another
+     * @param newStation the station where the tram is going
+     * @param oldStation the station where the tram is
+     * @return the time needed to go from one station to another in ms
+     */
     private static int calcTime(Pos newStation, Pos oldStation){
         return (int) Math.sqrt(Math.pow(newStation.x - oldStation.x, 2) + Math.pow(newStation.y - oldStation.y, 2)) * 100;
     }
@@ -195,12 +201,6 @@ public class Irigo {
         TramPeople.getInstance().people_out_of_tram(person, tram_id);
         StationPeople.getInstance().people_out_of_station(person, station_id);
         Data.people_disappear(person);
-    }
-
-
-
-    private void launch_tram(Tram tram){
-        tram.start();
     }
 
 }

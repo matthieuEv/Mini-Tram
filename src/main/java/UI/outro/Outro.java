@@ -35,7 +35,8 @@ public class Outro extends GridPane {
         initBtn(menu);
         btnHover(menu);
         menu.setOnAction(e -> {
-            interface_ui.startGame();
+            System.out.println("Return to menu");
+            interface_ui.startMenu();
         });
 
         Label gameOver = new Label("Game Over");
@@ -54,7 +55,7 @@ public class Outro extends GridPane {
      * @param day
      */
     public void setEndLabel(int people, int day) {
-        this.label.setText("You survived " + day + " days, and " + people + " players traveled with you.");
+        this.label.setText("You survived " + day + " days, and " + people + " people traveled with you.");
     }
 
     /**

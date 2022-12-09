@@ -67,10 +67,11 @@ public class Interface_UI {
         music.stop();
         music.setMusic("src/file/audio/music/Mini-Tram.mp3");
         music.play();
-        stage.setScene(new Scene(menu_ui, WIDTH, HEIGHT));
+        stage.setScene(new Scene(new Menu_UI(this), WIDTH, HEIGHT));
     }
     public void startGame(){
         presenter.StartGame();
+        game_ui = new Game_UI(this);
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
         game_ui.setInterface_ui(this);
         stage.setScene(gameScene);
@@ -78,8 +79,15 @@ public class Interface_UI {
     }
 
     public void startEnd(){
-        outro.setEndLabel(2, 3);
-        stage.setScene(new Scene(outro, WIDTH, HEIGHT));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                outro.setEndLabel(presenter.SEND_score(), game_ui.getNbDays());
+                stage.setScene(new Scene(outro, WIDTH, HEIGHT));
+
+            }
+        });
+
     }
 
     public void showInterface(){
