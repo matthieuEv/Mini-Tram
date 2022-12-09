@@ -39,7 +39,7 @@ public class StationGenerator extends Thread {
      */
     @Override
     public void run() {
-        while(this.active && number_of_station < 10) {
+        while(this.active && number_of_station < 15) {
             try{
                 Thread.sleep(10000);
                 Station s = new Station(Shape.random_shape(), calculate_newpos());

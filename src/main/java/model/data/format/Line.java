@@ -27,4 +27,8 @@ public class Line {
     public void setIs_loop(Boolean is_loop) {
         this.is_loop = is_loop;
     }
+
+    static public void reset_id_counter() {
+        id_counter = 0;
+    }
 }

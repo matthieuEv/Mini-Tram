@@ -9,12 +9,20 @@ import java.io.File;
 
 public class Music {
     private MediaPlayer mediaPlayer;
+
+    /**
+     * Chooses the music to play
+     * @param url
+     */
     public void setMusic(String url){
         File file = new File(url);
         Media media = new Media(file.toURI().toString());
         this.mediaPlayer = new MediaPlayer(media);
     }
 
+    /**
+     * Plays the music
+     */
     public void play(){
         double volume = new UseJson().readJson("music");
         this.mediaPlayer.setVolume(volume/100);
@@ -28,16 +36,27 @@ public class Music {
         });
     }
 
+    /**
+     * Changes the volume of the music
+     * @param volume
+     */
     public void changeVolume(double volume){
         this.mediaPlayer.setVolume(volume/100);
     }
 
+    /**
+     * Stops the music
+     */
     public void stop(){
         if(this.mediaPlayer != null){
             this.mediaPlayer.stop();
         }
     }
 
+    /**
+     * Chooses the music file to play
+     * @param url
+     */
     private void playfromfile(String url){
         File file = new File(url);
         double volume = new UseJson().readJson("sfx");
@@ -47,6 +66,10 @@ public class Music {
         mediaPlayer.play();
     }
 
+    /**
+     * Plays the sound Effects
+     * @param sfx
+     */
     public void playSound(String sfx){
         if(sfx == "test"){
             playfromfile("src/file/audio/sfx/test.wav");

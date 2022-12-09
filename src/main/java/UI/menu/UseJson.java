@@ -9,7 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
+
 public class UseJson {
+    /**
+     * Read the json file and return the value of the key
+     * @param type
+     * @return
+     */
     public int readJson(String type){
         int value = 0;
         try {
@@ -28,6 +34,11 @@ public class UseJson {
         return value;
     };
 
+    /**
+     * Write the json file
+     * @param type
+     * @param value
+     */
     public void writeJson(String type, int value){
         try {
             // create a map
@@ -54,6 +65,9 @@ public class UseJson {
         }
     };
 
+    /**
+     * Reset the json file
+     */
     public void reset(){
         try {
             // create a map

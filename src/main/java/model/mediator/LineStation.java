@@ -125,4 +125,9 @@ public class LineStation {
         }
         return index;
     }
+
+    public void resetAll(){
+        this.line_has_station = new HashMap<>();
+
+    }
 }

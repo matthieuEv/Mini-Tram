@@ -3,7 +3,7 @@ package model.data;
 import model.ModelEntryPoint;
 import model.compute.Layout;
 import model.data.format.*;
-import model.mediator.StationPeople;
+import model.mediator.*;
 import utils.Pos;
 import utils.Shape;
 
@@ -26,7 +26,7 @@ public class Data {
 
     //The constructor is the builder
     private Data() {
-        this.score = 0;
+
     }
 
     /**
@@ -49,10 +49,15 @@ public class Data {
      * Empty all the data at the end of a game
      */
     static public void empty_data() {
+        score = 0;
         trams = new HashMap<>();
         stations = new HashMap<>();
         peoples = new HashMap<>();
         lines = new HashMap<>();
+        Line.reset_id_counter();
+        Station.reset_id_counter();
+        Tram.reset_id_counter();
+        People.reset_id_counter();
     }
 
     /**
@@ -130,7 +135,7 @@ public class Data {
 
 
 
-    /* === Getter === */
+    /* === Getter/Setter === */
     static public Map<Integer, Line> get_line() {
         return lines;
     }
@@ -168,5 +173,9 @@ public class Data {
 
     public static Layout get_map() {
         return map;
+    }
+
+    public static void set_score(int score) {
+        Data.score = score;
     }
 }

@@ -25,4 +25,8 @@ public class People {
     public Shape getDestination() {
         return destination;
     }
+
+    static public void reset_id_counter() {
+        id_counter = 0;
+    }
 }

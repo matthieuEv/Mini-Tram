@@ -31,10 +31,18 @@ public class Layout {
     }
 
 
+    /**
+     * @return the map
+     */
     public List<List<Integer>> returnMap() {
         return this.map;
     }
 
+    /**
+     * Tell if there's water at a given position
+     * @param pos   the position to check
+     * @return    true if there's water, false otherwise
+     */
     public boolean waterAtPos(Pos pos) {
         return this.map.get(pos.y/50).get(pos.x/50) == 1;
     }

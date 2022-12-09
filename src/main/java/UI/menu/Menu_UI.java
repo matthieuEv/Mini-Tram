@@ -22,6 +22,11 @@ public class Menu_UI extends GridPane {
     private int heightBtn = 50;
 
     private UseJson json = new UseJson();
+
+    /**
+     * Create the menu of the game
+     * @param interface_ui
+     */
     public Menu_UI(Interface_UI interface_ui) {
         super();
 
@@ -78,10 +83,16 @@ public class Menu_UI extends GridPane {
         this.add(middle,0,0);
     }
 
+    /**
+     * Start the game
+     */
     private void start() {
         interface_ui.startGame();
     }
 
+    /**
+     * Create the settings of the game in HBOX
+     */
     private void settings() {
 
         HBox settings = new HBox();
@@ -161,17 +172,26 @@ public class Menu_UI extends GridPane {
         this.add(settings,0,0);
     }
 
+    /**
+     * Exit the game when the window is closed
+     */
     private void exit() {
         System.exit(0);
     }
 
-
-
+    /**
+     * Initialize the button
+     * @param btn
+     */
     private void initBtn(Button btn){
         btn.setStyle("-fx-background-color: #92a9bd; -fx-text-fill: #ffefef; -fx-font-size: 20px;");
         btn.setPrefSize(widthBtn, heightBtn);
     }
 
+    /**
+     * Hover effect on the button
+     * @param btn
+     */
     private void btnHover(Button btn) {
         btn.hoverProperty( ).addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -183,6 +203,10 @@ public class Menu_UI extends GridPane {
             }});
     }
 
+    /**
+     * Hover effect on the slider
+     * @param btn
+     */
     private void settingsHover(Control btn){
         btn.hoverProperty( ).addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -191,10 +215,20 @@ public class Menu_UI extends GridPane {
                 super.setCursor(javafx.scene.Cursor.DEFAULT);}});
     }
 
+    /**
+     * register value in the json file
+     * @param type
+     * @param value
+     */
     private void registerValue(String type,Number value) {
         json.writeJson(type,value.intValue());
     }
 
+    /**
+     * Reset the settings
+     * @param slider1
+     * @param slider2
+     */
     private void reset(Slider slider1, Slider slider2) {
         json.reset();
         slider1.setValue(75);

@@ -103,8 +103,8 @@ public class Main_Presenter {
         return model.SEND_get_layout();
     }
 
-    public void SEND_score(){
-        Data.get_score();
+    public int SEND_score(){
+        return model.get_score();
     }
 
     public void closeGame(){

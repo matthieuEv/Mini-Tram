@@ -3,6 +3,7 @@ package UI;
 import UI.intro.Intro;
 import UI.menu.Menu_UI;
 import UI.music.Music;
+import UI.outro.Outro;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -35,7 +36,7 @@ public class Interface_UI {
     private double WIDTH = 1000;
     private double HEIGHT = 700;
     private Game_UI game_ui;
-    private End_UI end_ui;
+    private Outro outro;
     private Menu_UI menu_ui;
     private Main_Presenter presenter;
     private Intro intro;
@@ -51,7 +52,7 @@ public class Interface_UI {
         intro = new Intro(this);
         menu_ui = new Menu_UI(this);
         game_ui = new Game_UI(this);
-        end_ui = new End_UI(this);
+        outro = new Outro(this);
     }
 
     /**
@@ -82,7 +83,7 @@ public class Interface_UI {
         music.stop();
         music.setMusic("src/file/audio/music/Mini-Tram.mp3");
         music.play();
-        stage.setScene(new Scene(menu_ui, WIDTH, HEIGHT));
+        stage.setScene(new Scene(new Menu_UI(this), WIDTH, HEIGHT));
     }
 
     /**
@@ -90,6 +91,7 @@ public class Interface_UI {
      */
     public void startGame(){
         presenter.StartGame();
+        game_ui = new Game_UI(this);
         Scene gameScene = new Scene(game_ui, WIDTH, HEIGHT);
         game_ui.setInterface_ui(this);
         stage.setScene(gameScene);
@@ -100,10 +102,16 @@ public class Interface_UI {
      * Show the end screen
      */
     public void startEnd(){
-        music.stop();
-        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
-        music.play();
-        stage.setScene(new Scene(end_ui, WIDTH, HEIGHT));
+        outro = new Outro(this);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                outro.setEndLabel(presenter.SEND_score(), game_ui.getNbDays());
+                stage.setScene(new Scene(outro, WIDTH, HEIGHT));
+
+            }
+        });
+
     }
 
     /**
