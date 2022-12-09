@@ -12,6 +12,11 @@ public class shape_UI {
     private shape_UI(Game_UI game_ui) {
         this.game_ui = game_ui;
     }
+
+    /**
+     * Get the instance of the singleton
+     * @return the instance of the class
+     */
     public static shape_UI getInstance(Game_UI game_ui) {
         if (instance == null) {
             instance = new shape_UI(game_ui);
@@ -19,10 +24,21 @@ public class shape_UI {
         return instance;
     }
 
+    /**
+     * Contains all the shapes and return the object to show
+     * @param shape the shape to show
+     * @return the shape object
+     */
     public static Shape getShape(utils.Shape shape){
         return getShape(shape, 1);
     }
 
+    /**
+     * Contains all the shapes and return the object to show
+     * @param shape the shape to show
+     * @param size the size of the shape
+     * @return the shape object
+     */
     public static Shape getShape(utils.Shape shape, double size){
         switch (shape){
             case ROUND:
