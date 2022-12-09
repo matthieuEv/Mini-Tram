@@ -49,12 +49,15 @@ public class Game_UI extends StackPane {
     private RotateTransition clockAnim;
     private int nbDays;
     private Text textNbDays;
+    private Canvas background;
 
 
     private Music music = new Music();
     //private ArrayList<Station_UI> stations;
     public Game_UI(Interface_UI interface_ui) {
         super();
+
+        this.interface_ui = interface_ui;
 
         //this.interface_ui = interface_ui;
         shape_UI shape_ui = shape_UI.getInstance(this);
@@ -111,8 +114,8 @@ public class Game_UI extends StackPane {
         clock.getChildren().addAll(clockImg, clockLine, textNbDays);
 
 
-        Canvas canvas = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
-        Canvas background = renderCanvas(canvas);
+        background = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+
 
         this.getChildren().addAll(background, clock, gamePane, btnStation);
 
@@ -150,6 +153,7 @@ public class Game_UI extends StackPane {
 
     public void setInterface_ui(Interface_UI interface_ui) {
         this.interface_ui = interface_ui;
+        background = renderCanvas(background);
         this.setOnMousePressed(event -> {
             music.playSound("click");
             if(selectedLine != null) {
@@ -329,7 +333,7 @@ public class Game_UI extends StackPane {
         Color groundColor = Color.web("#2F2F2F");
         Color waterColor = Color.web("#527B8F");
 
-        Layout map = new Layout();
+        Layout map = interface_ui.getMap();
 
         List<List<Integer>> backgroundMap = map.returnMap();
 

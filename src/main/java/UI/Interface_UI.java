@@ -19,6 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.compute.Layout;
 import presenter.Main_Presenter;
 import utils.Pos;
 import utils.Shape;
@@ -102,6 +103,10 @@ public class Interface_UI {
     public double getHEIGHT() {
         //HEIGHT = stage.getHeight();
         return HEIGHT;
+    }
+
+    public Layout getMap(){
+        return presenter.getMap();
     }
 
     public void appendPresenter(Main_Presenter presenter){

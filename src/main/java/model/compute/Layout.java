@@ -12,7 +12,7 @@ public class Layout {
 
     final List<List<Integer>> map;
 
-    Layout() {
+    public Layout() {
         map = new ArrayList<>();
         map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
         map.add(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
@@ -36,7 +36,7 @@ public class Layout {
     }
 
     public boolean waterAtPos(Pos pos) {
-        return this.map.get(pos.y).get(pos.x) == 1;
+        return this.map.get(pos.y/50).get(pos.x/50) == 1;
     }
 
 }

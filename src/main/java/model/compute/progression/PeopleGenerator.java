@@ -23,14 +23,15 @@ public class PeopleGenerator extends Thread {
         int time = 0;
         while(this.active) {
             try{
-                time++;
-                int timeSleep = 3000/(time%20+1);
-                timeSleep = Math.max(timeSleep, 1000);
+                int timeSleep = 3000/(time/10+1);
+                System.out.println("timeSleep : " + timeSleep);
+                timeSleep = Math.max(timeSleep, 200);
                 Thread.sleep(timeSleep);
                 endGame();
                 synchronized (Data.getInstance()){
                     Data.peopleAppear();
                 }
+                time++;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

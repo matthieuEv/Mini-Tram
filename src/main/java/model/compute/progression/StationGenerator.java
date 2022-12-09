@@ -66,8 +66,8 @@ public class StationGenerator extends Thread {
         boolean good = false;
         //Now check if the position is not already taken
         do {
-            p.x = r.nextInt(45);
-            p.y  = r.nextInt(35);
+            p.x = r.nextInt(45-5) + 5;
+            p.y  = r.nextInt(35-5) + 5;
             for (Station st : Data.get_stations().values()) {
                 if (st.get_pos().equals(p)) {
                     good = false;
@@ -75,6 +75,9 @@ public class StationGenerator extends Thread {
                 } else {
                     good = true;
                 }
+            }
+            if (Data.get_map().waterAtPos(p)) {
+                good = false;
             }
         } while (!good);
         return p;

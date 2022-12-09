@@ -1,5 +1,6 @@
 package model.compute.progression;
 
+import model.compute.Layout;
 import model.data.Data;
 import model.data.format.Line;
 import model.data.format.People;
@@ -54,6 +55,9 @@ public class ProgressionHandler {
 
         //Init with 3 Peoples places at random stations
         Data.set_people(new HashMap<>());
+
+        Layout map = new Layout();
+        Data.set_map(map);
 
         //Start both thread
         peopleGenerator = new PeopleGenerator();

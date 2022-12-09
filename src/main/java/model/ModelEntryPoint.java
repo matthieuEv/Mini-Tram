@@ -1,6 +1,7 @@
 package model;
 
 import model.compute.Irigo;
+import model.compute.Layout;
 import model.compute.progression.ProgressionHandler;
 import model.data.Data;
 import model.data.format.People;
@@ -101,5 +102,9 @@ public class ModelEntryPoint {
 
     public Shape SEND_get_shape_station(int id) {
         return Data.get_stations_list().get(id).getShape();
+    }
+
+    public Layout SEND_get_layout() {
+        return Data.get_map();
     }
 }

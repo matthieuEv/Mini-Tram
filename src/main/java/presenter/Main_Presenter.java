@@ -5,6 +5,7 @@ import UI.items.Station_UI;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.ModelEntryPoint;
+import model.compute.Layout;
 import model.compute.progression.ProgressionHandler;
 import utils.Pos;
 import utils.Shape;
@@ -95,5 +96,9 @@ public class Main_Presenter {
     public void DEMAND_add_station(int idStation, Pos pos){
 
         ui.DEMAND_add_station(idStation, pos);
+    }
+
+    public Layout getMap(){
+        return model.SEND_get_layout();
     }
 }

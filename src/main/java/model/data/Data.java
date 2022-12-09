@@ -1,6 +1,7 @@
 package model.data;
 
 import model.ModelEntryPoint;
+import model.compute.Layout;
 import model.data.format.*;
 import model.mediator.StationPeople;
 import utils.Pos;
@@ -18,6 +19,8 @@ public class Data {
     private static Map<Integer, Station> stations;
     private static Map<Integer, People> peoples;
     private static Map<Integer, Line> lines;
+
+    private static Layout map;
 
     private static int score;
 
@@ -159,4 +162,11 @@ public class Data {
         return score;
     }
 
+    public static void set_map(Layout map) {
+        Data.map = map;
+    }
+
+    public static Layout get_map() {
+        return map;
+    }
 }
