@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static UI.items.shape_UI.getShape;
+
 public class Station_UI {
     private Game_UI game_ui;
     private Pane gamePane;
@@ -41,19 +43,16 @@ public class Station_UI {
         endLines = new HashMap<Color, Boolean>();
         people = new ArrayList<>();
 
-        circle = new Circle(10);
+        /*circle = new Circle(10);
         circle.setTranslateX(pos.x+game_ui.getCellSize()/2);
         circle.setTranslateY(pos.y+game_ui.getCellSize()/2);
         circle.setFill(Color.RED);
-        if(stationShape == Shape.ROUND){
-            circle.setFill(Color.RED);
-        } else if(stationShape == Shape.SQUARE){
-            circle.setFill(Color.BLUE);
-        } else if(stationShape == Shape.DIAMOND){
-            circle.setFill(Color.GREEN);
-        } else if (stationShape == Shape.TRIANGLE) {
-            circle.setFill(Color.YELLOW);
-        }
+        this.gamePane.getChildren().add(circle);*/
+
+        javafx.scene.shape.Shape shape = getShape(stationShape);
+        shape.setTranslateX(pos.x);
+        shape.setTranslateY(pos.y);
+        shape.setFill(Color.BLACK);
 
         peopleContainer = new FlowPane();
         peopleContainer.setTranslateX(pos.x+game_ui.getCellSize());
@@ -70,7 +69,7 @@ public class Station_UI {
 
 
         this.gamePane.getChildren().add(peopleContainer);
-        this.gamePane.getChildren().add(circle);
+        this.gamePane.getChildren().add(shape);
     }
 
     public void draw() {
@@ -112,7 +111,10 @@ public class Station_UI {
 
                 peopleContainer.getChildren().clear();
                 for(int i = 0; i < people.size(); i++){
-                    Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+                    javafx.scene.shape.Shape peopleShape = getShape(stationShape, 0.5);
+                    peopleShape.setFill(Color.BLACK);
+
+                    /*Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
                     rectangle.setFill(Color.RED);
                     if(people.get(i) == Shape.ROUND){
                         rectangle.setFill(Color.RED);
@@ -123,7 +125,8 @@ public class Station_UI {
                     } else if (people.get(i) == Shape.TRIANGLE) {
                         rectangle.setFill(Color.YELLOW);
                     }
-                    peopleContainer.getChildren().add(rectangle);
+                    peopleContainer.getChildren().add(rectangle);*/
+                    peopleContainer.getChildren().add(peopleShape);
                 }
             }
         });

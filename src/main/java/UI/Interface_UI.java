@@ -76,7 +76,7 @@ public class Interface_UI {
     }
 
     public void showInterface(){
-        startIntro();
+        startIntro(); // uncomment to show intro
         stage.setTitle("Mini Tram");
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);

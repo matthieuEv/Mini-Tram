@@ -17,6 +17,8 @@ import utils.Shape;
 
 import java.util.ArrayList;
 
+import static UI.items.shape_UI.getShape;
+
 public class Tram_UI {
     private Game_UI game_ui;
     private ArrayList<Shape> people;
@@ -101,7 +103,8 @@ public class Tram_UI {
                 people = line.getPeople(id, station.getId());
                 peopleContainer.getChildren().clear();
                 for(int i = 0; i < people.size(); i++){
-                    Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
+
+                    /*Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
                     rectangle.setFill(Color.RED);
                     if(people.get(i) == Shape.ROUND){
                         rectangle.setFill(Color.RED);
@@ -112,7 +115,11 @@ public class Tram_UI {
                     } else if (people.get(i) == Shape.TRIANGLE) {
                         rectangle.setFill(Color.YELLOW);
                     }
-                    peopleContainer.getChildren().add(rectangle);
+                    peopleContainer.getChildren().add(rectangle);*/
+
+                    javafx.scene.shape.Shape shape = getShape(people.get(i), 0.47);
+                    shape.setFill(Color.BLACK);
+                    peopleContainer.getChildren().add(shape);
                 }
             }
         });
