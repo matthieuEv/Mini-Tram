@@ -13,6 +13,10 @@ public class Outro extends GridPane {
     private int widthBtn = 200;
     private int heightBtn = 50;
 
+    /**
+     * Create the outro screen
+     * @param interface_ui
+     */
     public Outro(Interface_UI interface_ui) {
         super();
         this.interface_ui = interface_ui;
@@ -43,14 +47,29 @@ public class Outro extends GridPane {
         this.add(container, 0, 0);
 
     }
+
+    /**
+     * Set the text of the label with the score
+     * @param people
+     * @param day
+     */
     public void setEndLabel(int people, int day) {
         this.label.setText("You survived " + day + " days, and " + people + " players traveled with you.");
     }
+
+    /**
+     * Initialize the button
+     * @param btn
+     */
     private void initBtn(Button btn){
         btn.setStyle("-fx-background-color: #92a9bd; -fx-text-fill: #ffefef; -fx-font-size: 20px;");
         btn.setPrefSize(widthBtn, heightBtn);
     }
 
+    /**
+     * Hover effect on the button
+     * @param btn
+     */
     private void btnHover(Button btn) {
         btn.hoverProperty( ).addListener((observable, oldValue, newValue) -> {
             if (newValue) {
