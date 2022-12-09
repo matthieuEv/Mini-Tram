@@ -1,5 +1,6 @@
 package model.compute.progression;
 
+import model.ModelEntryPoint;
 import model.compute.Layout;
 import model.data.Data;
 import model.data.format.Line;
@@ -14,11 +15,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class ProgressionHandler {
+public class ProgressionHandler extends Thread {
 
     private PeopleGenerator peopleGenerator;
     private StationGenerator stationGenerator;
 
+    /**
+     * Constructor
+     * It creates the base stations and people for the game to run
+     */
     public ProgressionHandler() {
         //Create the variable to old the created data set
         Map<Integer, Tram> trams;
@@ -64,18 +69,58 @@ public class ProgressionHandler {
         stationGenerator = new StationGenerator(number_of_station_start);
         peopleGenerator.start();
         stationGenerator.start();
+        this.start();
+    }
+
+    @Override
+    public void run(){
+        boolean game = true;
+        while(game){
+            game = endGame();
+        }
     }
 
     /**
-     * Stop the game by stopping each tram and resting all the data
+     * Check if there's a station that overloaded
+     * If yes, the game is over
+     */
+    private boolean endGame(){
+        //Check if a station as more than 8 people
+        if (StationPeople.getInstance().get_station_with_too_much_people().size()>=1){
+            ModelEntryPoint.stopGame();
+            return false;
+        }
+        return true;
+    }
+    /**
+     * Stop the game by stopping each tram and progression thread, then resting all the data
      */
     public void StopGame() {
-        //Stop the all threads
-        peopleGenerator.kill();
-        stationGenerator.kill();
         Data.get_tram().forEach((id, tram) -> {
             tram.set_active(false);
+            System.out.println("Tram " + id + " is now inactive");
+            try {
+                tram.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
+        System.out.println("All trams are now inactive");
+        //Stop the all threads
+        peopleGenerator.kill();
+        try {
+            peopleGenerator.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        stationGenerator.kill();
+        try {
+            stationGenerator.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("All thread are now stopped");
         Data.empty_data();
     }
 

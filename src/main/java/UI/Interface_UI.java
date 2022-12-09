@@ -77,10 +77,17 @@ public class Interface_UI {
     }
 
     public void startEnd(){
-        music.stop();
-        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
-        music.play();
-        stage.setScene(new Scene(end_ui, WIDTH, HEIGHT));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                music.stop();
+                music.setMusic("src/file/audio/music/Mini-Tram.mp3");
+                music.play();
+                stage.setScene(new Scene(end_ui, WIDTH, HEIGHT));
+
+            }
+        });
+
     }
 
     public void showInterface(){

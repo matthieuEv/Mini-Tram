@@ -130,7 +130,7 @@ public class Data {
 
 
 
-    /* === Getter === */
+    /* === Getter/Setter === */
     static public Map<Integer, Line> get_line() {
         return lines;
     }

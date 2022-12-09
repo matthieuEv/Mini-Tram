@@ -55,6 +55,7 @@ public class Tram extends Thread{
     //Routine
     /**
      * The routine of the thread tram
+     * It wait for the time of travel between two station, them call the function when it arrive
      */
     @Override
     public void run(){
