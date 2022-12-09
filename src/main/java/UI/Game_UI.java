@@ -5,10 +5,15 @@ import UI.items.Station_UI;
 import UI.items.Tram_UI;
 import UI.items.shape_UI;
 import UI.music.Music;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.geometry.Insets;
+import javafx.geometry.Point3D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -18,13 +23,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+import model.compute.Layout;
 import utils.Pos;
 import utils.Shape;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Game_UI extends StackPane {
     private Interface_UI interface_ui;
@@ -40,6 +45,10 @@ public class Game_UI extends StackPane {
     private Line tempLine;
     private Station_UI selectedStation;
     private Map<Color, Circle> listBtnLines;
+    private Pane clockLine;
+    private RotateTransition clockAnim;
+    private int nbDays;
+    private Text textNbDays;
 
 
     private Music music = new Music();
@@ -56,24 +65,62 @@ public class Game_UI extends StackPane {
         trams = new HashMap<Integer, Tram_UI>();
         listBtnLines = new HashMap<Color, Circle>();
 
-        this.setStyle("-fx-background-color: #424040;");
+        //this.setStyle("-fx-background-color: #424040;");
 
 
         gamePane = new Pane();
         gamePane.setPrefSize(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
-        gamePane.setStyle("-fx-background-color: #424242;");
+        //gamePane.setStyle("-fx-background-color: #424242;");
 
         btnStation = new VBox();
         btnStation.setPadding(new Insets(0, 20, 0, 0));
         btnStation.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
         btnStation.setSpacing(10);
 
-        this.getChildren().add(gamePane);
-        this.getChildren().add(btnStation);
+        Pane clock = new Pane();
+        clock.setPrefSize(75, 75);
+        clock.setTranslateX(interface_ui.getWIDTH()-100);
+        clock.setTranslateY(0);
+        ImageView clockImg = new ImageView(new Image("file:src/file/textures/ui/clock.png"));
+        clockImg.setFitWidth(75);
+        clockImg.setFitHeight(75);
+        clockLine = new Pane();
+        clockLine.setPrefSize(75, 75);
+        Line clockLineline = new Line(37, 37, 37, 15);
+        clockLineline.setStrokeWidth(2);
+        clockLineline.setStroke(Color.BLACK);
+        clockLine.getChildren().add(clockLineline);
+        textNbDays = new Text("Day 0");
+        textNbDays.setFill(Color.WHITE);
+        textNbDays.setTranslateY(90);
+        textNbDays.setTranslateX(10);
+        textNbDays.setFont(javafx.scene.text.Font.font("Arial", 20));
+
+        nbDays = 0;
+        clockAnim = new RotateTransition(Duration.seconds(30), clockLine);
+        clockAnim.setFromAngle(0);
+        clockAnim.setToAngle(360);
+        clockAnim.setInterpolator(Interpolator.LINEAR);
+        clockAnim.setOnFinished(event -> {
+            clockAnim.play();
+            nbDays++;
+            textNbDays.setText("Day " + nbDays);
+        });
+        clockAnim.play();
+
+        clock.getChildren().addAll(clockImg, clockLine, textNbDays);
+
+
+        Canvas canvas = new Canvas(interface_ui.getWIDTH(), interface_ui.getHEIGHT());
+        Canvas background = renderCanvas(canvas);
+
+        this.getChildren().addAll(background, clock, gamePane, btnStation);
 
         tempLine = new Line();
         tempLine.setStrokeWidth(5);
         gamePane.getChildren().add(tempLine);
+
+
     }
 
     private void addStation() {
@@ -98,6 +145,7 @@ public class Game_UI extends StackPane {
     public void setInterface_ui(Interface_UI interface_ui) {
         this.interface_ui = interface_ui;
         this.setOnMousePressed(event -> {
+            music.playSound("click");
             if(selectedLine != null) {
                 Pos mousePos = new Pos(arroundValue((int) event.getX()), arroundValue((int) event.getY()));
                 if (stations.containsKey(setSingleId(mousePos))) {
@@ -269,5 +317,38 @@ public class Game_UI extends StackPane {
     public void GET_add_people_station(int idStation, ArrayList<Shape> shape) {
         idStation = convertId(idStation);
         stations.get(idStation).setPeople(shape);
+    }
+
+    public Canvas renderCanvas(Canvas canvas){
+        Color groundColor = Color.web("#2F2F2F");
+        Color waterColor = Color.web("#527B8F");
+
+        Layout map = new Layout();
+
+        List<List<Integer>> backgroundMap = map.returnMap();
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        double canvasWidth = canvas.getWidth(); //1000 -> 20
+        double canvasHeight = canvas.getHeight(); //700 -> 14
+
+        int row = (int)(canvasWidth/50);
+        int column = (int)(canvasHeight/50);
+
+        int cellSize = 50;
+
+        for (int i = 0; i < column; i++) {
+            for (int j = 0; j < row; j++) {
+                if(backgroundMap.get(i).get(j) == 0){
+                    gc.setFill(groundColor);
+                    gc.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
+                }else if(backgroundMap.get(i).get(j) == 1){
+                    gc.setFill(waterColor);
+                    gc.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
+                }
+            }
+        }
+
+
+        return canvas;
     }
 }

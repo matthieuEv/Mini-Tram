@@ -73,6 +73,13 @@ public class Interface_UI {
         stage.show();
     }
 
+    public void startEnd(){
+        music.stop();
+        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
+        music.play();
+        stage.setScene(new Scene(end_ui, WIDTH, HEIGHT));
+    }
+
     public void showInterface(){
         //startIntro(); // uncomment to show intro
         stage.setScene(new Scene(game_ui, WIDTH, HEIGHT)); // remove this line to start with intro

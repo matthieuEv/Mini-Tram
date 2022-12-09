@@ -133,6 +133,10 @@ public class Tram_UI {
         people.remove(person);
     }
 
+    /**
+     * Difine the next station to go
+     * @param station The station to move to
+     */
     public void nextStep(Station_UI station) {
         int newX = station.getPos().x;
         int newY = station.getPos().y;
@@ -157,6 +161,10 @@ public class Tram_UI {
 
     }
 
+    /**
+     * Give the tram id
+     * @return the station
+     */
     public int getId() {
         return id;
     }

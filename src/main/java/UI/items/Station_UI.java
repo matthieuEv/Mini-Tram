@@ -31,7 +31,13 @@ public class Station_UI {
     private Circle circle;
     private FlowPane peopleContainer;
 
-
+    /**
+     * Instanciate a new station and show it on the gamePane
+     * @param game_ui The game UI to get the interface parametre
+     * @param pos The position of the station
+     * @param id The id of the station
+     * @param stationShape The shape of the station
+     */
     public Station_UI(Game_UI game_ui, Pos pos, int id, Shape stationShape) {
         super();
         this.game_ui = game_ui;
@@ -43,29 +49,18 @@ public class Station_UI {
         endLines = new HashMap<Color, Boolean>();
         people = new ArrayList<>();
 
-        /*circle = new Circle(10);
-        circle.setTranslateX(pos.x+game_ui.getCellSize()/2);
-        circle.setTranslateY(pos.y+game_ui.getCellSize()/2);
-        circle.setFill(Color.RED);
-        this.gamePane.getChildren().add(circle);*/
-
         javafx.scene.shape.Shape shape = getShape(stationShape);
         shape.setTranslateX(pos.x);
         shape.setTranslateY(pos.y);
-        shape.setFill(Color.BLACK);
+        shape.setStyle("-fx-background-color: #424242;");
+        shape.setStroke(Color.WHITE);
+        shape.setStrokeWidth(2);
 
         peopleContainer = new FlowPane();
         peopleContainer.setTranslateX(pos.x+game_ui.getCellSize());
         peopleContainer.setTranslateY(pos.y-game_ui.getCellSize());
         peopleContainer.setMaxWidth((game_ui.getCellSize()/2)*4);
         peopleContainer.setMaxHeight((game_ui.getCellSize()/2)*2);
-        //peopleContainer.setStyle("-fx-background-color: #FFFFFF;");
-
-        //for(int i = 0; i < 7; i++){
-        //    Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-        //    rectangle.setFill(Color.BLUE);
-        //    peopleContainer.getChildren().add(rectangle);
-        //}
 
 
         this.gamePane.getChildren().add(peopleContainer);
@@ -75,14 +70,27 @@ public class Station_UI {
     public void draw() {
     }
 
+    /**
+     * Give the position of the station
+     * @return the pos
+     */
     public Pos getPos() {
         return pos;
     }
 
+    /**
+     * Give the id of the station
+     * @return the id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Set the line has an end line
+     * @param color The color define the line
+     * @return the stationShape
+     */
     public boolean isEndLine(Color color) {
         if(endLines.containsKey(color)) {
             return endLines.get(color);
@@ -90,20 +98,19 @@ public class Station_UI {
         return false;
     }
 
+    /**
+     * Define if the station is an end of a line
+     * @param color The color define the line
+     * @param endLine The boolean to define if the station is an end of a line
+     */
     public void setEndLine(Color color, boolean endLine) {
         endLines.put(color, endLine);
     }
 
-    public void personEnter(Shape person){
-        if(person != stationShape) {
-            people.add(person);
-        }
-    }
-
-    public void personExit(Shape person){
-        people.remove(person);
-    }
-
+    /**
+     * Use this method to update the people in the station
+     * @param people The list of people in the station
+     */
     public void setPeople(ArrayList<Shape> people) {
         Platform.runLater(new Runnable() {
             @Override
@@ -111,21 +118,8 @@ public class Station_UI {
 
                 peopleContainer.getChildren().clear();
                 for(int i = 0; i < people.size(); i++){
-                    javafx.scene.shape.Shape peopleShape = getShape(stationShape, 0.5);
+                    javafx.scene.shape.Shape peopleShape = getShape(people.get(i), 0.5);
                     peopleShape.setFill(Color.BLACK);
-
-                    /*Rectangle rectangle = new Rectangle(0, 0, game_ui.getCellSize()/2-1, game_ui.getCellSize()/2-1);
-                    rectangle.setFill(Color.RED);
-                    if(people.get(i) == Shape.ROUND){
-                        rectangle.setFill(Color.RED);
-                    } else if(people.get(i) == Shape.SQUARE){
-                        rectangle.setFill(Color.BLUE);
-                    } else if(people.get(i) == Shape.DIAMOND){
-                        rectangle.setFill(Color.GREEN);
-                    } else if (people.get(i) == Shape.TRIANGLE) {
-                        rectangle.setFill(Color.YELLOW);
-                    }
-                    peopleContainer.getChildren().add(rectangle);*/
                     peopleContainer.getChildren().add(peopleShape);
                 }
             }
