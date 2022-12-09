@@ -55,8 +55,6 @@ public class Interface_UI {
         return instance;
     }
     public void startIntro(){
-        music.setMusic("src/file/audio/music/intro.mp3");
-        music.play();
         stage.setScene(new Scene(intro, WIDTH, HEIGHT));
     }
 
@@ -81,9 +79,7 @@ public class Interface_UI {
     }
 
     public void showInterface(){
-        //startIntro(); // uncomment to show intro
-        stage.setScene(new Scene(game_ui, WIDTH, HEIGHT)); // remove this line to start with intro
-        game_ui.setInterface_ui(this); // remove this line to start with intro
+        startIntro();
         stage.setTitle("Mini Tram");
         Image image = new Image(new File("src/file/textures/ui/icon.png").toURI().toString());
         stage.getIcons().add(image);

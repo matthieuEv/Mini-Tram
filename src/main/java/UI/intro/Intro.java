@@ -49,7 +49,7 @@ public class Intro extends GridPane {
         container.setMinHeight(height);
 
         MediaPlayer media_player;
-        Media media = new Media(new File("src/file/textures/video/load2.mp4").toURI().toString());
+        Media media = new Media(new File("src/file/textures/video/intro.mp4").toURI().toString());
         media_player = new MediaPlayer(media);
         MediaView viewer = new MediaView(media_player);
 
