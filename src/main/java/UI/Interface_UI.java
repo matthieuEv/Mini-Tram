@@ -3,6 +3,7 @@ package UI;
 import UI.intro.Intro;
 import UI.menu.Menu_UI;
 import UI.music.Music;
+import UI.outro.Outro;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import UI.intro.Intro;
@@ -33,7 +34,7 @@ public class Interface_UI {
     private double WIDTH = 1000;
     private double HEIGHT = 700;
     private Game_UI game_ui;
-    private End_UI end_ui;
+    private Outro outro;
     private Menu_UI menu_ui;
     private Main_Presenter presenter;
     private Intro intro;
@@ -45,7 +46,7 @@ public class Interface_UI {
         intro = new Intro(this);
         menu_ui = new Menu_UI(this);
         game_ui = new Game_UI(this);
-        end_ui = new End_UI(this);
+        outro = new Outro(this);
     }
 
     public static Interface_UI getInstance(Stage stage) {
@@ -72,10 +73,8 @@ public class Interface_UI {
     }
 
     public void startEnd(){
-        music.stop();
-        music.setMusic("src/file/audio/music/Mini-Tram.mp3");
-        music.play();
-        stage.setScene(new Scene(end_ui, WIDTH, HEIGHT));
+        outro.setEndLabel(2, game_ui.getEndPeople());
+        stage.setScene(new Scene(outro, WIDTH, HEIGHT));
     }
 
     public void showInterface(){

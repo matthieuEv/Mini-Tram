@@ -351,4 +351,8 @@ public class Game_UI extends StackPane {
 
         return canvas;
     }
+
+    public int getEndPeople(){
+        return nbDays;
+    }
 }
